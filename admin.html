@@ -71,7 +71,7 @@ aside nav.tabs button[aria-selected=true] .n{background:#E8EEF7}
 .shell main{max-width:1180px;width:100%;margin:0;padding:22px 26px}
 .pagehead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:14px}
 .pagehead h1{margin:0;font-size:1.5rem}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-bottom:16px}
 .stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;text-align:left;cursor:pointer;border-left:5px solid var(--brand);box-shadow:0 1px 2px rgba(11,31,58,.05)}
 .stat:hover{box-shadow:0 4px 14px rgba(11,31,58,.12)}
 .stat .num{font-size:2rem;font-weight:800;line-height:1.1;display:block}
@@ -173,6 +173,94 @@ dialog{background:var(--surface);color:var(--ink);border-radius:16px}
 .center .brand{color:var(--brand-dark)!important}
 button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid #FFB81C}
 @media(max-width:900px){.layout{grid-template-columns:1fr}aside.side{position:static;max-height:none;padding:12px 16px 0}aside.side nav.tabs{flex-direction:row;flex-wrap:wrap}.shell main{padding:14px 16px 30px}}
+
+/* ---- table fit (real data) ---- */
+.tablewrap{overflow-x:auto}
+.tablewrap table{table-layout:auto;min-width:0}
+.tablewrap td,.tablewrap th{padding:12px 12px;vertical-align:top}
+.tablewrap td>span,.tablewrap td>a{display:block}
+.tablewrap td .badge{display:inline-block;white-space:nowrap;margin:2px 0}
+.tablewrap td .t{font-weight:700;line-height:1.3;margin-bottom:2px}
+.tablewrap .s{font-size:.88rem;color:var(--muted)}
+.tablewrap .c-role{width:40%;min-width:200px}
+.tablewrap .c-det{width:22%;min-width:150px}
+.tablewrap .c-close{white-space:nowrap;width:1%}
+.tablewrap .c-stat{white-space:nowrap;width:1%}
+.tablewrap .c-close .badge,.tablewrap .c-stat .badge{display:block;width:max-content}
+.tablewrap td.act{width:1%;min-width:300px}
+.rowacts{display:flex;flex-direction:row;flex-wrap:wrap;gap:6px}
+.rowacts .btn{margin:0;white-space:nowrap}
+.pagehead{align-items:center}
+@media(max-width:1100px){
+ .tablewrap{overflow:visible}.tablewrap thead{display:none}
+ .tablewrap table,.tablewrap tbody{display:block;border:0}
+ .tablewrap tr{display:block;padding:12px 14px;border-bottom:1px solid var(--line)}
+ .tablewrap td{display:block;border:0;padding:3px 0;width:auto!important;min-width:0!important;white-space:normal!important}
+ .tablewrap td[data-l]::before{content:attr(data-l)": ";color:var(--muted);font-size:.84rem}
+ .tablewrap td .badge{display:inline-block!important}
+ .tablewrap .c-det>span,.tablewrap .c-close>span,.tablewrap .c-stat>span{display:inline}
+ .tablewrap .c-det>span+span::before{content:" · "}
+ .rowacts{flex-direction:row;flex-wrap:wrap;margin-top:8px}.rowacts .btn{width:auto}
+}
+
+/* ---- filters in the sidebar ---- */
+.fpanel{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-top:14px}
+.fpanel>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:12px 14px;font-weight:700;min-height:48px}
+.fpanel>summary::-webkit-details-marker{display:none}
+.fpanel>summary::after{content:"+";font-size:1.3rem;color:var(--brand-dark);margin-left:8px}
+.fpanel[open]>summary::after{content:"\2212"}
+.fpanel .fbody{padding:0 14px 14px;display:grid;gap:6px;border-top:1px solid var(--line)}
+.fpanel .fbody label{font-weight:700;font-size:.9rem;margin:8px 0 0}
+.fpanel .fbody select,.fpanel .fbody input{width:100%}
+.fpanel .hint{margin-left:auto;font-weight:400}
+.actbar{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin-bottom:12px}.actbar input{flex:1 1 240px;max-width:380px}.actbar .pager{margin-left:auto;display:flex;gap:8px}.sr{position:absolute;left:-9999px}
+
+/* ---- round 3: bulk, pager, kebab, spacing ---- */
+.bulk{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--group-bg);border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin-bottom:10px;position:sticky;top:8px;z-index:5}
+.bulk[hidden]{display:none}
+.c-sel{width:1%;padding-right:0!important}.c-sel input{width:20px;height:20px;min-height:0;accent-color:var(--brand);cursor:pointer}
+.tablewrap td.c-close .dt{font-weight:700;white-space:nowrap}
+.tablewrap td.c-close .s,.tablewrap td.c-close .badge{display:block;margin-top:2px}
+.rowacts{display:flex;gap:6px;justify-content:flex-end;align-items:center}
+.kebab{font:inherit;font-size:1.5rem;line-height:1;width:44px;height:44px;border-radius:8px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:grid;place-items:center;padding:0;padding-bottom:6px}
+.kebab:hover{background:var(--group-bg)}
+#kmenu{position:fixed;z-index:90;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 28px rgba(0,10,40,.25);padding:6px;min-width:190px;animation:pop .12s both}
+#kmenu button{display:block;width:100%;text-align:left;font:inherit;font-weight:700;background:none;border:0;border-radius:6px;padding:11px 12px;min-height:44px;cursor:pointer;color:var(--ink)}
+#kmenu button:hover,#kmenu button:focus-visible{background:var(--group-bg)}
+#kmenu button.dng{color:var(--danger)}
+.pager2{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;margin-top:12px}
+.pager2 .rpp{display:flex;gap:8px;align-items:center;font-size:.9rem;font-weight:700;margin:0}.pager2 .rpp select{width:auto;min-height:40px;padding:4px 8px}
+.pager2 .pager{display:flex;gap:10px;align-items:center}
+.fpanel .fbody{padding:6px 18px 20px;gap:8px}
+.fpanel>summary{padding:14px 18px}
+.fpanel .fbody label{margin-top:10px}
+.fpanel .fbody input,.fpanel .fbody select{padding:10px 12px}
+.tablewrap .c-role{width:46%}
+.tablewrap td.act{min-width:0;width:1%}
+@media(max-width:1100px){.tablewrap td.c-sel{display:inline-block!important;padding-top:0}.rowacts{justify-content:flex-start}}
+
+/* ---- mobile drawer, like the public guide ---- */
+.menubtn{display:none;width:48px;height:48px;padding:0;place-items:center;background:var(--surface);color:var(--brand-dark);border:2px solid #fff;border-radius:12px;cursor:pointer;flex:none}
+.shead,.side-me,.side-show,.scrim{display:none}
+.mtitle{flex:1 1 200px;min-width:0}
+.sclose{display:grid;place-items:center;width:46px;height:46px;padding:0;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:50%;cursor:pointer}
+.stitle{font-weight:700;font-size:1.25rem}
+@media(max-width:900px){
+  .menubtn{display:grid}
+  .masthead{flex-wrap:nowrap;gap:12px;padding-top:10px;padding-bottom:10px}
+  .masthead .who{display:none}
+  .masthead h1{font-size:1.2rem}.masthead p{display:none}
+  .layout{display:block}
+  aside.side{position:fixed;top:0;bottom:0;left:0;width:min(86vw,340px);max-height:none;height:auto;z-index:50;background:var(--bg);padding:12px;overflow-y:auto;transform:translateX(-105%);visibility:hidden;transition:transform .22s ease,visibility 0s .22s;box-shadow:0 0 40px rgba(0,10,40,.35)}
+  aside.side.open{transform:none;visibility:visible;transition:transform .22s ease,visibility 0s}
+  aside.side nav.tabs{flex-direction:column;flex-wrap:nowrap}
+  .shead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-left:4px}
+  .scrim{position:fixed;inset:0;background:rgba(0,10,30,.5);z-index:40}.scrim:not(.show){display:none}.scrim.show{display:block}
+  .side-me{display:flex;flex-direction:column;gap:8px;margin-top:14px;padding:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow-wrap:anywhere;font-size:.92rem}
+  .side-show{display:block;width:100%;margin:14px 0 6px}
+  .shell main{padding:16px}
+}
+@media(prefers-reduced-motion:reduce){aside.side,aside.side.open{transition:none}}
 </style>
 </head>
 <body>
@@ -306,7 +394,7 @@ function showNoAccess(){
 /* ---------- data ---------- */
 async function loadJobs(){ document.body.classList.add('loading-data'); const { data, error } = await sb.from('jobs').select('*').order('updated_at',{ascending:false}).limit(1000); if(error) toast(friendly(error),true); jobs = data || []; document.body.classList.remove('loading-data'); }
 async function loadTeam(){ const { data, error } = await sb.from('team_members').select('*').order('created_at'); if(error) toast(friendly(error),true); team = data || []; }
-async function loadLogs(){ const { data, error } = await sb.from('activity_log').select('*').order('at',{ascending:false}).limit(150); if(error) toast(friendly(error),true); logs = data || []; }
+async function loadLogs(){ const { data, error } = await sb.from('activity_log').select('*').order('at',{ascending:false}).limit(1000); if(error) toast(friendly(error),true); logs = data || []; }
 
 /* ---------- render ---------- */
 let presence = null, online = [];
@@ -322,7 +410,22 @@ function startPresence(){
   }catch(e){ presence = null; }
 }
 function stopPresence(){ try{ if(presence) sb.removeChannel(presence); }catch(e){} presence = null; online = []; }
+let drawerOpen = false;
+function setDrawer(open){ drawerOpen = open; const sd=$('#side'), sc=$('#scrim'), mb=$('#menuBtn'); if(!sd) return;
+  sd.classList.toggle('open', open); if(sc) sc.classList.toggle('show', open); if(mb) mb.setAttribute('aria-expanded', open?'true':'false');
+  document.body.style.overflow = open ? 'hidden' : ''; }
+function bindDrawer(){
+  const mb=$('#menuBtn'), sc=$('#scrim'), cl=$('#sclose'), sh=$('#sideShow');
+  if(mb) mb.onclick = () => { setDrawer(true); const f=$('#sclose'); if(f) f.focus(); };
+  if(sc) sc.onclick = () => setDrawer(false);
+  if(cl) cl.onclick = () => { setDrawer(false); if(mb) mb.focus(); };
+  if(sh) sh.onclick = () => { setDrawer(false); window.scrollTo({top:0}); };
+  setDrawer(drawerOpen && window.innerWidth<=900);
+}
+document.addEventListener('keydown', e => { if(e.key==='Escape' && drawerOpen) setDrawer(false); });
+window.addEventListener('resize', () => { if(window.innerWidth>900 && drawerOpen) setDrawer(false); });
 const TITLES = { pending:['Review queue','New roles wait here. Check each against its advert (Band 2 or 3, no health qualification or licence needed, local area) before you approve it.'], live:['Live on site','These are the roles the public site shows. Roles past their closing date are hidden automatically.'], archive:['Archive','Closed, removed and rejected roles. Restore sends a role back to the review queue.'], team:['Team','Who can use this admin page.'], activity:['Activity','A record of who changed what.'] };
+let selIds = new Set(), jobP = 0, pageSize = 10;
 let soon7 = false, kindF = '', areaF = '', bandF = '', winF = '', sortF = 'default';
 function render(){
   const closing = jobs.filter(j=>{ const d=daysLeft(j.closes); return j.status==='live' && d!==null && d>=0 && d<=7; }).length;
@@ -332,28 +435,51 @@ function render(){
   if(isAdmin()) items.push(['team','Team',team.length],['activity','Activity','']);
   const isJobTab = ['pending','live','archive'].includes(tab);
   const stats = `<div class="stats">
-   ${showQueue?`<button class="stat warn" data-go="pending" aria-pressed="${tab==='pending'}"><span class="num">${counts.pending}</span><span class="lbl">Waiting for review</span><span class="sub">Need a decision</span></button>`:`<button class="stat" data-go="live" aria-pressed="false"><span class="num">${jobs.length}</span><span class="lbl">All roles</span><span class="sub">Ever added</span></button>`}
-   <button class="stat ok" data-go="live" aria-pressed="${tab==='live'&&!soon7}"><span class="num">${counts.live}</span><span class="lbl">Live on the site</span><span class="sub">Visible to the public</span></button>
+   ${showQueue?`<button class="stat warn" data-go="pending" aria-pressed="${tab==='pending'}"><span class="num">${counts.pending}</span><span class="lbl">Waiting for review</span><span class="sub">Need a decision</span></button>`:`<button class="stat" data-go="tomorrow" aria-pressed="${tab==='live'&&winF==='1'}"><span class="num">${jobs.filter(j=>{const d=daysLeft(j.closes);return j.status==='live'&&d!==null&&d>=0&&d<=1;}).length}</span><span class="lbl">Closing today or tomorrow</span><span class="sub">Check these first</span></button>`}
    <button class="stat warn" data-go="closing" aria-pressed="${tab==='live'&&soon7}"><span class="num">${closing}</span><span class="lbl">Closing in 7 days</span><span class="sub">Live roles ending soon</span></button>
    <button class="stat grey" data-go="archive" aria-pressed="${tab==='archive'}"><span class="num">${counts.archive}</span><span class="lbl">Archived</span><span class="sub">Closed, removed, rejected</span></button></div>`;
-  $('#app').innerHTML = `<div class="shell"><header class="masthead"><div><h1>Health Career Pathway</h1><p>Admin: add, edit and manage the jobs shown on the public guide</p></div>
-    <div class="who"><span>${esc(me.email)}</span><span class="badge role">${esc(me.role)}</span><button class="btn ghost small" id="so">Sign out</button></div></header>
-    <div class="layout"><aside class="side">
+  $('#app').innerHTML = `<div class="shell"><header class="masthead"><button type="button" class="menubtn" id="menuBtn" aria-label="Open menu and filters" aria-expanded="false" aria-controls="side"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="mtitle"><h1>Health Career Pathway</h1><p>Admin: add, edit and manage the jobs shown on the public guide</p></div>
+    <div class="who"><span>${esc(me.email)}</span><span class="badge role">${esc(me.role)}</span><button class="btn ghost small js-so">Sign out</button></div></header>
+    <div class="scrim" id="scrim"></div>
+    <div class="layout"><aside class="side" id="side"><div class="shead"><span class="stitle">Menu</span><button type="button" class="sclose" id="sclose" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <nav class="tabs" role="tablist" aria-label="Sections">${items.map(([k,l,n])=>`<button role="tab" aria-selected="${k===tab}" data-tab="${k}"><span>${l}</span>${n!==''?`<span class="n">${n}</span>`:''}</button>`).join('')}</nav>
-    <div id="online">${onlineHtml()}</div></aside>
-    <main><div class="pagehead"><div><h2 style="margin:0;font-size:1.5rem">${TITLES[tab][0]}</h2><p class="hint" style="margin:2px 0 0">${TITLES[tab][1]}</p></div>${canEdit()&&isJobTab?'<button class="btn" id="addJob">+ Add a job</button>':''}</div>
+    ${isJobTab?filterPanel():''}<div id="online">${onlineHtml()}</div>
+    <div class="side-me"><span>${esc(me.email)}</span><span><span class="badge role">${esc(me.role)}</span></span><button class="btn ghost small js-so">Sign out</button></div>
+    ${isJobTab?'<button type="button" class="btn side-show" id="sideShow">Show results</button>':''}</aside>
+    <main><div class="pagehead"><div><h2 style="margin:0;font-size:1.5rem">${TITLES[tab][0]}</h2><p class="hint" style="margin:2px 0 0">${TITLES[tab][1]}</p></div>${isJobTab?'<span style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost" id="exportCsv">Export to CSV</button>'+(canEdit()?'<button class="btn" id="addJob">+ Add a job</button>':'')+'</span>':''}</div>
     ${isJobTab?stats:''}<div id="panel"></div></main></div></div>`;
-  $('#so').onclick = () => { stopPresence(); sb.auth.signOut(); };
-  startPresence();
+  document.querySelectorAll('.js-so').forEach(b => b.onclick = () => { stopPresence(); sb.auth.signOut(); });
+  startPresence(); bindDrawer();
   if($('#addJob')) $('#addJob').onclick = () => openJob(null);
-  document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { tab=b.dataset.tab; soon7=false; render(); });
-  document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { const g=b.dataset.go; soon7 = g==='closing'; tab = g==='closing'?'live':g; render(); });
-  if(isJobTab) renderJobs(); else if(tab==='team') renderTeam(); else renderActivity();
+  if($('#exportCsv')) $('#exportCsv').onclick = exportCsv;
+  document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { drawerOpen=false; tab=b.dataset.tab; soon7=false; jobP=0; selIds.clear(); render(); });
+  document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { drawerOpen=false; const g=b.dataset.go; soon7 = g==='closing'; winF = g==='tomorrow' ? '1' : ''; tab = (g==='closing'||g==='tomorrow')?'live':g; jobP=0; selIds.clear(); render(); });
+  if(isJobTab){ bindFilters(); renderJobs(); } else if(tab==='team') renderTeam(); else renderActivity();
 }
 
 const normUrl = u => (u||'').trim().toLowerCase().replace(/#.*$/,'').replace(/\/+$/,'');
 function bandOf(j){ const m=/Band (\d)/.exec(j.band||''); return m && (m[1]==='2'||m[1]==='3') ? 'Band '+m[1] : 'Other'; }
 function matches(j){ if(!q) return true; const s=(j.title+' '+(j.employer||'')+' '+(j.area||'')+' '+j.url+' '+(j.notes||'')).toLowerCase(); return s.includes(q.toLowerCase()); }
+const filtersActive = () => !!(kindF||areaF||bandF||winF||sortF!=='default'||q||soon7);
+function refreshMeta(n){ const c=$('#fcount'); if(c) c.textContent = n+' role'+(n===1?'':'s'); const x=$('#clr'); if(x) x.hidden = !filtersActive(); }
+function filterPanel(){
+  const areaOpts = [...new Set([...AREAS, ...jobs.map(j=>j.area).filter(Boolean)])];
+  const sel = (id, label, opts, cur) => `<label for="${id}">${label}</label><select id="${id}">${opts.map(([v,t])=>`<option value="${esc(v)}"${cur===v?' selected':''}>${esc(t)}</option>`).join('')}</select>`;
+  return `<details class="fpanel" open><summary>Filters <span class="hint" id="fcount"></span></summary><div class="fbody">
+   <label for="q">Search</label><input type="search" id="q" placeholder="Title or employer" value="${esc(q)}">
+   ${sel('kindF','Type',[['','All types'],...KINDS.map(k=>[k,KIND_LABEL[k]])],kindF)}
+   ${sel('areaF','Area',[['','All areas'],...areaOpts.map(a=>[a,a])],areaF)}
+   ${sel('bandF','Band',[['','All bands'],['Band 2','Band 2'],['Band 3','Band 3'],['Other','Other / not stated']],bandF)}
+   ${sel('winF','Closing',[['','Any time'],['1','Within 1 day'],['3','Within 3 days'],['7','Within 7 days'],['14','Within 14 days']],winF)}
+   ${sel('sortF','Sort by',[['default','Default'],['closing','Closing soonest'],['newest','Newest added'],['az','Title A–Z']],sortF)}
+   <button class="btn ghost small" id="clr"${filtersActive()?'':' hidden'} style="margin-top:8px">Clear all filters</button></div></details>`;
+}
+function bindFilters(){
+  $('#q').oninput = e => { q = e.target.value; jobP = 0; renderJobs(); };
+  const setters = { kindF:v=>kindF=v, areaF:v=>areaF=v, bandF:v=>bandF=v, winF:v=>winF=v, sortF:v=>sortF=v };
+  Object.keys(setters).forEach(id => { $('#'+id).onchange = e => { setters[id](e.target.value); soon7 = false; jobP = 0; selIds.clear(); render(); }; });
+  $('#clr').onclick = () => { soon7=false; kindF=areaF=bandF=winF=''; sortF='default'; q=''; jobP=0; selIds.clear(); render(); };
+}
 function renderJobs(){
   let list;
   if(tab==='pending') list = jobs.filter(j=>j.status==='pending').sort((a,b)=>b.created_at.localeCompare(a.created_at));
@@ -368,41 +494,108 @@ function renderJobs(){
   if(sortF==='closing') list.sort((a,b)=>(a.closes||'9999').localeCompare(b.closes||'9999'));
   else if(sortF==='newest') list.sort((a,b)=>(b.created_at||'').localeCompare(a.created_at||''));
   else if(sortF==='az') list.sort((a,b)=>a.title.localeCompare(b.title));
-  const areaOpts = [...new Set([...AREAS, ...jobs.map(j=>j.area).filter(Boolean)])];
-  const active = !!(kindF||areaF||bandF||winF||sortF!=='default'||q||soon7);
-  const sel = (id, label, opts, cur) => `<label>${label}<select id="${id}">${opts.map(([v,t])=>`<option value="${esc(v)}"${cur===v?' selected':''}>${esc(t)}</option>`).join('')}</select></label>`;
-  $('#panel').innerHTML = `<div class="filters"><label style="flex:1">Search<input type="search" id="q" placeholder="Title, employer, area…" aria-label="Search jobs" value="${esc(q)}"></label>
-   ${sel('kindF','Type',[['','All types'],...KINDS.map(k=>[k,KIND_LABEL[k]])],kindF)}
-   ${sel('areaF','Area',[['','All areas'],...areaOpts.map(a=>[a,a])],areaF)}
-   ${sel('bandF','Band',[['','All bands'],['Band 2','Band 2'],['Band 3','Band 3'],['Other','Other / not stated']],bandF)}
-   ${sel('winF','Closing',[['','Any time'],['3','Within 3 days'],['7','Within 7 days'],['14','Within 14 days']],winF)}
-   ${sel('sortF','Sort by',[['default','Default'],['closing','Closing soonest'],['newest','Newest added'],['az','Title A–Z']],sortF)}
-   ${active?'<button class="btn ghost small" id="clr" style="align-self:flex-end">Clear filters</button>':''}
-   <span class="hint" style="align-self:flex-end">${list.length} role${list.length===1?'':'s'}</span></div>
-  ${list.length ? `<div class="tablewrap"><table><thead><tr><th>Role</th><th>Type</th><th>Pay</th><th>Area</th><th>Closes</th><th>Status</th><th></th></tr></thead><tbody>${list.map(jobRow).join('')}</tbody></table></div>` : '<div class="empty card">Nothing here.</div>'}`;
-  $('#q').oninput = e => { q = e.target.value; const pos=e.target.selectionStart; renderJobs(); const el=$('#q'); el.focus(); el.setSelectionRange(pos,pos); };
-  [['kindF','kindF'],['areaF','areaF'],['bandF','bandF'],['winF','winF'],['sortF','sortF']].forEach(([id]) => { $('#'+id).onchange = e => { ({kindF:v=>kindF=v,areaF:v=>areaF=v,bandF:v=>bandF=v,winF:v=>winF=v,sortF:v=>sortF=v})[id](e.target.value); soon7 = false; render(); }; });
-  if($('#clr')) $('#clr').onclick = () => { soon7=false; kindF=areaF=bandF=winF=''; sortF='default'; q=''; render(); };
-  document.querySelectorAll('[data-act]').forEach(b => b.onclick = () => jobAction(b.dataset.act, b.dataset.id, b));
+  curList = list;
+  const pages = Math.max(1, Math.ceil(list.length / pageSize));
+  if(jobP > pages-1) jobP = pages-1;
+  const from = jobP*pageSize, slice = list.slice(from, from+pageSize);
+  const allOn = slice.length && slice.every(j=>selIds.has(j.id)), someOn = slice.some(j=>selIds.has(j.id));
+  $('#panel').innerHTML = list.length ? `<div id="bulk" class="bulk" hidden></div>
+   <div class="tablewrap"><table><thead><tr>${canEdit()?`<th class="c-sel"><input type="checkbox" id="selAll" aria-label="Select all on this page"${allOn?' checked':''}></th>`:''}<th>Role</th><th>Details</th><th>Closes</th><th>Status</th><th></th></tr></thead><tbody>${slice.map(jobRow).join('')}</tbody></table></div>
+   <div class="pager2"><span class="hint">Showing ${from+1}–${from+slice.length} of ${list.length}</span>
+    <label class="rpp">Rows per page <select id="pgSize">${[10,25,50,100].map(n=>`<option${n===pageSize?' selected':''}>${n}</option>`).join('')}</select></label>
+    <span class="pager"><button class="btn ghost small" id="jPrev"${jobP===0?' disabled':''}>&larr; Previous</button><span class="hint">Page ${jobP+1} of ${pages}</span><button class="btn ghost small" id="jNext"${jobP>=pages-1?' disabled':''}>Next &rarr;</button></span></div>`
+   : '<div class="empty card">Nothing matches. Try clearing the filters.</div>';
+  if($('#selAll')) $('#selAll').indeterminate = !allOn && someOn;
+  refreshMeta(list.length);
+  if(list.length){
+    $('#pgSize').onchange = e => { pageSize = +e.target.value; jobP = 0; renderJobs(); };
+    $('#jPrev').onclick = () => { jobP--; renderJobs(); window.scrollTo({top:0,behavior:'smooth'}); };
+    $('#jNext').onclick = () => { jobP++; renderJobs(); window.scrollTo({top:0,behavior:'smooth'}); };
+    if($('#selAll')) $('#selAll').onchange = e => { slice.forEach(j => e.target.checked ? selIds.add(j.id) : selIds.delete(j.id)); renderJobs(); };
+    document.querySelectorAll('[data-sel]').forEach(c => c.onchange = () => { c.checked ? selIds.add(c.dataset.sel) : selIds.delete(c.dataset.sel); updateBulk(); const sa=$('#selAll'); if(sa){ const all=slice.every(j=>selIds.has(j.id)); sa.checked=all; sa.indeterminate=!all&&slice.some(j=>selIds.has(j.id)); } });
+    document.querySelectorAll('[data-kebab]').forEach(k => k.onclick = e => { e.stopPropagation(); openMenu(k, k.dataset.kebab); });
+    document.querySelectorAll('[data-act]').forEach(b => b.onclick = () => jobAction(b.dataset.act, b.dataset.id, b));
+  }
+  updateBulk();
+}
+let curList = [];
+function actionsFor(j){
+  const a = [];
+  if(canEdit()){
+    if(j.status==='pending') a.push(['edit','Edit','btn ghost'],['reject','Reject','btn danger']);
+    else if(j.status==='live') a.push(['edit','Edit','btn ghost'],['close','Mark closed','btn ghost'],['remove','Remove from site','btn danger']);
+    else a.push(['restore','Restore','btn ghost']);
+  }
+  if(isAdmin() && ['closed','removed','rejected'].includes(j.status)) a.push(['delete','Delete permanently','btn danger']);
+  return a;
+}
+function closeMenu(){ const m=$('#kmenu'); if(m) m.remove(); }
+function openMenu(btn, id){
+  closeMenu(); const j = jobs.find(x=>x.id===id); if(!j) return;
+  const items = actionsFor(j); if(!items.length) return;
+  const m = document.createElement('div'); m.id='kmenu'; m.setAttribute('role','menu');
+  m.innerHTML = items.map(([a,l,c])=>`<button role="menuitem" data-a="${a}"${c.includes('danger')?' class="dng"':''}>${l}</button>`).join('');
+  document.body.appendChild(m);
+  const r = btn.getBoundingClientRect(), mw = m.offsetWidth, mh = m.offsetHeight;
+  m.style.left = Math.max(8, Math.min(window.innerWidth-mw-8, r.right-mw))+'px';
+  m.style.top = (r.bottom+mh+8 > window.innerHeight ? Math.max(8, r.top-mh-4) : r.bottom+4)+'px';
+  m.onclick = e => { const b=e.target.closest('button'); if(!b) return; closeMenu(); jobAction(b.dataset.a, id, btn); };
+  m.querySelector('button').focus();
+}
+document.addEventListener('click', closeMenu);
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeMenu(); });
+window.addEventListener('scroll', closeMenu, true); window.addEventListener('resize', closeMenu);
+
+/* ---- bulk actions ---- */
+function updateBulk(){
+  const el = $('#bulk'); if(!el) return;
+  const n = selIds.size;
+  if(!n || !canEdit()){ el.hidden = true; return; }
+  const acts = tab==='pending' ? [['approve','Approve and publish','btn'],['reject','Reject','btn danger']] : tab==='live' ? [['close','Mark closed','btn ghost'],['remove','Remove from site','btn danger']] : [['restore','Restore to review queue','btn ghost']];
+  el.hidden = false;
+  el.innerHTML = `<strong>${n} selected</strong>${acts.map(([a,l,c])=>`<button class="${c} small" data-bulk="${a}">${l}</button>`).join('')}<button class="btn ghost small" id="selClear">Clear selection</button>`;
+  el.querySelectorAll('[data-bulk]').forEach(b => b.onclick = () => bulkAction(b.dataset.bulk, b));
+  $('#selClear').onclick = () => { selIds.clear(); renderJobs(); };
+}
+async function bulkAction(act, btn){
+  const ids = [...selIds]; if(!ids.length) return;
+  const status = { close:'closed', remove:'removed', approve:'live', reject:'rejected', restore:'pending' }[act];
+  const verb = { close:'Mark as closed', remove:'Remove from the site', approve:'Approve and publish', reject:'Reject', restore:'Restore to the review queue' }[act];
+  if(!confirm(verb+': '+ids.length+' role'+(ids.length===1?'':'s')+'?')) return;
+  btn.disabled = true; btn.classList.add('busy');
+  const patch = { status, reviewed_by: me.email, reviewed_at: new Date().toISOString() };
+  const { error } = await sb.from('jobs').update(patch).in('id', ids);
+  btn.classList.remove('busy'); btn.disabled = false;
+  if(error) return toast(friendly(error), true);
+  selIds.clear(); toast(ids.length+' role'+(ids.length===1?'':'s')+' updated.');
+  await loadJobs(); if(isAdmin()) await loadLogs(); render();
+}
+
+/* ---- export ---- */
+function exportCsv(){
+  const list = (['pending','live','archive'].includes(tab) ? curList : jobs);
+  const cols = [['title','Job title'],['employer','Employer'],['kind','Type'],['category','Clinical / non-clinical'],['dept','Department'],['area','Area'],['band','Band'],['salary','Salary'],['location','Where'],['hours','Hours'],['apprenticeship','Apprenticeship'],['posted','Date posted'],['closes','Closing date'],['status','Status'],['url','Advert link']];
+  const cell = v => { let t = v==null ? '' : String(v); if(/^[=+\-@\t\r]/.test(t)) t = "'"+t; return '"'+t.replace(/"/g,'""')+'"'; };
+  const csv = '\uFEFF' + [cols.map(c=>cell(c[1])).join(',')].concat(list.map(j=>cols.map(c=>cell(j[c[0]])).join(','))).join('\r\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8'}));
+  a.download = 'health-career-jobs-'+(tab==='live'?'live':tab==='pending'?'review':tab==='archive'?'archive':'all')+'-'+todayStr()+'.csv'; a.click();
+  toast('Exported '+list.length+' role'+(list.length===1?'':'s')+' to CSV (opens in Excel).');
 }
 function jobRow(j){
   const dl = daysLeft(j.closes);
   const expired = j.status==='live' && dl!==null && dl<0;
   const soon = j.status==='live' && dl!==null && dl>=0 && dl<=3;
-  const acts = [];
-  if(canEdit()){
-    if(j.status==='pending') acts.push(['approve','Approve','btn'],['edit','Edit','btn ghost'],['reject','Reject','btn danger']);
-    else if(j.status==='live') acts.push(['edit','Edit','btn ghost'],['close','Mark closed','btn ghost'],['remove','Remove','btn danger']);
-    else acts.push(['restore','Restore','btn ghost']);
-  }
-  if(isAdmin() && ['closed','removed','rejected'].includes(j.status)) acts.push(['delete','Delete','btn danger']);
-  return `<tr><td><span class="t">${esc(j.title)}</span><br><span class="s">${esc(j.employer||'')}</span><br><a class="s" href="${esc(j.url)}" target="_blank" rel="noopener noreferrer">Open the advert</a>${j.notes?`<br><span class="s">Note: ${esc(j.notes)}</span>`:''}</td>
-   <td data-l="Type">${esc(KIND_LABEL[j.kind]||j.kind)}<br><span class="s">${esc(j.source)}</span></td>
-   <td data-l="Pay">${esc(j.band||'')}<br><span class="s">${esc(j.salary||'')}</span></td>
-   <td data-l="Area">${esc(j.area||'')}</td>
-   <td data-l="Closes">${j.closes?esc(fmtDate(j.closes)):'<span class="s">no date</span>'}${soon?`<br><span class="badge warn">${dl===0?'today':dl+' day'+(dl>1?'s':'')+' left'}</span>`:''}</td>
-   <td data-l="Status"><span class="badge ${j.status}">${esc(j.status)}</span>${expired?'<br><span class="badge warn">Past closing date</span>':''}${j.reviewed_by?`<br><span class="s">by ${esc(j.reviewed_by)}</span>`:''}</td>
-   <td class="act">${acts.map(([a,l,c])=>`<button class="${c} small" data-act="${a}" data-id="${j.id}">${l}</button>`).join('')}</td></tr>`;
+  const items = actionsFor(j);
+  const pay = [j.band, j.salary].filter(Boolean).join(' · ');
+  const where = [KIND_LABEL[j.kind]||j.kind, j.area].filter(Boolean).join(' · ');
+  const cd = dl===null ? '' : dl<0 ? (-dl)+' day'+(dl<-1?'s':'')+' ago' : dl===0 ? 'Closes today' : dl===1 ? '1 day left' : dl+' days left';
+  const primary = j.status==='pending' && canEdit() ? `<button class="btn small" data-act="approve" data-id="${j.id}">Approve</button>` : '';
+  return `<tr>${canEdit()?`<td class="c-sel"><input type="checkbox" data-sel="${j.id}" aria-label="Select ${esc(j.title)}"${selIds.has(j.id)?' checked':''}></td>`:''}
+   <td class="c-role"><span class="t">${esc(j.title)}</span><span class="s">${esc(j.employer||'')}</span><a class="s" href="${esc(j.url)}" target="_blank" rel="noopener noreferrer">Open the advert</a>${j.notes?`<span class="s">Note: ${esc(j.notes)}</span>`:''}</td>
+   <td class="c-det" data-l="Details"><span>${esc(where)}</span><span class="s">${esc(pay)}</span></td>
+   <td class="c-close" data-l="Closes">${j.closes?`<span class="dt">${esc(fmtDate(j.closes))}</span>${cd?`<span class="${soon||expired?'badge warn':'s'}">${cd}</span>`:''}`:'<span class="s">No date</span>'}</td>
+   <td class="c-stat" data-l="Status"><span class="badge ${j.status}"${j.reviewed_by?` title="Reviewed by ${esc(j.reviewed_by)}"`:''}>${esc(j.status)}</span>${expired?'<span class="badge warn">Hidden from site</span>':''}</td>
+   <td class="act"><div class="rowacts">${primary}${items.length?`<button class="kebab" data-kebab="${j.id}" aria-haspopup="menu" aria-label="Actions for ${esc(j.title)}">&#8943;</button>`:''}</div></td></tr>`;
 }
 async function setStatus(id, status){
   const patch = { status };
@@ -564,11 +757,28 @@ function summarise(l){
   }
   return name;
 }
+let actQ = '', actP = 0; const ACT_PAGE = 20;
 function renderActivity(){
-  $('#panel').innerHTML = `<div class="note">The last 150 changes. Every add, edit, approval, removal and team change is recorded here.</div>
-  <table><thead><tr><th>When</th><th>Who</th><th>What</th><th>Details</th></tr></thead><tbody>
-  ${logs.map(l=>`<tr><td>${esc(fmtTime(l.at))}</td><td>${esc(l.actor_email||'')}</td><td>${esc(l.action)} ${esc(l.entity==='jobs'?'job':'team member')}</td><td>${esc(summarise(l))}</td></tr>`).join('') || '<tr><td colspan="4">No activity yet.</td></tr>'}
-  </tbody></table>`;
+  $('#panel').innerHTML = `<div class="note">Every add, edit, approval, removal and team change is recorded here (newest first).</div>
+  <div class="actbar"><label for="actq" class="sr">Search activity</label><input type="search" id="actq" placeholder="Search who, what or job title" value="${esc(actQ)}"><span class="hint" id="actinfo"></span>
+   <span class="pager"><button class="btn ghost small" id="actPrev" aria-label="Previous 20">&larr; Previous</button><button class="btn ghost small" id="actNext" aria-label="Next 20">Next &rarr;</button></span></div>
+  <div id="actBody"></div>`;
+  $('#actq').oninput = e => { actQ = e.target.value; actP = 0; drawActivity(); };
+  $('#actPrev').onclick = () => { actP = Math.max(0, actP-1); drawActivity(); };
+  $('#actNext').onclick = () => { actP++; drawActivity(); };
+  drawActivity();
+}
+function drawActivity(){
+  const t = actQ.trim().toLowerCase();
+  const rows = logs.filter(l => !t || (l.actor_email||'').toLowerCase().includes(t) || (l.action+' '+(l.entity==='jobs'?'job':'team member')).toLowerCase().includes(t) || summarise(l).toLowerCase().includes(t));
+  const pages = Math.max(1, Math.ceil(rows.length / ACT_PAGE));
+  if(actP > pages-1) actP = pages-1;
+  const from = actP*ACT_PAGE, slice = rows.slice(from, from+ACT_PAGE);
+  $('#actinfo').textContent = rows.length ? `Showing ${from+1}–${from+slice.length} of ${rows.length} · page ${actP+1} of ${pages}` : '0 results';
+  $('#actPrev').disabled = actP === 0; $('#actNext').disabled = actP >= pages-1;
+  $('#actBody').innerHTML = slice.length ? `<div class="tablewrap"><table><thead><tr><th>When</th><th>Who</th><th>What</th><th>Details</th></tr></thead><tbody>
+   ${slice.map(l=>`<tr><td data-l="When" style="white-space:nowrap">${esc(fmtTime(l.at))}</td><td data-l="Who">${esc(l.actor_email||'')}</td><td data-l="What">${esc(l.action)} ${esc(l.entity==='jobs'?'job':'team member')}</td><td data-l="Details">${esc(summarise(l))}</td></tr>`).join('')}
+   </tbody></table></div>` : '<div class="empty card">'+(t?'Nothing matches that search.':'No activity yet.')+'</div>';
 }
 
 boot();
