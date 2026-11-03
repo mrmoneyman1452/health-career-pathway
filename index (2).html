@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Your Next Health Role</title>
+<style>*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}</style>
+</head>
+<body><title>Your Next Health Role</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Layout: navy masthead, one filter panel, then a scannable list grouped like the printed guide (area, clinical or non-clinical, band). */
+:root{
+  --font: "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
+  --bg:#F2F5F9; --surface:#FFFFFF; --ink:#0B1F3A; --muted:#475972; --line:#C9D3E0;
+  --brand:#005EB8; --brand-ink:#003087; --on-brand:#FFFFFF; --focus:#FFB81C;
+  --head-bg:#003087; --head-ink:#FFFFFF; --head-muted:#C8D6EE;
+  --open-bg:#D9ECFB; --open-ink:#003A75; --soon-bg:#FFB81C; --soon-ink:#1A1300;
+  --closed-bg:#E3E6EA; --closed-ink:#3B4350; --check-bg:#FFFFFF; --check-ink:#0B1F3A; --check-line:#475972;
+  --group-bg:#E4ECF6;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A1424; --surface:#111F35; --ink:#E8EEF7; --muted:#A9B8CE; --line:#2B3D58;
+    --brand:#6BB2F2; --brand-ink:#9CCBF7; --on-brand:#06182E; --focus:#FFB81C;
+    --head-bg:#0D2A5C; --head-ink:#FFFFFF; --head-muted:#BCD0EE;
+    --open-bg:#173A66; --open-ink:#D6EAFF; --soon-bg:#FFB81C; --soon-ink:#1A1300;
+    --closed-bg:#2A3340; --closed-ink:#C3CBD6; --check-bg:#111F35; --check-ink:#E8EEF7; --check-line:#A9B8CE;
+    --group-bg:#16294A; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A1424; --surface:#111F35; --ink:#E8EEF7; --muted:#A9B8CE; --line:#2B3D58;
+  --brand:#6BB2F2; --brand-ink:#9CCBF7; --on-brand:#06182E; --focus:#FFB81C;
+  --head-bg:#0D2A5C; --head-ink:#FFFFFF; --head-muted:#BCD0EE;
+  --open-bg:#173A66; --open-ink:#D6EAFF; --soon-bg:#FFB81C; --soon-ink:#1A1300;
+  --closed-bg:#2A3340; --closed-ink:#C3CBD6; --check-bg:#111F35; --check-ink:#E8EEF7; --check-line:#A9B8CE;
+  --group-bg:#16294A; color-scheme: dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.5}
+a{color:var(--brand-ink)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.wrap{max-width:1200px;margin:0 auto;padding-inline:max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px))}
+.masthead{background:var(--head-bg);color:var(--head-ink);padding-block:18px 16px}
+.masthead h1{margin:0 0 6px;font-size:clamp(1.5rem,4vw,2rem);line-height:1.15;text-wrap:balance}
+.masthead p{margin:0;max-width:62ch;color:var(--head-muted)}
+.masthead .stamp{margin-top:8px;font-size:.85rem;color:var(--head-muted)}
+.topbar{background:#7A3FF2;color:#fff}
+.fresh{font-size:.88rem;text-wrap:balance;display:flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:8px 0;color:#fff;font-weight:700;text-decoration:none;text-align:center}
+.fresh:hover span{text-decoration:underline}
+.job.flash{animation:flash .7s ease-in-out .5s 2}
+@keyframes flash{0%,100%{box-shadow:0 0 0 0 rgba(122,63,242,0)}50%{box-shadow:0 0 0 5px #7A3FF2}}
+@media (prefers-reduced-motion:reduce){.job.flash{animation:none}}
+nav.jump{display:none;gap:8px;flex-wrap:wrap;margin-top:16px}
+nav.jump a{color:var(--head-ink);font-weight:700;font-size:.95rem;text-decoration:none;border:2px solid rgba(255,255,255,.5);border-radius:999px;padding:6px 14px;min-height:40px;display:inline-flex;align-items:center}
+nav.jump a:hover{background:rgba(255,255,255,.15)}
+nav.jump a[aria-current=page]{background:#fff;color:var(--head-bg);border-color:#fff}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;margin-block:20px}
+.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px 16px}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field label{font-weight:700;font-size:.95rem}
+.field select,.field input[type=search]{font:inherit;color:var(--ink);background:var(--bg);border:2px solid var(--check-line);border-radius:8px;padding:10px 12px;min-height:46px;width:100%}
+fieldset.areas{border:0;padding:0;margin:0;grid-column:1/-1}
+fieldset.areas legend{font-weight:700;font-size:.95rem;padding:0;margin-bottom:6px}
+.achips{display:flex;flex-wrap:wrap;gap:8px}
+.achips label{display:inline-flex;gap:8px;align-items:center;border:2px solid var(--check-line);border-radius:999px;padding:8px 14px;min-height:44px;font-weight:700;cursor:pointer;background:var(--bg)}
+.achips input{width:20px;height:20px;accent-color:var(--brand)}
+.achips label:has(input:checked){background:var(--brand);border-color:var(--brand);color:var(--on-brand)}
+.achips label:has(input:checked) input{accent-color:#fff}
+.page{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "toggle" "side" "main";max-width:1240px;margin:0 auto}
+.masthead{grid-area:head}.ftoggle{grid-area:toggle}.side{grid-area:side}.mainarea{grid-area:main;min-width:0}
+.ftoggle,.side,.mainarea{margin-inline:max(16px,env(safe-area-inset-left,0px))}
+.views{min-width:0}
+.fhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}.fhead h2{margin:0;font-size:1.15rem}
+details.fg{border-top:1px solid var(--line)}
+details.fg>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 2px;font-weight:700;min-height:48px}
+details.fg>summary::-webkit-details-marker{display:none}
+details.fg>summary::after{content:"+";font-size:1.3rem;line-height:1;color:var(--brand-ink)}
+details.fg[open]>summary::after{content:"\2212"}
+.fv{margin-left:auto;font-weight:400;color:var(--muted);font-size:.9rem;max-width:11ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fv.on{color:var(--brand-ink);font-weight:700}
+.fbody{padding:0 0 14px;display:grid;gap:8px}
+.fbody label:not(.check):not(.sr){font-weight:700;font-size:.9rem;margin-top:4px}
+.fbody select{font:inherit;color:var(--ink);background:var(--bg);border:2px solid var(--check-line);border-radius:8px;padding:10px 12px;min-height:46px;width:100%}
+/* Phones: the sidebar becomes a slide-in drawer opened from the Menu button */
+.side{display:block;position:fixed;top:0;bottom:0;left:0;width:min(86vw,340px);margin:0!important;padding:12px;background:var(--bg);overflow-y:auto;z-index:50;transform:translateX(-105%);visibility:hidden;transition:transform .22s ease,visibility 0s .22s;box-shadow:0 0 30px rgba(0,0,0,.35)}
+.side.open{transform:none;visibility:visible;transition:transform .22s ease,visibility 0s}
+.sidenav{display:grid;gap:4px;margin-bottom:14px;padding:8px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.sidenav a{display:block;padding:11px 14px;border-radius:8px;font-weight:700;text-decoration:none;color:var(--ink);min-height:44px}
+.sidenav a[aria-current=page]{background:var(--brand);color:var(--on-brand);box-shadow:inset 5px 0 0 #7A3FF2}
+.sidenav a:active{background:var(--group-bg)}
+.shead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-left:4px}
+.stitle{font-weight:700;font-size:1.25rem}
+.sclose{display:grid;place-items:center;width:46px;height:46px;padding:0;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:50%;cursor:pointer}
+.sclose:hover{background:var(--group-bg)}
+.scrim{position:fixed;inset:0;background:rgba(0,10,30,.5);z-index:40;display:none}.scrim.show{display:block}
+@media (prefers-reduced-motion:reduce){.side,.side.open{transition:none}}
+.ftoggle{position:fixed;top:6px;left:max(8px,env(safe-area-inset-left,0px));z-index:35;width:48px;height:48px;padding:0;margin:0;display:grid;place-items:center;background:var(--surface);color:var(--brand-ink);border:2px solid var(--brand);border-radius:12px;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.topbar .wrap{padding-left:64px}
+.topbar[hidden] ~ .page .masthead .wrap{padding-top:44px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:flex-end;margin:18px 0 6px}
+.searchf{position:relative;flex:1 1 280px;min-width:0}
+#count{margin:0 0 8px;font-weight:700}
+.hrow{display:block}
+.newchip{display:inline-flex;align-items:center;gap:6px;margin:0 0 10px;min-height:40px;padding:0 14px;font:inherit;font-weight:700;color:#fff;background:#7A3FF2;border:0;border-radius:999px;cursor:pointer}
+.newchip[hidden]{display:none}
+dialog.newdlg{width:min(94vw,640px);max-height:88vh;padding:0;border:0;border-radius:16px;background:var(--surface);color:var(--ink);box-shadow:0 20px 60px rgba(0,10,40,.45);overflow:hidden}
+dialog.newdlg[open]{display:flex;flex-direction:column}
+dialog.newdlg::backdrop{background:rgba(0,10,30,.55)}
+.dhead{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line)}
+.dhead h2{margin:0;font-size:1.25rem}
+.dclose{display:grid;place-items:center;width:44px;height:44px;padding:0;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:50%;cursor:pointer}
+.dlist{list-style:none;margin:0;padding:8px 12px;overflow-y:auto;flex:1}
+.dlist li{padding:12px 4px;border-bottom:1px solid var(--line)}
+.dlist li:last-child{border-bottom:0}
+.dlist h3{margin:0;font-size:1.05rem;line-height:1.3}
+.dlist .sub{margin:2px 0 6px;color:var(--muted);font-size:.92rem}
+.dlist .row2{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.dlist .apply{margin:0;min-height:40px;padding:8px 14px;font-size:.92rem}
+.dfoot{padding:12px 16px;border-top:1px solid var(--line)}
+.dshow{font:inherit;font-weight:700;width:100%;min-height:46px;color:#fff;background:#7A3FF2;border:0;border-radius:10px;cursor:pointer}
+.newchip:hover{filter:brightness(1.1)}
+.hrow p{margin:0}
+.hrow{position:relative}
+.updated{display:block;text-align:right;margin-top:6px;font-size:.78rem;color:var(--head-muted)}
+@media (min-width:700px){.updated{position:absolute;right:0;bottom:0;margin:0;font-size:.85rem;white-space:nowrap}}
+.sortf{display:flex;gap:8px;align-items:center;width:100%;min-height:46px}@media (min-width:700px){.sortf{width:auto}.sortf select{min-width:240px}}.sortf label{font-weight:700;white-space:nowrap}.sortf select{width:auto;min-width:0;max-width:100%;flex:1;font:inherit;color:var(--ink);background:var(--surface);border:2px solid var(--check-line);border-radius:8px;padding:8px 10px;min-height:44px}
+.mainc{min-width:0}
+.pager{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px}
+.pg{font:inherit;font-weight:700;min-width:44px;min-height:44px;padding:0 14px;color:var(--brand-ink);background:var(--surface);border:2px solid var(--brand);border-radius:8px;cursor:pointer}
+.pg.cur{background:var(--brand);color:var(--on-brand)}
+.pg:disabled{opacity:.45;cursor:not-allowed}
+.totop{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:30;display:none;align-items:center;gap:6px;min-height:48px;padding:0 16px;font:inherit;font-weight:700;color:#fff;background:#7A3FF2;border:0;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.3);cursor:pointer}
+.totop.show{display:inline-flex}
+[data-view][hidden]{display:none!important}
+.side .panel{margin-block:12px}.side .filters{grid-template-columns:1fr}
+@media (min-width:700px){
+  .ftoggle,.shead,.scrim{display:none!important}
+  .topbar .wrap{padding-left:0}
+  .fresh{font-size:.95rem}
+  .topbar[hidden] ~ .page .masthead .wrap{padding-top:28px}
+  .sidenav{display:grid;gap:4px;margin-bottom:14px;padding:8px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+  .sidenav a{display:block;padding:11px 14px;border-radius:8px;font-weight:700;text-decoration:none;color:var(--ink);min-height:44px}
+  .sidenav a:hover{background:var(--group-bg)}
+  .sidenav a[aria-current=page]{background:var(--brand);color:var(--on-brand);box-shadow:inset 5px 0 0 #7A3FF2}
+.sidenav a:active{background:var(--group-bg)}
+  .page{max-width:none;grid-template-columns:minmax(24px,1fr) minmax(230px,300px) 24px minmax(0,876px) minmax(24px,1fr);grid-template-rows:auto 1fr;grid-template-areas:"head head head head head" ". side . main ."}
+  .ftoggle,.side,.mainarea{margin-inline:0}
+  .mainarea{padding-top:12px}
+  .side,.side.open{display:block;transform:none;visibility:visible;width:auto;z-index:auto;box-shadow:none;background:none;padding:18px 0 0;align-self:start;position:sticky;top:0;bottom:auto;left:auto;margin-top:0!important;max-height:calc(100vh - 24px);overflow-y:auto;overscroll-behavior:contain}
+  .masthead .wrap{padding-inline:24px}
+  .toolbar{margin-top:12px}
+}
+.field.wide{grid-column:1/-1;position:relative}
+.sug{position:absolute;left:0;right:0;top:100%;z-index:20;margin:4px 0 0;padding:6px;list-style:none;background:var(--surface);border:2px solid var(--brand);border-radius:10px;box-shadow:0 8px 24px rgba(0,30,80,.18);max-height:340px;overflow-y:auto}
+.sug li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:10px 12px;border-radius:8px;cursor:pointer;min-height:44px}
+.sug li[aria-selected="true"],.sug li:hover{background:var(--group-bg)}
+.sug .k{font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.sug mark{background:none;color:var(--brand-ink);font-weight:700;text-decoration:underline}
+.row{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;margin-top:14px}
+.check{display:flex;gap:10px;align-items:center;font-weight:700}
+.check input{width:22px;height:22px;accent-color:var(--brand)}
+.btn-link{font:inherit;font-weight:700;color:var(--brand-ink);background:none;border:0;padding:6px 2px;text-decoration:underline;cursor:pointer}
+#count{margin:0;font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:.92rem;color:var(--muted);margin:0 0 6px}
+h2.area{margin:34px 0 4px;padding:10px 14px;background:var(--head-bg);color:var(--head-ink);border-radius:8px;font-size:1.45rem;text-transform:uppercase;letter-spacing:.04em}
+h3.cat{margin:20px 0 4px;padding:6px 14px;background:var(--brand);color:var(--on-brand);border-radius:6px;font-size:1.15rem}
+h4.band{margin:14px 0 8px;padding:5px 14px;background:var(--group-bg);border-radius:6px;font-size:1rem}
+h4.band span{font-weight:400;color:var(--muted)}
+.list{display:grid;gap:12px;padding:0;margin:0;list-style:none}
+.job{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.job.is-closed{opacity:.85}
+.job .top{display:flex;flex-wrap:wrap;gap:8px 12px;justify-content:space-between;align-items:flex-start}
+.job h5,.job h3.jt{margin:0;font-size:1.2rem;line-height:1.3;flex:1 1 260px;min-width:0}
+.emp{margin:2px 0 10px;color:var(--muted)}
+.pill{display:inline-block;padding:4px 10px;border-radius:6px;font-weight:700;font-size:.85rem;letter-spacing:.05em;white-space:nowrap;border:2px solid transparent}
+.badges{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pill.new{background:#7A3FF2;color:#fff;display:inline-flex;gap:4px;align-items:center}
+.pill.open{background:var(--open-bg);color:var(--open-ink)}
+.pill.soon{background:var(--soon-bg);color:var(--soon-ink)}
+.pill.closed{background:var(--closed-bg);color:var(--closed-ink);text-decoration:line-through}
+.pill.check{background:var(--check-bg);color:var(--check-ink);border-color:var(--check-line)}
+.tag{display:inline-block;margin-left:6px;padding:2px 8px;border-radius:6px;background:var(--group-bg);font-size:.82rem;font-weight:700}
+dl.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px 18px;margin:0 0 12px}
+dl.facts div{min-width:0}
+dl.facts dt{font-size:.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+dl.facts dd{margin:0;overflow-wrap:anywhere}
+details{border-top:1px solid var(--line);padding-top:10px}
+summary{cursor:pointer;font-weight:700;color:var(--brand-ink);padding:4px 0}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 24px;margin-top:8px}
+.two h6{margin:8px 0 4px;font-size:1rem}
+.two ul{margin:0;padding-left:20px}
+.two li{margin-bottom:4px}
+.apply{display:inline-block;margin-top:12px;background:var(--brand);color:var(--on-brand);font-weight:700;text-decoration:none;padding:10px 16px;border-radius:8px;min-height:44px}
+.apply:hover{filter:brightness(1.1)}
+.empty{background:var(--surface);border:2px dashed var(--line);border-radius:10px;padding:24px;text-align:center}
+section.block{margin-top:44px}
+details.stepsbox{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 16px}details.stepsbox>summary{font-size:1.2rem}
+ol.steps{padding-left:22px;max-width:70ch}ol.steps li{margin-bottom:8px}
+section.block h2{font-size:1.6rem;margin:0 0 6px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:12px}
+.xp{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.xp h3{margin:0 0 2px;font-size:1.1rem}
+.xp .org{margin:0 0 8px;color:var(--muted)}
+.xp p{margin:6px 0}
+.tablewrap{overflow-x:auto;margin-top:12px;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:560px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--group-bg)}
+tr:last-child td{border-bottom:0}
+.note{color:var(--muted);font-size:.95rem;max-width:70ch}
+footer{margin-block:40px 56px;color:var(--muted);font-size:.95rem}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}}
+</style>
+
+<div class="topbar" id="topbar" hidden><div class="wrap"><a class="fresh" id="fresh" href="#jobs" hidden><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 1l2.6 6.4L21 10l-6.4 2.6L12 19l-2.6-6.4L3 10l6.4-2.6z"/></svg><span id="fresh-t"></span></a></div></div>
+
+<div class="page">
+<header class="masthead">
+  <div class="wrap">
+    <h1>Your next step in health and care</h1>
+    <div class="hrow">
+    <p>Local entry level jobs and apprenticeships across Sandwell, Birmingham, Dudley, Walsall and Wolverhampton.</p>
+    <span class="updated" id="stamp"></span>
+    </div>
+    <nav class="jump" aria-label="Page sections">
+      <a href="#jobs" data-go="jobs">Jobs</a>
+      <a href="#steps" data-go="steps">How to apply</a>
+      <a href="#experience" data-go="experience">Work experience</a>
+      <a href="#pay" data-go="pay">Age and pay</a>
+    </nav>
+  </div>
+</header>
+
+  <button type="button" class="ftoggle" id="ftoggle" aria-label="Menu and filters" aria-expanded="false" aria-controls="side"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+  <div class="scrim" id="scrim"></div>
+    <aside class="side" id="side" aria-label="Menu and filters">
+      <div class="shead"><span class="stitle">Menu</span><button type="button" class="sclose" id="sclose" aria-label="Close menu"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" d="M5 5l14 14M19 5L5 19"/></svg></button></div>
+      <nav class="sidenav" aria-label="Pages">
+        <a href="#jobs" data-go="jobs">Jobs</a>
+        <a href="#steps" data-go="steps">How to apply</a>
+        <a href="#experience" data-go="experience">Work experience</a>
+        <a href="#pay" data-go="pay">Age and pay</a>
+      </nav>
+      <form class="panel" id="filters" role="search" aria-label="Filter jobs" onsubmit="return false">
+        <div class="fhead"><h2>Filter jobs</h2><button type="button" class="btn-link" id="reset">Clear all</button></div>
+        <details class="fg" open><summary>Area <span class="fv" id="fv-area">All areas</span></summary>
+          <div class="fbody"><label class="sr" for="area">Area</label><select id="area"><option value="">All areas</option></select></div></details>
+        <details class="fg"><summary>Department <span class="fv" id="fv-dept">All</span></summary>
+          <div class="fbody"><label class="sr" for="dept">Department</label><select id="dept"></select></div></details>
+        <details class="fg"><summary>More filters <span class="fv" id="fv-more">None</span></summary>
+          <div class="fbody">
+            <label for="cat">Type of work</label>
+            <select id="cat"><option value="">All types of work</option><option value="Clinical">Clinical (hands-on patient care)</option><option value="Non-clinical">Non-clinical (admin, catering, support)</option></select>
+            <label for="kind">Employer type</label>
+            <select id="kind"><option value="">All employers</option><option value="NHS">NHS jobs</option><option value="Care homes and others">Care homes and other employers</option><option value="Apprenticeships">Apprenticeships</option></select>
+            <label for="band">Pay</label>
+            <select id="band"><option value="">All pay levels</option><option value="Band 2">NHS Band 2</option><option value="Band 3">NHS Band 3</option><option value="Other">Paid as advertised (care homes, apprentices)</option></select>
+            <label class="check"><input type="checkbox" id="closed"> Show closed jobs</label>
+          </div></details>
+      </form>
+    </aside>
+  <main class="mainarea"><div class="views">
+  <section id="jobs" data-view aria-labelledby="jobs-h">
+    <h2 id="jobs-h" class="sr">Jobs and apprenticeships</h2>
+    <div class="mainc">
+    <div class="toolbar">
+        <div class="field searchf">
+          <label for="q">Search by job title, employer or place</label>
+          <input type="search" id="q" placeholder="For example: ward clerk, Dudley, care assistant" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="sug" aria-autocomplete="list">
+          <ul id="sug" class="sug" role="listbox" aria-label="Suggestions" hidden></ul>
+        </div>
+      <div class="sortf"><label for="sort">Sort by</label><select id="sort">
+            <option value="newest">Date posted (newest)</option>
+            <option value="closing">Closing date</option>
+            <option value="salaryup">Salary lowest to highest</option>
+            <option value="salarydown">Salary highest to lowest</option>
+          </select></div>
+    </div>
+    <p id="count" role="status" aria-live="polite"></p>
+    <button type="button" class="newchip" id="newchip" hidden><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 1l2.6 6.4L21 10l-6.4 2.6L12 19l-2.6-6.4L3 10l6.4-2.6z"/></svg> New this week <span aria-hidden="true">&times;</span><span class="sr"> Remove filter and show all jobs</span></button>
+    <div id="results"></div>
+    </div>
+    <p class="note">Salary sorting uses the lowest pay figure in each advert. Hourly pay is turned into a yearly amount for a 37.5 hour week so jobs can be compared. Pay is for a full time week of 37.5 hours. Part time jobs are paid a share of it. Details are summarised from each employer's advert, so check the advert before you apply. Jobs can close early if they get lots of applications.</p>
+  </section>
+
+  <section class="block" id="steps" data-view aria-labelledby="steps-h">
+    <details class="stepsbox" open><summary id="steps-h">How to apply: 6 steps</summary>
+    <ol class="steps">
+      <li><strong>Pick a department.</strong> Use the Department filter to see roles in the area that interests you, such as wards, imaging or admin.</li>
+      <li><strong>Check what the job needs.</strong> Open "What you need and what you will do" on each job to see if it suits you now or what to work towards.</li>
+      <li><strong>Talk to your supervisor or programme lead.</strong> Tell them what you are aiming for. They can support you and may be able to give a reference.</li>
+      <li><strong>Apply on NHS Jobs.</strong> Make a free account at <a href="https://www.jobs.nhs.uk/candidate" target="_blank" rel="noopener noreferrer">NHS Jobs<span class="sr"> (opens in a new tab)</span></a> and use the advert link on each job. Apprenticeships are applied for through the link shown.</li>
+      <li><strong>Apply early.</strong> Jobs can close before the date shown if lots of people apply.</li>
+      <li><strong>Ask for help.</strong> The Careers and Employability team at the Learning Campus can help with applications. Email <a href="mailto:sughra.kabir@nhs.net">Sughra Kabir</a> (sughra.kabir@nhs.net) or <a href="mailto:cathia.bouyer@nhs.net">Cathia Bouyer</a> (cathia.bouyer@nhs.net).</li>
+    </ol>
+    </details>
+  </section>
+
+  <section class="block" id="experience" data-view aria-labelledby="xp-h">
+    <h2 id="xp-h">Work experience and ways to try health careers</h2>
+    <p class="note">Not ready to apply for a job yet? These programmes let you see what health and care work is like.</p>
+    <div class="cards" id="xp"></div>
+  </section>
+
+  <section class="block" id="pay" data-view aria-labelledby="pay-h">
+    <h2 id="pay-h">Age and pay</h2>
+    <p class="note">NHS Agenda for Change pay from 1 April 2026, for a 37.5 hour week. Source: NHS Employers pay scales 2026/27.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th scope="col">NHS band</th><th scope="col">Starts at</th><th scope="col">Top of band</th><th scope="col">Example entry roles</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Band 2</th><td>£25,272</td><td>£25,272</td><td>Healthcare support worker, catering assistant, clerical officer</td></tr>
+          <tr><th scope="row">Band 3</th><td>£25,760</td><td>£27,476</td><td>Senior care support worker, therapy support worker, ward or team administrator</td></tr>
+          <tr><th scope="row">Band 4</th><td>£28,392</td><td>£31,157</td><td>Nursing associate (trainee route), senior admin, assistant practitioner</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note"><strong>NHS bands are paid the same whatever your age.</strong> A 19 year old and a 40 year old in the same Band 2 or Band 3 job are on the same pay scale.</p>
+    <p class="note">For other jobs, such as care homes, the legal minimum hourly pay from April 2026 depends on age: aged 16 to 17 £8.00, 18 to 20 £10.85, 21 and over £12.71. Apprentices under 19, or in their first year, get at least £8.00. Many employers pay more.</p>
+    <p class="note">Some roles have a minimum age, for example for night shifts, driving or lone working. Check the advert.</p>
+  </section>
+
+  </div>
+
+  <footer>
+    <p>Produced by the Midland Metropolitan Learning Campus, Careers and Employability, Sandwell and West Birmingham NHS Trust, The Learning Campus, Grove Lane, Smethwick, B66 2QT. Vacancies were collected from NHS Jobs, Find an apprenticeship and care home job boards.</p>
+  </footer>
+  </main>
+</div>
+
+<dialog class="newdlg" id="newdlg" aria-labelledby="newdlg-h">
+  <div class="dhead"><h2 id="newdlg-h">New this week</h2><button type="button" class="dclose" id="dclose" aria-label="Close"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" d="M5 5l14 14M19 5L5 19"/></svg></button></div>
+  <ul class="dlist" id="dlist"></ul>
+  <div class="dfoot"><button type="button" class="dshow" id="dshow">Show these in the job list</button></div>
+</dialog>
+
+<script id="data" type="application/json">{"depts": ["Admin, reception and secretaries", "Wards and patient care", "Imaging, tests and labs", "Clinics, therapies and family support", "Mental health and community teams", "Theatres and decontamination", "Catering, housekeeping and porters", "Pharmacy and dental", "Care homes and home care"], "jobs": [{"t": "Catering Assistant", "cat": "Non-clinical", "emp": "Sandwell and West Birmingham NHS Trust", "band": "Band 2", "sal": "£25,272", "loc": "Midland Metropolitan University Hospital, Smethwick B66 2QT", "req": ["Previous catering experience", "NVQ 2 Customer Service or equivalent", "Willing to gain Level 2 Food Safety", "DBS check"], "desc": ["Serve customers, barista coffee", "Cash handling and food preparation", "Cleaning and paperwork"], "app": "No", "hrs": "Part time, 26 hrs/week, permanent", "posted": "2026-10-20", "close": "2026-11-03", "url": "https://beta.jobs.nhs.uk/candidate/jobadvert/C9381-26-0439", "area": "Sandwell", "kind": "NHS", "dept": "Catering, housekeeping and porters"}, {"t": "Catering Assistant – Hallam", "cat": "Non-clinical", "emp": "Black Country Healthcare NHS FT", "band": "Band 2", "sal": "£25,272", "loc": "Hallam Street Hospital, West Bromwich B71 4NH", "req": ["Level 2 Food Hygiene", "NVQ 1 Food Preparation or equivalent experience", "Good basic reading, writing, numeracy", "DBS check"], "desc": ["Prepare and serve patient meals", "Work in staff/visitor restaurant", "Cleaning, cash handling, food safety records"], "app": "No", "hrs": "Part time, 15 hrs/week (Mon–Fri 2:30–5:30pm), permanent", "posted": "2026-10-26", "close": "2026-11-09", "url": "https://beta.jobs.nhs.uk/candidate/jobadvert/C9285-26-0730", "area": "Sandwell", "kind": "NHS", "dept": "Catering, housekeeping and porters"}, {"t": "Band 3 Physical Health Care Assistant", "cat": "Clinical", "emp": "Birmingham and Solihull Mental Health NHS FT", "band": "Band 3", "sal": "Band 3 (advert says 'depends on experience')", "loc": "Longbridge Health and Community Centre, 10 Park Way, Rubery, Birmingham B45 9PL", "req": ["NVQ Level 3 Health & Social Care, or equivalent experience", "Experience of direct care in a health or social care setting", "Able to work flexibly and independently in community services", "Good literacy, numeracy and IT skills"], "desc": ["Physical health checks: blood pressure, pulse, weight, BMI", "Support annual physical health checks", "Venepuncture and ECGs (training given where needed)"], "app": "No", "hrs": "Part time, permanent", "posted": "2026-10-21", "close": "2026-11-05", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C9436-26-0698", "area": "Birmingham", "kind": "NHS", "dept": "Wards and patient care"}, {"t": "Healthcare Assistant - Larimar Ward", "cat": "Clinical", "emp": "Birmingham and Solihull Mental Health NHS FT", "band": "Band 3", "sal": "£25,760 – £27,476", "loc": "Birmingham B24 9SA", "req": ["Understanding of multidisciplinary services and the challenges people with mental health problems face", "Passion for mental health and the recovery model"], "desc": ["An exciting opportunity to join a fast paced and dynamic team", "It's important that you have an understanding of multidisciplinary services and the challenges that face people wit…"], "app": "No", "hrs": "Full-time, Part-time, Flexible working, permanent", "posted": "2026-11-03", "close": "2026-11-05", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C9436-26-0731", "area": "Birmingham", "kind": "NHS", "dept": "Wards and patient care"}, {"t": "Assistant Technical Officer", "cat": "Clinical", "emp": "Birmingham Community Healthcare NHS FT", "band": "Band 3", "sal": "£25,760 – £27,476", "loc": "Birmingham B5 7EG", "req": ["Good general education, GCSE passes or relevant clerical qualifications", "Relevant experince in hospital setting", "Experience in working with a wide range of professionals", "Relevant organisational skills"], "desc": ["This job advert will close as soon as sufficient applications have been received", "The post holder will provide a comprehensive support service to staff within the Radiology Department and the Denta…", "The role includes acting as a Radiographer Helper, assisting Consultant Radiologists during Ultrasound procedures"], "app": "No", "hrs": "Full-time, permanent", "posted": "2026-11-02", "close": "2026-11-09", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C9820-26-0764", "area": "Birmingham", "kind": "NHS", "dept": "Other"}, {"t": "Decontamination Technician", "cat": "Non-clinical", "emp": "University Hospitals Birmingham NHS FT", "band": "Band 2", "sal": "£25,272", "loc": "Queen Elizabeth Hospital, Birmingham B15 2TH (cross-site)", "req": ["GCSE/NVQ or GCE", "Good timekeeping and reliability", "Manual dexterity; long periods standing", "Shifts incl. weekends; DBS check"], "desc": ["Clean and test endoscopes (camera scopes)", "Run washer-disinfector machines", "Deliver clean scopes to clinics"], "app": "No", "hrs": "Full time 37.5 hrs (part time possible), permanent", "posted": "2026-10-20", "close": "2026-11-03", "url": "https://beta.jobs.nhs.uk/candidate/jobadvert/C0020-26-1615", "area": "Birmingham", "kind": "NHS", "dept": "Theatres and decontamination"}, {"t": "Band 2 HMP Receptionist", "cat": "Non-clinical", "emp": "Birmingham Community Healthcare NHS FT", "band": "Band 2", "sal": "£25,272", "loc": "HMP Birmingham, B18 4AS", "req": ["Admin experience in a health or similar setting", "Basic Microsoft Office; spreadsheets", "Strong customer care skills", "Ability to work under pressure"], "desc": ["Reception and admin for the prison healthcare service", "Full duties are in the attached job description"], "app": "No", "hrs": "Part time, permanent", "posted": "2026-10-26", "close": "2026-11-06", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C9820-26-0690", "area": "Birmingham", "kind": "NHS", "dept": "Mental health and community teams"}, {"t": "Administrator - Perinatal Pelvic Health Physiotherapy Service", "cat": "Non-clinical", "emp": "University Hospitals Birmingham NHS FT", "band": "Band 2", "sal": "£25,272", "loc": "Birmingham B15 2TH", "req": ["Good General Education (e.g. GCSE English and Maths A-C) or GCSE Level 9-4", "Experience of working with a range of Microsoft Office packages (eg. Word, Excel and Outlook)", "Experience of using IT systems", "Experience of working in a busy office / customer care environment"], "desc": ["An exciting opportunity has arisen for a Band 2 Administrator to join the Perinatal Pelvic Health Physiotherapy Tea…"], "app": "No", "hrs": "Full-time, Flexible working, fixed term", "posted": "2026-11-02", "close": "2026-11-06", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C0020-26-1690", "area": "Birmingham", "kind": "NHS", "dept": "Clinics, therapies and family support"}, {"t": "Administrative Assistant - Anticoagulant Department", "cat": "Non-clinical", "emp": "University Hospitals Birmingham NHS FT", "band": "Band 2", "sal": "£25,272", "loc": "Birmingham B15 2TH", "req": ["Good General Education (e.g. GCSE English and Maths A-C) or GCSE Level 9-4", "Experience of working with a range of Microsoft Office packages (eg. Word, Excel and Outlook)", "Experience of using IT systems", "Experience of working in a busy office / customer care environment"], "desc": ["An exciting opportunity has arisen for two highly motivated and enthusiastic individuals to join the Anticoagulant…", "One Band 2 Administrator/ Coordinator at the Queen Elizabeth Hospital (37.5 hours per week)", "One Band 2 Administrator/ Coordinator at Good Hope Hospital (30 hours per week)"], "app": "No", "hrs": "Full-time, Part-time, Flexible working, permanent", "posted": "2026-10-28", "close": "2026-11-08", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C0020-26-1665", "area": "Birmingham", "kind": "NHS", "dept": "Clinics, therapies and family support"}, {"t": "Material Movement Operative", "cat": "Non-clinical", "emp": "University Hospitals Birmingham NHS FT", "band": "Band 2", "sal": "£25,272", "loc": "Birmingham B15 2TH", "req": ["Good Standard of General Education to GCSE or equivalent level (E)", "Willingness to undertake training and become competent in fire warden training", "Driving license", "Working within a team"], "desc": ["As a Material Movement Operative, you will work in a fast-paced environment, contributing to the timely movement of…", "Collect handle and manage waste materials from clinical areas and departments following safety and disposal procedu…", "Transport and manage clean and contaminated theatre instruments maintaining strict hygiene safety and infection con…"], "app": "No", "hrs": "Full-time, Flexible working, permanent", "posted": "2026-11-02", "close": "2026-11-09", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C0020-26-1672", "area": "Birmingham", "kind": "NHS", "dept": "Other"}, {"t": "Therapy Hub Administrator", "cat": "Non-clinical", "emp": "Birmingham Community Healthcare NHS FT", "band": "Band 2", "sal": "£25,272", "loc": "Birmingham. B36 8GH", "req": ["GCSE Maths and English Grade C or above or equivalent/or equivalent experience", "Experience of working to work to deadlines", "Experience of Microsoft Word, Excel and Outlook", "Experience of filing systems"], "desc": ["This job advert will close as soon as sufficient applications have been received", "To provide office, administrative and general non-clinical organisational support to the Therapy Hub working under…"], "app": "No", "hrs": "Full-time, permanent", "posted": "2026-11-02", "close": "2026-11-16", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C9820-26-0767", "area": "Birmingham", "kind": "NHS", "dept": "Clinics, therapies and family support"}, {"t": "Receptionist/Administrator - Longbridge CMHT", "cat": "Non-clinical", "emp": "Birmingham and Solihull Mental Health NHS FT", "band": "Band 3", "sal": "£25,760 – £27,476", "loc": "Birmingham B45 9PL", "req": ["NVQ Level II in Business Administrationor equivalent or working towards", "GCSE English or equivalent", "Experience in dealing with a range of disciplines in healthcare and sensitive situations", "Experience in a customer focussed healthcare environment"], "desc": ["An exciting opportunity has arisen for a full-time Receptionist/Administrator to work within the Longbridge Communi…", "Our CMHT's provide assessment, specialist support, treatment and care planning for service users with functional me…", "As receptionist/administrator you will be the first point of contact for patients/staff and visitors to the buildin…"], "app": "No", "hrs": "Part-time, permanent", "posted": "2026-10-27", "close": "2026-11-08", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C9436-26-0718", "area": "Birmingham", "kind": "NHS", "dept": "Mental health and community teams"}, {"t": "Ward Administrator", "cat": "Non-clinical", "emp": "University Hospitals Birmingham NHS FT", "band": "Band 3", "sal": "£25,760 – £27,476", "loc": "Queen Elizabeth Hospital, Birmingham B15 2TH", "req": ["GCSE English and maths (A–C / 9–4)", "NVQ 3 Business Admin or equivalent experience", "Customer service and Microsoft Office"], "desc": ["Manage ward correspondence and records", "Arrange and minute meetings", "Order supplies"], "app": "No", "hrs": "Fixed term: part time 12 months or full time 6 months", "posted": "2026-10-26", "close": "2026-11-09", "url": "https://beta.jobs.nhs.uk/candidate/jobadvert/C0020-26-1622", "area": "Birmingham", "kind": "NHS", "dept": "Admin, reception and secretaries"}, {"t": "Research Administrator-Research and Development", "cat": "Non-clinical", "emp": "University Hospitals Birmingham NHS FT", "band": "Band 3", "sal": "£25,760 – £27,476", "loc": "Birmingham B9 5SS", "req": ["Good General Education (e.g. GCSE English and Maths A-C) GCSE Level 9-4", "Business Administration NVQ level 3 or equivalent experience in an administrative environment", "Evidence of working with the general public/patients", "Evidence of using finance systems"], "desc": ["We are seeking a highly organised, proactive and detail-oriented Research Administrator to join our cancer research…", "The role will involve coordinating invoicing processes in line with study budgets, contractual agreements and agree…"], "app": "No", "hrs": "Full-time, Flexible working, permanent", "posted": "2026-11-02", "close": "2026-11-09", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C0020-26-1681", "area": "Birmingham", "kind": "NHS", "dept": "Admin, reception and secretaries"}, {"t": "Radiographic Aide", "cat": "Clinical", "emp": "The Dudley Group NHS FT", "band": "Band 2", "sal": "£25,272", "loc": "Dudley DY1 2HQ", "req": ["GCSE Grade C or above in maths and English or equivalent", "Demonstrates a knowledge of the role and duties of an aide", "Demonstrates an ability to work in stressful situations", "Demonstrates ability to work flexibly across different modalities"], "desc": ["We are looking for a motivated and friendly individuals to join our Imaging team, supporting our radiographers, son…", "As part of our team, you will play a vital part in ensuring a smooth and positive experience for every patient acce…", "Providing direct patient care & delivering outstanding customer service"], "app": "No", "hrs": "Full-time, Part-time, permanent", "posted": "2026-10-29", "close": "2026-11-12", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C9253-26-0561", "area": "Dudley", "kind": "NHS", "dept": "Imaging, tests and labs"}, {"t": "Higher Assistant Respiratory Physiologist", "cat": "Clinical", "emp": "The Dudley Group NHS FT", "band": "Band 3", "sal": "£25,760 – £27,476", "loc": "Stourbridge DY8 4JB", "req": ["GCSEs at Grade 4 or above in English, Maths and a Science subject (or equivalent e.g. Functional skills l…", "A-Levels at Grade E or above in Maths, English and 1 Science (or equivalent e.g. NVQ Level 3 in Healthcar…", "Interaction with people from a variety of backgrounds, cultures and beliefs", "Desire to work in a caring profession and has respect for patient dignity"], "desc": ["An opportunity has arisen for an enthusiastic and self-motivated person to join the physiologist staff of the Multi…", "This is a permanent post and the successful applicant is not expected to have experience in any of the main duties", "Please note, shortlisted candidates will be required to attend a face-to-face interview at Russells Hall Hospital…"], "app": "No", "hrs": "Full-time, permanent", "posted": "2026-10-27", "close": "2026-11-10", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C9253-26-0551", "area": "Dudley", "kind": "NHS", "dept": "Imaging, tests and labs"}, {"t": "Senior Care Support Worker, Ward C5A", "cat": "Clinical", "emp": "The Dudley Group NHS FT", "band": "Band 3", "sal": "£25,760 – £27,476", "loc": "Dudley DY1 2HQ", "req": ["Maths and English Qualification - GCSE A-C or Functional Skills Level 2", "Care Certificate or ability to complete within 12 weeks of commencing employment", "QCF/NVQ Level 3 in Healthcare or equivalent qualification/relevant experience", "Able to undertake a limited range of delegated clinical care duties, e.g temperature, pulse, respiration…"], "desc": ["An exciting opportunity to work in the Trust's Respiratory Ward C5. We are looking for hardworking, experienced car…", "This is a fast paced, busy 49-bedded respiratory ward caring for patients with chronic and acute illnesses with dai…", "We are searching for caring individuals who understand the needs of our patients and display compassion and patienc…"], "app": "No", "hrs": "Part-time, permanent", "posted": "2026-10-28", "close": "2026-11-11", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C9253-26-0556", "area": "Dudley", "kind": "NHS", "dept": "Wards and patient care"}, {"t": "Administrator (Radiology)", "cat": "Non-clinical", "emp": "The Dudley Group NHS FT", "band": "Band 2", "sal": "£25,272", "loc": "Corbett Outpatient Centre, Stourbridge DY8 4JB", "req": ["GCSE English and maths grade C, or NHS experience", "Accurate data entry", "Customer service experience", "DBS check"], "desc": ["Book patient appointments", "Handle referral and appointment queries", "Update patient records"], "app": "No", "hrs": "Part time, Mon–Fri 3pm–8pm, fixed term 9 months", "posted": "2026-10-21", "close": "2026-11-04", "url": "https://beta.jobs.nhs.uk/candidate/jobadvert/C9253-26-0532", "area": "Dudley", "kind": "NHS", "dept": "Admin, reception and secretaries"}, {"t": "MSK Clerical Officer", "cat": "Non-clinical", "emp": "The Dudley Group NHS FT", "band": "Band 2", "sal": "£25,272", "loc": "Brierley Hill DY5 1RU", "req": ["GCSE's grade 9-1, O levels grade A-F, or CSE's 1-3, in both Maths and English", "Word processing qualification", "Customer care experience", "Computer skills"], "desc": ["The main responsibilities of this role include welcoming patients and visitors to the department, scheduling therap…"], "app": "No", "hrs": "Part-time, permanent", "posted": "2026-10-27", "close": "2026-11-10", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C9253-26-0547", "area": "Dudley", "kind": "NHS", "dept": "Admin, reception and secretaries"}, {"t": "Maternity Ward Clerk - Outpatients", "cat": "Non-clinical", "emp": "The Dudley Group NHS FT", "band": "Band 2", "sal": "£25,272", "loc": "Dudley DY12HQ", "req": ["GCSE in English and Math's Grade C/ Functional Skills level 2 in both", "Computer literacy", "Typing skills", "Confident telephone manner"], "desc": ["To provide clerical, administrative and reception duties for the Maternity Department", "To ensure patient records are available upon admission or as soon as possible thereafter, liaising with all relevan…", "To maintain patient medical records in good order by filing reports, letters, etc and ensure all investigation repo…"], "app": "No", "hrs": "Part-time, permanent", "posted": "2026-11-02", "close": "2026-11-16", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C9253-26-0566", "area": "Dudley", "kind": "NHS", "dept": "Admin, reception and secretaries"}, {"t": "Team Administrator – Dudley South CMHT", "cat": "Non-clinical", "emp": "Black Country Healthcare NHS FT", "band": "Band 3", "sal": "£25,760 – £27,476", "loc": "Highfield Lane, Halesowen B63 4SG", "req": ["Recent experience in a busy admin role", "Customer-facing experience", "Word, Excel, Outlook, Teams", "Understands data protection"], "desc": ["Register referrals on patient record system", "Book and change appointments", "Draft letters for clinical team"], "app": "No", "hrs": "Full time, permanent", "posted": "2026-10-23", "close": "2026-11-05", "url": "https://beta.jobs.nhs.uk/candidate/jobadvert/C9285-26-0722", "area": "Dudley", "kind": "NHS", "dept": "Mental health and community teams"}, {"t": "Endoscopy Unit Booking Coordinator", "cat": "Non-clinical", "emp": "The Dudley Group NHS FT", "band": "Band 3", "sal": "£25,760 – £27,476", "loc": "Dudley DY1 2HQ", "req": ["GCSE pass in English Language & Maths (Minimum Grade C / Level 4-9) or equivalent", "Previous administrative and clerical experience", "Experience working with hospital administration systems", "Ability to work as part of a team"], "desc": ["An exciting opportunity has arisen to join the Endoscopy Unit at The Dudley Group NHS Foundation Trust", "The Booking Coordinator will provide an efficient, accurate and patient-focused administrative and booking service…", "The postholder will manage referrals, appointments, waiting lists and endoscopy lists, ensuring patients are booked…"], "app": "No", "hrs": "Full-time, permanent", "posted": "2026-10-30", "close": "2026-11-13", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C9253-26-0562", "area": "Dudley", "kind": "NHS", "dept": "Admin, reception and secretaries"}, {"t": "Bank Clinical Support Worker (October Cohort)", "cat": "Clinical", "emp": "Walsall Healthcare NHS Trust", "band": "Band 2", "sal": "Paid per shift (depends on experience)", "loc": "Walsall WS29PS", "req": ["QCF/NVQ Level 2 in Healthcare or equivalent qualification/relevant experience", "Maths and English qualification", "Care Certificate or ability to complete within 12 weeks of commencing employment", "Ability to use own initiative"], "desc": ["The Clinical Support Worker will:", "Be an integral member of the ward/department team working under the direct supervision of a registered practitioner", "Be responsible for providing care to patients as delegated by the registered practitioner"], "app": "No", "hrs": "Flexible working, bank", "posted": "2026-11-02", "close": "2026-11-12", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C9407-26-0424", "area": "Walsall", "kind": "NHS", "dept": "Wards and patient care"}, {"t": "Ward Clerk – Arrivals Lounge", "cat": "Non-clinical", "emp": "Walsall Healthcare NHS Trust", "band": "Band 2", "sal": "£25,272", "loc": "Walsall Manor Hospital, Moat Road, Walsall WS2 9PS", "req": ["2 GCSEs or equivalent", "Patient or customer-facing experience", "IT and data input skills"], "desc": ["Welcome patients and staff the reception desk", "Record patient details and manage notes", "Book follow-up appointments"], "app": "No", "hrs": "Full time, Mon–Fri 6:30am–2:30pm, permanent", "posted": "2026-10-26", "close": "2026-11-06", "url": "https://beta.jobs.nhs.uk/candidate/jobadvert/C9407-26-0412", "area": "Walsall", "kind": "NHS", "dept": "Admin, reception and secretaries"}, {"t": "Clerical Officer - Imaging", "cat": "Non-clinical", "emp": "Walsall Healthcare NHS Trust", "band": "Band 2", "sal": "£25,272", "loc": "Walsall WS2 9PS", "req": ["Good standard level of education (GCSE or equivalent) in four subjects, one to be English", "Have previous experience of working within an office environment", "Good communication skills", "Good IT knowledge"], "desc": ["PREVIOUS APPLICANTS NEED NOT APPLY", "The successful applicant should be able to provide efficient, effective and comprehensive clerical support to the I…", "The post is for 37.5 hours/week which include evening and weekend work on a rota basis"], "app": "No", "hrs": "Full-time, permanent", "posted": "2026-11-02", "close": "2026-11-16", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C9407-26-0430", "area": "Walsall", "kind": "NHS", "dept": "Imaging, tests and labs"}, {"t": "Access Assistant Access Inpatients", "cat": "Non-clinical", "emp": "Walsall Healthcare NHS Trust", "band": "Band 2", "sal": "£25,272", "loc": "Walsall WS2 9PS", "req": ["Experience with patient management systems", "Experience using CareFlow, FUSION, My pre-op", "Experience using Microsoft Office products", "Experience of using reports"], "desc": ["To work in an Inpatient Access Team environment to provide a professional efficient and effective centralised booki…", "Using initiative to ensure that patients are booked in line with local and national access targets", "Plan, organise and prioritise own workload, while accepting direction and delegation from Consultant Level, Inpatie…"], "app": "No", "hrs": "Full-time, fixed term", "posted": "2026-11-02", "close": "2026-11-16", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C9407-26-0428", "area": "Walsall", "kind": "NHS", "dept": "Admin, reception and secretaries"}, {"t": "HSDU Driver", "cat": "Non-clinical", "emp": "Walsall Healthcare NHS Trust", "band": "Band 3", "sal": "£25,760 – £27,476", "loc": "HSDU, Pleck Road, Walsall WS2 9PS", "req": ["UK driving licence (max 3 points) for 3.5-tonne vehicle", "GCSE maths and English grade C", "Hospital and sterile services experience", "DBS check"], "desc": ["Deliver sterile instruments to wards and clinics", "Daily vehicle checks", "Prepare and wrap surgical instruments"], "app": "No", "hrs": "Part time, bank", "posted": "2026-10-26", "close": "2026-11-06", "url": "https://beta.jobs.nhs.uk/candidate/jobadvert/C9407-26-0413", "area": "Walsall", "kind": "NHS", "dept": "Theatres and decontamination"}, {"t": "Administration Officer – CAMHS Single Point of Access", "cat": "Non-clinical", "emp": "Black Country Healthcare NHS FT", "band": "Band 3", "sal": "£25,760 – £27,476", "loc": "Abbotts Street, Walsall WS3 3AZ", "req": ["5 GCSEs or equivalent", "Typing qualification (RSA/OCR Level II) or equivalent", "DBS check"], "desc": ["First point of contact on the phone", "Process referrals, letters and reports", "Diaries, meetings and minutes"], "app": "No", "hrs": "Full time, permanent", "posted": "2026-10-26", "close": "2026-11-09", "url": "https://beta.jobs.nhs.uk/candidate/jobadvert/C9285-26-0728", "area": "Walsall", "kind": "NHS", "dept": "Mental health and community teams"}, {"t": "Intermediate Care Clerical Officer", "cat": "Non-clinical", "emp": "Walsall Healthcare NHS Trust", "band": "Band 3", "sal": "£25,760 – £27,476", "loc": "Blakenall Village, Thames Road, Walsall WS3 1LZ", "req": ["NVQ 3 Business Admin or equivalent experience", "Clerical experience in healthcare", "Microsoft Office skills", "Enhanced DBS check"], "desc": ["Process referrals and collect data", "Support the care team with admin", "Handle enquiries from patients and families"], "app": "No", "hrs": "Full time, permanent", "posted": "2026-10-26", "close": "2026-11-09", "url": "https://beta.jobs.nhs.uk/candidate/jobadvert/C9407-26-0416", "area": "Walsall", "kind": "NHS", "dept": "Admin, reception and secretaries"}, {"t": "Team Administrator", "cat": "Non-clinical", "emp": "Black Country Healthcare NHS FT", "band": "Band 3", "sal": "£25,760 – £27,476", "loc": "Walsall WS3 1SJ", "req": ["Good standard of education / GCSE's or equivalent qualification at grades A - C", "RIO/PCMIS", "good written and verbal communication skills", "good IT skills"], "desc": ["Are you able to work as part of a team in a very busy service environment? Are you able to think on your feet?", "If so Walsall's Talking Therapies Team is looking for an experienced and enthusiastic Team Administrator with prove…"], "app": "No", "hrs": "Full-time, permanent", "posted": "2026-10-28", "close": "2026-11-11", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C9285-26-0733", "area": "Walsall", "kind": "NHS", "dept": "Admin, reception and secretaries"}, {"t": "Phlebotomist", "cat": "Clinical", "emp": "The Royal Wolverhampton NHS Trust", "band": "Band 2", "sal": "£25,272", "loc": "Wolverhampton WV10 0QP", "req": ["Good general education", "Good Numeracy and Literacy", "work well within a multidisciplinary team", "ability to work without direct supervision"], "desc": ["We are looking for an enthusiastic person to join our busy phlebotomy team at The Royal Wolverhampton NHS Trust", "20 hour position - 5 weekday shifts (varying hours) based at New Cross predominantly, cross site working is also re…", "Phlebotomy skills, a current UK driving license and the use of a car are highly desirable for this role"], "app": "No", "hrs": "Part-time, permanent", "posted": "2026-11-02", "close": "2026-11-06", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C9225-26-0791", "area": "Wolverhampton", "kind": "NHS", "dept": "Imaging, tests and labs"}, {"t": "Administrator", "cat": "Non-clinical", "emp": "The Royal Wolverhampton NHS Trust", "band": "Band 2", "sal": "£25,272", "loc": "Wolverhampton WV10 9RU", "req": ["5 A-C GCSEs or equivalent", "Demonstrable IT competence gained through experience", "Successful completion of NVQ 2 in Administration or equivalent or comparable competence gained through ex…", "Administration or secretarial experience"], "desc": ["IMPORTANT: This role is based on site at the Wolverhampton Science Park", "Please note: This vacancy may close early if a high volume of applications is received", "PART TIME - 29.5 HOURS A WEEK (between the service hours of 8am & 10pm including weekends & bank holidays)"], "app": "No", "hrs": "Part-time, permanent", "posted": "2026-10-29", "close": "2026-11-04", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C9225-26-0787", "area": "Wolverhampton", "kind": "NHS", "dept": "Admin, reception and secretaries"}, {"t": "Call Operator", "cat": "Non-clinical", "emp": "The Royal Wolverhampton NHS Trust", "band": "Band 2", "sal": "£25,272", "loc": "Wolverhampton WV10 9RU", "req": ["5 A-C GCSEs or equivalent and/or NVQ level 2", "Demonstrable IT competence gained through experience", "Administration or secretarial experience", "Flexible and adaptable approach to working"], "desc": ["Our fast-paced Single Point of Access Hub, Care Coordination, located at the Science Park is seeking a Call Operato…", "The team handles a wide variety of calls, ranging from straightforward referrals to complex palliative care calls f…", "Provide a professional, efficient, and confidential service"], "app": "No", "hrs": "Full-time, Part-time, Flexible working, permanent", "posted": "2026-10-29", "close": "2026-11-05", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C9225-26-0785", "area": "Wolverhampton", "kind": "NHS", "dept": "Other"}, {"t": "Primary Care Administrator", "cat": "Non-clinical", "emp": "The Royal Wolverhampton NHS Trust", "band": "Band 2", "sal": "£25,272", "loc": "Wolverhampton WV10 0QP", "req": ["GCSE or equivalent grade C or above in English and Maths", "NVQ Level 2 in Business Administration Qualification or relevant experience", "Experience using Microsoft Office applications", "Customer Care Experience"], "desc": ["The Primary Care Services Directorate is looking for a number of dynamic and highly motivated administrators to joi…", "The post holder(s) must be flexible, a good team player with a positive attitude, have an empathetic manner, excell…", "In return, the Trust is committed to personal and professional development; the successful applicant(s) will receiv…"], "app": "No", "hrs": "Full-time, Part-time, permanent", "posted": "2026-10-27", "close": "2026-11-11", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/C9225-26-0778", "area": "Wolverhampton", "kind": "NHS", "dept": "Admin, reception and secretaries"}, {"t": "Healthcare Assistant (Scheduled Overnight Service)", "cat": "Clinical", "emp": "Marie Curie (charity – advertised on NHS Jobs)", "band": "Non-NHS (hourly)", "sal": "£12.92 per hour", "loc": "Dudley (NHS Jobs lists postcode B70 7JD)", "req": ["Recent experience of giving care in a health or social care setting", "Calm, caring approach that respects dignity", "Helpful: NVQ Level 2 in Health and Social Care", "Helpful: experience caring for people at end of life"], "desc": ["Give personal care, help with eating, drinking and moving", "Watch for changes in a person's condition and report concerns", "Support comfort and symptom care as set out in the care plan", "Work with the team and support families", "Night shifts 10pm–7am, 18 hours a week"], "app": "No", "hrs": "Part time, 18 hrs/week, nights 10pm–7am, permanent", "posted": "2026-10-15", "close": "2026-11-04", "url": "https://www.jobs.nhs.uk/candidate/jobadvert/B0516-26-0278", "area": "Sandwell", "kind": "Care homes and others", "dept": "Care homes and home care"}, {"t": "Care Assistant", "cat": "Clinical", "emp": "Care Concern Group – Dovedale Court Care Home", "band": "Non-NHS (hourly)", "sal": "£12.95 – £13.45 per hour", "loc": "Wednesbury (Sandwell)", "req": ["No experience needed (helpful but not essential)", "NVQ Level 2 desirable, or willing to work towards it", "Caring, reliable, good communication"], "desc": ["Personal care, mobility and meals support", "Follow care plans", "Dementia nursing and residential home"], "app": "No – qualifications supported", "hrs": "Full time, 33 hrs/week", "posted": "2026-10-22", "close": null, "url": "https://www.carehome.co.uk/jobs/job.cfm/id/96009119416", "area": "Sandwell", "kind": "Care homes and others", "dept": "Care homes and home care"}, {"t": "Care Assistant", "cat": "Clinical", "emp": "Avery Healthcare – Albion Court Care Home", "band": "Non-NHS (hourly)", "sal": "£12.75 per hour", "loc": "Winson Green, Birmingham (listed as Smethwick)", "req": ["Experience NOT required – full induction and training", "Good communication", "Flexible; DBS check (paid by employer)"], "desc": ["Support residents with personal care", "Spot and report risks e.g. falls, infection", "Promote dignity and independence"], "app": "No", "hrs": "Full time", "posted": "2026-10-16", "close": null, "url": "https://www.carehome.co.uk/jobs/job.cfm/id/96009117401", "area": "Sandwell", "kind": "Care homes and others", "dept": "Care homes and home care"}, {"t": "Health Care Assistant (twilight)", "cat": "Clinical", "emp": "Exemplar Health Care – Otterburn", "band": "Non-NHS (hourly)", "sal": "£12.71 per hour (£12.81 after care certificate)", "loc": "Brandwood Park Road, Birmingham B14 6QX", "req": ["Experience and qualifications valued but not essential", "Calm, kind, good communicator"], "desc": ["Personal care and mealtime support", "Encourage social activities", "Keep care records"], "app": "No", "hrs": "Permanent, 30 hrs/week, 5pm–11pm", "posted": "2026-10-05", "close": null, "url": "https://www.cv-library.co.uk/job/225688621/health-care-assistant-part-time-twilight", "area": "Birmingham", "kind": "Care homes and others", "dept": "Care homes and home care"}, {"t": "Support Worker (female applicants only)", "cat": "Clinical", "emp": "Creative Support", "band": "Non-NHS (hourly)", "sal": "£12.85 per hour", "loc": "Dudley", "req": ["No previous experience needed – training provided", "Female applicants only (occupational requirement, Equality Act 2010)", "Warm, motivated and good at communicating", "Right to work in the UK (no sponsorship)"], "desc": ["Respectful personal care and help with cooking and cleaning", "Build trusting relationships with the people you support", "Support people in their own homes or other settings", "Give respite and support to carers and families"], "app": "No", "hrs": "Full or part time; flexible incl. weekends", "posted": "2026-10-22", "close": "2026-11-06", "url": "https://www.creativesupport.co.uk/job/female-support-worker-4/", "area": "Dudley", "kind": "Care homes and others", "dept": "Care homes and home care"}, {"t": "Support Worker (children's residential home)", "cat": "Clinical", "emp": "CareTech / Inspire", "band": "Non-NHS (hourly)", "sal": "£13.86 – £14.61 per hour", "loc": "Brierley Hill, Dudley", "req": ["No experience needed – full training provided", "Manual driving licence (home vehicles provided)", "Enhanced DBS check; right to work (no sponsorship)", "Flexible for weekends and sleep-ins"], "desc": ["Support children and young people with daily routines", "Personal care, meals and activities", "Emotional support and light housekeeping", "Keep accurate care records"], "app": "No", "hrs": "Full time, 37.5 hrs/week, permanent, long days incl. weekends/sleep-ins", "posted": "2026-09-28", "close": "2026-11-26", "url": "https://www.caretech-uk.com/careers/find-your-next-role/sys-28116-support-worker/", "area": "Dudley", "kind": "Care homes and others", "dept": "Care homes and home care"}, {"t": "Support Worker (children's residential home)", "cat": "Clinical", "emp": "CareTech / Inspire", "band": "Non-NHS (hourly)", "sal": "£13.86 – £14.61 per hour", "loc": "Dudley", "req": ["No experience needed – full training provided", "Manual driving licence (home vehicles provided)", "Enhanced DBS check; right to work (no sponsorship)", "Flexible for weekends and sleep-ins"], "desc": ["Support children aged 3–18 with learning and physical disabilities", "Daily routines, personal care, meals, outings and activities", "Emotional support and light housekeeping", "Keep accurate care records"], "app": "No", "hrs": "Full time, 37.5 hrs/week, permanent, long days incl. weekends/sleep-ins", "posted": "2026-09-28", "close": "2026-11-26", "url": "https://www.caretech-uk.com/careers/find-your-next-role/sys-28117-support-worker/", "area": "Dudley", "kind": "Care homes and others", "dept": "Care homes and home care"}, {"t": "Care Assistant – Bank", "cat": "Clinical", "emp": "Barchester Healthcare", "band": "Non-NHS (hourly)", "sal": "£14.80 per hour", "loc": "Dudley", "req": ["Some experience caring for older people", "Empathy and good communication"], "desc": ["Help residents with daily living", "Support with food and drink", "Follow care plans"], "app": "No", "hrs": "Bank (casual, flexible hours)", "posted": "2026-10-16", "close": null, "url": "https://www.carehome.co.uk/jobs/job.cfm/id/96009117352", "area": "Dudley", "kind": "Care homes and others", "dept": "Care homes and home care"}, {"t": "Support Worker (Day Shift)", "cat": "Clinical", "emp": "Inshore Support Ltd", "band": "Non-NHS (hourly)", "sal": "£12.80 per hour (+ sleepovers)", "loc": "Highfield Road, Halesowen", "req": ["No experience needed", "Caring and willing to learn", "Flexible rota incl. sleepovers"], "desc": ["Support adults with learning disabilities", "Help with everyday activities and independence", "Community activities"], "app": "No – H&SC diploma offered", "hrs": "Full time, 6-week rota", "posted": "2026-10-26", "close": null, "url": "https://www.carehome.co.uk/jobs/job.cfm/id/96009120771", "area": "Dudley", "kind": "Care homes and others", "dept": "Care homes and home care"}, {"t": "Care Assistant", "cat": "Clinical", "emp": "Barchester Healthcare", "band": "Non-NHS (hourly)", "sal": "£13.69 per hour", "loc": "Stourbridge (Dudley)", "req": ["Some experience caring for older people", "Good communication, empathy"], "desc": ["Daily living support incl. food and drink", "Follow care plans; companionship"], "app": "No – free training", "hrs": "Full time", "posted": "2026-10-02", "close": null, "url": "https://www.carehome.co.uk/jobs/job.cfm/id/96009112563", "area": "Dudley", "kind": "Care homes and others", "dept": "Care homes and home care"}, {"t": "Health Care Assistant", "cat": "Clinical", "emp": "Lakeview Care Home (Kinly Care)", "band": "Non-NHS (hourly)", "sal": "£12.71 per hour", "loc": "Walsall", "req": ["Not listed on advert – ask employer"], "desc": ["Help residents dress, bathe, eat", "Work with care assistants and nurses", "Day (8am–8pm) or night (8pm–8am) shifts"], "app": "No", "hrs": "Full or part time", "posted": "2026-10-04", "close": null, "url": "https://www.carehome.co.uk/jobs/job.cfm/id/96009113321", "area": "Walsall", "kind": "Care homes and others", "dept": "Care homes and home care"}, {"t": "Care Assistant (Days) – Waterside House", "cat": "Clinical", "emp": "MHA (care home)", "band": "Non-NHS (hourly)", "sal": "£13.79 per hour", "loc": "Waterside House, Wolverhampton WV11 3HA", "req": ["Previous care experience is a plus, not required", "Willing to be trained (Level 1 or 2 social care encouraged)", "Good communication and listening skills", "Flexible on shifts, including weekends"], "desc": ["Keyworker for a group of residents; help with admissions", "Create and review care plans, including for dementia care", "Personal and social care for residents' wellbeing", "Safeguarding, infection control, health and safety"], "app": "No", "hrs": "Part time, 28 hrs/week, days", "posted": "2026-10-28", "close": "2026-11-18", "url": "https://careers.mha.org.uk/careers/current-vacancies/req029573-care-assistant-days-based-waterside-house-wolverhampton", "area": "Wolverhampton", "kind": "Care homes and others", "dept": "Care homes and home care"}, {"t": "Care Assistant (Healthcare Assistant)", "cat": "Clinical", "emp": "St Anthony's (Valorum Care Group)", "band": "Non-NHS (hourly)", "sal": "£12.71 per hour", "loc": "Wolverhampton", "req": ["Care experience desirable", "NVQ/QCF Level 2 or 3 Health & Social Care (check advert)", "Shifts incl. weekends"], "desc": ["Washing, dressing, personal care", "Help residents move safely and eat well", "Report changes in wellbeing"], "app": "No", "hrs": "Full time", "posted": "2026-10-26", "close": null, "url": "https://www.carehome.co.uk/jobs/job.cfm/id/96009120900", "area": "Wolverhampton", "kind": "Care homes and others", "dept": "Care homes and home care"}, {"t": "Care Assistant", "cat": "Clinical", "emp": "Avery Healthcare – Newcross Care Home", "band": "Non-NHS (hourly)", "sal": "£12.75 per hour", "loc": "Wolverhampton", "req": ["Experience NOT required – full induction", "Good communication", "DBS (paid by employer) and right to work"], "desc": ["Personal care with dignity", "Spot and report risks e.g. falls, pressure sores"], "app": "No", "hrs": "Part time", "posted": "2026-10-22", "close": null, "url": "https://www.carehome.co.uk/jobs/job.cfm/id/96009119379", "area": "Wolverhampton", "kind": "Care homes and others", "dept": "Care homes and home care"}, {"t": "Care Assistant", "cat": "Clinical", "emp": "Bethany House (Legacy Healthcare)", "band": "Non-NHS (hourly)", "sal": "£12.71 – £12.80 per hour", "loc": "Wolverhampton", "req": ["No experience or qualifications listed", "Compassionate and reliable"], "desc": ["Washing, dressing and mobility support", "Meals and drinks", "Keep care records"], "app": "No", "hrs": "Full or part time", "posted": "2026-10-19", "close": null, "url": "https://www.carehome.co.uk/jobs/job.cfm/id/96009118512", "area": "Wolverhampton", "kind": "Care homes and others", "dept": "Care homes and home care"}, {"t": "Care Assistant (days)", "cat": "Clinical", "emp": "Care Concern Group – Maplebrook Care Home", "band": "Non-NHS (hourly)", "sal": "£12.71 per hour", "loc": "Wolverhampton", "req": ["Experience helpful but not essential", "NVQ 2 Health & Social Care, or willing to get it", "Calm, patient, good teamwork"], "desc": ["Support residents with dementia and complex needs", "Follow care plans and routines"], "app": "No – NVQ 2 supported", "hrs": "Full time, 7am–7pm", "posted": "2026-10-09", "close": null, "url": "https://www.carehome.co.uk/jobs/job.cfm/id/96009115168", "area": "Wolverhampton", "kind": "Care homes and others", "dept": "Care homes and home care"}, {"t": "Pharmacy Services Assistant – Level 2 Apprenticeship", "cat": "Clinical", "emp": "Khaira Care Ltd", "band": "Apprentice pay", "sal": "£17,472 a year", "loc": "West Bromwich B70 7RW", "req": ["GCSE English grade 4 and Maths grade 5", "Must speak Punjabi fluently (stated in the advert)", "Customer service, attention to detail, teamwork", "Good communication, IT and number skills"], "desc": ["Learn to dispense and prepare prescriptions", "Deal with prescription queries and requests", "Serve patients face to face", "Manage pharmacy stock", "About 6 hours a week of online study; 1 year, 2 places"], "app": "Yes – Level 2, pharmacy services assistant", "hrs": "42 hrs/week Mon–Fri; starts 1 Dec 2026", "posted": "2026-09-14", "close": "2026-11-30", "url": "https://www.findapprenticeship.service.gov.uk/apprenticeship/VAC2000053197", "area": "Sandwell", "kind": "Apprenticeships", "dept": "Pharmacy and dental"}, {"t": "Level 3 Dental Nurse Apprenticeship", "cat": "Clinical", "emp": "The Dental Centre", "band": "Apprentice pay", "sal": "£15,600 a year (first year, may rise with age)", "loc": "5 Hedingham Grove, Birmingham B37 7TP", "req": ["GCSE English and maths grade C/4", "Communication, IT and attention to detail", "Patience and teamwork"], "desc": ["Work alongside the dentist; infection control", "Keep surgery and instruments clean", "Record patient information, book appointments", "Welcome and reassure anxious patients"], "app": "Yes – Level 3, dental nurse (1 year 6 months)", "hrs": "37.5 hrs/week, shifts agreed at interview", "posted": "2026-10-22", "close": "2026-11-23", "url": "https://www.findapprenticeship.service.gov.uk/apprenticeship/VAC2000060631", "area": "Birmingham", "kind": "Apprenticeships", "dept": "Pharmacy and dental"}, {"t": "Dental Nurse Apprentice", "cat": "Clinical", "emp": "Castle Dental Care", "band": "Apprentice pay", "sal": "£16,640 a year (first year, may rise with age)", "loc": "Tangmere Square, Castle Vale, Birmingham B35 6DL", "req": ["GCSE English and maths grade 4+ desirable", "Communication and attention to detail", "Other qualifications and experience can be considered"], "desc": ["Assist the dentist at the chair", "Update patient records; reception and admin", "Clean and decontaminate instruments", "Level 3 dental nurse, 1 year 6 months"], "app": "Yes – Level 3, dental nurse", "hrs": "40 hrs/week, Mon–Fri; starts 1 Dec 2026", "posted": "2026-10-14", "close": "2026-11-30", "url": "https://www.findapprenticeship.service.gov.uk/apprenticeship/VAC2000059113", "area": "Birmingham", "kind": "Apprenticeships", "dept": "Pharmacy and dental"}, {"t": "Apprentice Dental Nurse – Birmingham", "cat": "Clinical", "emp": "HSS & PKS Dental Ltd", "band": "Apprentice pay", "sal": "£12,480 (year 1, may rise with age)", "loc": "286 Ladypool Road, Birmingham B12 8JU", "req": ["GCSE English and maths grade 4 desirable", "DBS check", "Hepatitis B vaccination"], "desc": ["Chairside support to the dentist", "Sterilise and prepare equipment", "Reception and patient records"], "app": "Yes – Level 3, 1 year", "hrs": "30 hrs/week, Mon–Fri; starts 11 Dec 2026", "posted": "2026-05-12", "close": "2026-12-10", "url": "https://www.findapprenticeship.service.gov.uk/apprenticeship/VAC2000031176", "area": "Birmingham", "kind": "Apprenticeships", "dept": "Pharmacy and dental"}, {"t": "Pensions Apprentice", "cat": "Non-clinical", "emp": "University Hospitals Birmingham NHS FT", "band": "Apprentice pay", "sal": "£15,643 – £24,853", "loc": "Regent Court, Five Ways, Birmingham B15 1NT", "req": ["5 GCSEs grade 5+ incl. maths and English", "Good with Word, Excel, Outlook", "Lived in UK 3 years", "No existing qualification at this level"], "desc": ["Process NHS pension records", "Use payroll and pension systems", "About 1 day a week study"], "app": "Yes – 18 months", "hrs": "Full time, apprenticeship contract", "posted": "2026-10-23", "close": "2026-11-15", "url": "https://beta.jobs.nhs.uk/candidate/jobadvert/C0020-26-1635", "area": "Birmingham", "kind": "Apprenticeships", "dept": "Admin, reception and secretaries"}, {"t": "Level 3 Dental Nursing Apprenticeship", "cat": "Clinical", "emp": "Rodericks Dental Holdings Ltd (Aldridge House Dental Practice)", "band": "Apprentice pay", "sal": "£15,600 – £24,784.50 (depends on age)", "loc": "Aldridge, Walsall WS9 8LX", "req": ["GCSE English and maths grade 4–9", "Communication and attention to detail", "Hepatitis B vaccinations (course) and clear enhanced DBS"], "desc": ["Chairside dental support", "Prepare and sterilise instruments", "Patient records and practice support"], "app": "Yes – Level 3, dental nurse", "hrs": "37.5 hrs/week, Mon–Fri", "posted": "2026-10-06", "close": "2026-11-17", "url": "https://www.findapprenticeship.service.gov.uk/apprenticeship/VAC2000057670", "area": "Walsall", "kind": "Apprenticeships", "dept": "Pharmacy and dental"}, {"t": "Business Administration Apprentice – Medical", "cat": "Non-clinical", "emp": "Parkside Medical Practice (GP surgery)", "band": "Apprentice pay", "sal": "£12,480 a year (may rise with age)", "loc": "2 Chester Road North, Brownhills, Walsall WS8 7JB", "req": ["GCSE English and maths grade 4/C or above", "Good communication and IT skills", "Organised and able to keep records confidential"], "desc": ["Greet patients, answer calls, manage appointments", "Keep patient records accurate; scan and file post", "Process referrals and repeat prescriptions", "Level 3 business administrator, 1 year 6 months"], "app": "Yes – Level 3, business administrator", "hrs": "30 hrs/week, Mon–Fri (study leave included); starts 29 Nov 2026", "posted": "2026-10-28", "close": "2026-11-19", "url": "https://www.findapprenticeship.service.gov.uk/apprenticeship/reference/2000054774", "area": "Walsall", "kind": "Apprenticeships", "dept": "Admin, reception and secretaries"}, {"t": "Level 2 Pharmacy Services Assistant Apprenticeship", "cat": "Clinical", "emp": "Rexall Chemist Ltd (community pharmacy)", "band": "Apprentice pay", "sal": "£12,480 (year 1, may rise with age)", "loc": "204 Penn Road, Wolverhampton WV4 4AA", "req": ["GCSE maths and English grade 4", "Customer care, attention to detail, teamwork"], "desc": ["Help dispense prescriptions under supervision", "Customer service and stock control", "Pharmacy admin"], "app": "Yes – Level 2, 1 year (Halesowen College)", "hrs": "30 hrs/week, Mon–Sat; starts 16 Nov 2026", "posted": "2026-10-22", "close": "2026-11-05", "url": "https://www.findapprenticeship.service.gov.uk/apprenticeship/VAC2000060546", "area": "Wolverhampton", "kind": "Apprenticeships", "dept": "Pharmacy and dental"}, {"t": "Apprentice Dental Nurse – Wolverhampton", "cat": "Clinical", "emp": "HSS & PKS Dental Ltd", "band": "Apprentice pay", "sal": "£12,480 (year 1, may rise with age)", "loc": "48 Dudley Street, Wolverhampton WV1 3ER", "req": ["GCSE English and maths grade 4 desirable", "DBS check", "Hepatitis B vaccination"], "desc": ["Chairside support to the dentist", "Sterilise and prepare equipment", "Reception and patient records"], "app": "Yes – Level 3, 1 year", "hrs": "30 hrs/week, Mon–Fri; starts 11 Dec 2026", "posted": "2026-05-26", "close": "2026-12-10", "url": "https://www.findapprenticeship.service.gov.uk/apprenticeship/VAC2000033557", "area": "Wolverhampton", "kind": "Apprenticeships", "dept": "Pharmacy and dental"}], "exp": [{"org": "Sandwell and West Birmingham NHS Trust", "prog": "Work experience placements – CURRENTLY CLOSED", "who": "Priority to young people living or studying in SWB area. Clinical: age 16+. Non-clinical (e.g. admin, IT): age 14–15.", "what": "Experience of a healthcare workplace to explore careers. No reopening date given.", "how": "Check website for reopening. Apprenticeships: swbh.apprenticeship@nhs.net  |  Youth Space Forum: swbh.engagement@nhs.net", "url": "https://www.swbh.nhs.uk/work-for-us/work-experience/"}, {"org": "Sandwell and West Birmingham NHS Trust", "prog": "Volunteering", "who": "See trust 'How to volunteer' page", "what": "Support patients and visitors at Midland Met, Sandwell & City Health Campuses, Rowley Regis, Sandwell Day Hospice. Training given.", "how": "Apply via trust volunteering pages", "url": "https://www.swbh.nhs.uk/get-involved/become-a-volunteer/volunteering-opportunities/"}, {"org": "The Royal Wolverhampton NHS Trust (NHS Futures)", "prog": "Explore the NHS", "who": "Age 16+", "what": "1–5 day observation placement (e.g. radiology, biomedical science, dietetics)", "how": "Email rwh-tr.nhsfutures@nhs.net", "url": "https://www.royalwolverhampton.nhs.uk/work-with-us/work-experience/"}, {"org": "The Royal Wolverhampton NHS Trust", "prog": "Get Into Hospital Services (King's Trust) / Step Into Work", "who": "Unemployed or under-employed adults: 18–30 (Get Into) or 19+ (Step Into Work)", "what": "4–5 week course: training plus hospital placement (healthcare support, catering, admin, labs, portering, housekeeping). Job not guaranteed.", "how": "King's Trust 0800 842 842. Runs Apr/May & Sep/Oct (Get Into); Jan/Feb & Jul/Aug (Step Into Work)", "url": "https://www.royalwolverhampton.nhs.uk/work-with-us/work-experience/"}, {"org": "The Dudley Group NHS FT", "prog": "Centralised Clinical Work Experience", "who": "Age 16+ in post-secondary education; interested in nursing, midwifery, AHP or healthcare science", "what": "1-week specialised programme", "how": "Advertised on trust vacancies page / NHS Jobs / Trac. Email dgft.work.experience@nhs.net", "url": "https://www.dgft.nhs.uk/careers-at-dudley/work-experience/over-16s/"}, {"org": "Walsall Healthcare NHS Trust", "prog": "Work experience placements", "who": "Students at local schools/colleges considering health & social care", "what": "Unpaid placements: pharmacy, physio, OT, medicine, surgery, admin, finance. 5 set weeks a year.", "how": "Online form opens first week of May and first week of November. Email wht.apprenticeships.plus@nhs.net", "url": "https://www.walsallhealthcare.nhs.uk/work-with-us/work-experience/"}, {"org": "University Hospitals Birmingham NHS FT", "prog": "Work experience", "who": "Wide range of backgrounds (age not stated)", "what": "Placements to explore healthcare careers", "how": "Request form on website; closes when full", "url": "https://jobs.uhb.nhs.uk/our-opportunities/work-experience"}], "updated": "2026-11-03", "searched": "2026-10-27"}</script>
+<script>
+(function(){
+  var DATA = JSON.parse(document.getElementById('data').textContent);
+  var AREAS = ["Sandwell","Birmingham","Dudley","Walsall","Wolverhampton"];
+  var CATS = ["Clinical","Non-clinical"];
+  var BANDS = ["Band 2","Band 2 (bank, hourly)","Band 3","Band 3 (bank, hourly)","Pay as advertised"];
+  var MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  var DAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  var $ = function(id){ return document.getElementById(id); };
+
+  function el(tag, cls, text){
+    var n = document.createElement(tag);
+    if(cls) n.className = cls;
+    if(text !== undefined && text !== null) n.textContent = text;
+    return n;
+  }
+  function parseDay(s){ if(!s) return null; var p = s.split('-'); return new Date(+p[0], +p[1]-1, +p[2]); }
+  function fmt(d){ return DAYS[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + d.getFullYear(); }
+  var now = new Date(); var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  function bandLabel(j){
+    var m = /Band (\d)/.exec(j.band || '');
+    var base = m && (m[1] === '2' || m[1] === '3') ? 'Band ' + m[1] : 'Pay as advertised';
+    if(base !== 'Pay as advertised' && /bank/i.test(j.band)) base += ' (bank, hourly)';
+    return base;
+  }
+  function filterBand(j){ var b = bandLabel(j); return b.indexOf('Band 2') === 0 ? 'Band 2' : b.indexOf('Band 3') === 0 ? 'Band 3' : 'Other'; }
+
+  DATA.jobs.forEach(function(j){
+    var c = parseDay(j.close);
+    j.closeDate = c;
+    j.days = c ? Math.round((c - today) / 86400000) : null;
+    j.status = !c ? 'check' : j.days < 0 ? 'closed' : j.days <= 3 ? 'soon' : 'open';
+    var pdt = parseDay(j.posted); j.isNew = !!pdt && Math.round((today - pdt) / 86400000) <= 3 && j.status !== 'closed';
+    j.bandLabel = bandLabel(j);
+    j.fband = filterBand(j);
+    j.isApp = /^yes/i.test(j.app || '') || j.kind === 'Apprenticeships';
+  });
+
+  var statusText = {open:'OPEN', soon:'CLOSING SOON', closed:'CLOSED', check:'CHECK ADVERT'};
+  function applyLabel(u){ return /jobs\.nhs\.uk/.test(u) ? 'Apply via NHS Jobs' : /findapprenticeship/.test(u) ? 'Apply via Find an apprenticeship' : /carehome\.co\.uk/.test(u) ? 'Apply via Carehome.co.uk' : /cv-library/.test(u) ? 'Apply via CV-Library' : 'View the advert'; }
+
+  var ud = parseDay(DATA.updated); $('stamp').textContent = 'Last updated ' + ud.getDate() + ' ' + MONTHS[ud.getMonth()] + ' ' + ud.getFullYear();
+
+  var deptSel = $('dept');
+  deptSel.appendChild(opt('', 'All departments'));
+  DATA.depts.forEach(function(d){ deptSel.appendChild(opt(d, d)); });
+  // Area dropdown with counts
+  function opt(v, t){ var o = el('option', null, t); o.value = v; return o; }
+  var areaSel = $('area');
+  AREAS.forEach(function(a){ areaSel.appendChild(opt(a, a)); });
+
+  function closesLine(j){
+    if(!j.closeDate) return 'No closing date given. Check the advert.';
+    var s = fmt(j.closeDate);
+    if(j.days < 0) return s + ' (closed)';
+    if(j.days === 0) return s + ' (closes today)';
+    if(j.days === 1) return s + ' (1 day left)';
+    return s + ' (' + j.days + ' days left)';
+  }
+
+  function card(j, headingLevel, showArea){
+    var li = el('li');
+    var art = el('article', 'job' + (j.status === 'closed' ? ' is-closed' : ''));
+    var top = el('div', 'top');
+    var h = el(headingLevel, 'jt', j.t);
+    if(showArea){ h.appendChild(el('span', 'tag', j.area)); }
+    if(j.isApp){ var tg = el('span', 'tag', 'Apprenticeship'); h.appendChild(tg); }
+    top.appendChild(h);
+    var badges = el('div', 'badges');
+    if(j.isNew){
+      var nb = el('span', 'pill new');
+      nb.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 1l2.6 6.4L21 10l-6.4 2.6L12 19l-2.6-6.4L3 10l6.4-2.6z"/></svg>';
+      nb.appendChild(document.createTextNode(' NEW'));
+      nb.appendChild(el('span', 'sr', ', posted ' + fmt(parseDay(j.posted))));
+      badges.appendChild(nb);
+    }
+    badges.appendChild(el('span', 'pill ' + j.status, statusText[j.status]));
+    top.appendChild(badges);
+    art.appendChild(top);
+    art.appendChild(el('p', 'emp', j.emp));
+
+    var dl = el('dl', 'facts');
+    function fact(k, v){ if(!v) return; var d = el('div'); d.appendChild(el('dt', null, k)); d.appendChild(el('dd', null, v)); dl.appendChild(d); }
+    fact('Pay', j.sal + (j.band && !/^Band/.test(j.band) ? '' : ''));
+    fact('Department', j.dept);
+    fact('Where', j.loc);
+    fact('Hours', j.hrs);
+    fact('Closes', closesLine(j));
+    art.appendChild(dl);
+
+    if((j.req && j.req.length) || (j.desc && j.desc.length)){
+      var det = el('details');
+      det.appendChild(el('summary', null, 'What you need and what you will do'));
+      var two = el('div', 'two');
+      if(j.req && j.req.length){
+        var c1 = el('div'); c1.appendChild(el('h6', null, 'What you need'));
+        var u1 = el('ul'); j.req.forEach(function(x){ u1.appendChild(el('li', null, x)); }); c1.appendChild(u1); two.appendChild(c1);
+      }
+      if(j.desc && j.desc.length){
+        var c2 = el('div'); c2.appendChild(el('h6', null, 'What you will do'));
+        var u2 = el('ul'); j.desc.forEach(function(x){ u2.appendChild(el('li', null, x)); }); c2.appendChild(u2); two.appendChild(c2);
+      }
+      det.appendChild(two);
+      if(j.app && /^yes/i.test(j.app)){ det.appendChild(el('p', 'note', 'Apprenticeship: ' + j.app.replace(/^Yes\s*[–-]\s*/i, ''))); }
+      art.appendChild(det);
+    }
+
+    var a = el('a', 'apply', /jobs\.nhs\.uk/.test(j.url) ? 'Apply via NHS Jobs' : /findapprenticeship/.test(j.url) ? 'Apply via Find an apprenticeship' : /carehome\.co\.uk/.test(j.url) ? 'Apply via Carehome.co.uk' : /cv-library/.test(j.url) ? 'Apply via CV-Library' : 'View the advert');
+    a.href = j.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+    var sr = el('span', 'sr', ' for ' + j.t + ' at ' + j.emp + ' (opens in a new tab)'); a.appendChild(sr);
+    art.appendChild(a);
+    li.appendChild(art);
+    return li;
+  }
+
+  // Lowest pay figure in the advert as a yearly amount. Hourly pay is scaled to a 37.5 hour week so the two can be compared.
+  function yearly(j){
+    var m = /\u00A3\s?([\d,]+(?:\.\d+)?)/.exec(j.sal || '');
+    if(!m){ var b = /Band (\d)/.exec(j.sal || j.band || ''); return b ? (b[1] === '2' ? 25272 : b[1] === '3' ? 25760 : null) : null; }
+    var n = parseFloat(m[1].replace(/,/g, ''));
+    return /per hour|an hour|\/hr/i.test(j.sal) ? n * 37.5 * 52 : n;
+  }
+  function byClose(a, b){
+    var x = a.closeDate ? a.closeDate.getTime() : 8e15, y = b.closeDate ? b.closeDate.getTime() : 8e15;
+    return x - y || a.t.localeCompare(b.t);
+  }
+
+  var PAGE = 10, page = 1;
+  var newOnly = false;
+  function isFresh(j){ var d = parseDay(j.posted); return !!d && j.status !== 'closed' && Math.round((today - d) / 86400000) <= 7; }
+  function render(keep){
+    setFv();
+    $('newchip').hidden = !newOnly;
+    if(keep !== true) page = 1;
+    var q = $('q').value.trim().toLowerCase();
+    var dept = $('dept').value, area = $('area').value, cat = $('cat').value, kind = $('kind').value, band = $('band').value;
+    var sort = $('sort').value, showClosed = $('closed').checked;
+    var list = DATA.jobs.filter(function(j){
+      if(newOnly && !isFresh(j)) return false;
+      if(!showClosed && j.status === 'closed') return false;
+      if(dept && j.dept !== dept) return false;
+      if(area && j.area !== area) return false;
+      if(cat && j.cat !== cat) return false;
+      if(kind && j.kind !== kind) return false;
+      if(band && j.fband !== band) return false;
+      if(q){
+        var hay = (j.t + ' ' + j.dept + ' ' + j.emp + ' ' + j.loc + ' ' + j.area + ' ' + j.cat).toLowerCase();
+        var words = q.split(/\s+/);
+        for(var i = 0; i < words.length; i++){ if(hay.indexOf(words[i]) < 0) return false; }
+      }
+      return true;
+    });
+    var total = DATA.jobs.filter(function(j){ return showClosed || j.status !== 'closed'; }).length;
+    $('count').textContent = list.length === total ? 'Showing all ' + total + ' jobs' : 'Showing ' + list.length + ' of ' + total + ' jobs';
+
+    var out = $('results'); out.textContent = '';
+    if(!list.length){
+      var e = el('div', 'empty');
+      e.appendChild(el('p', null, 'No jobs match these filters.'));
+      e.appendChild(el('p', 'note', 'Try another area, remove the search words, or choose "Clear all filters".'));
+      out.appendChild(e); return;
+    }
+
+    if(sort === 'dept'){
+      function role(j){ return j.t.replace(/^Band \d\s+/i, '').replace(/\s+[\u2013-]\s+.*$/, '').replace(/\s*\(.*\)\s*$/, '').trim(); }
+      DATA.depts.forEach(function(d){
+        var inD = list.filter(function(j){ return j.dept === d; });
+        if(!inD.length) return;
+        out.appendChild(el('h2', 'area', d + ' (' + inD.length + ')'));
+        var groups = {}; inD.forEach(function(j){ var k = role(j); (groups[k] = groups[k] || []).push(j); });
+        var names = Object.keys(groups).sort(), singles = [];
+        names.forEach(function(n){
+          var g = groups[n].sort(function(a, b){ return AREAS.indexOf(a.area) - AREAS.indexOf(b.area) || byClose(a, b); });
+          if(g.length < 2){ singles.push(g[0]); return; }
+          out.appendChild(el('h3', 'cat', n + ' (' + g.length + ')'));
+          var ul = el('ul', 'list'); g.forEach(function(j){ ul.appendChild(card(j, 'h4', true)); }); out.appendChild(ul);
+        });
+        if(singles.length){
+          if(names.length > singles.length) out.appendChild(el('h3', 'cat', 'Other roles'));
+          var ul2 = el('ul', 'list'); singles.sort(function(a, b){ return a.t.localeCompare(b.t); }).forEach(function(j){ ul2.appendChild(card(j, 'h4', true)); }); out.appendChild(ul2);
+        }
+      });
+    } else if(sort === 'guide'){
+      AREAS.forEach(function(a){
+        var inArea = list.filter(function(j){ return j.area === a; });
+        if(!inArea.length) return;
+        out.appendChild(el('h2', 'area', a + ' (' + inArea.length + ')'));
+        CATS.forEach(function(c){
+          var inCat = inArea.filter(function(j){ return j.cat === c; });
+          if(!inCat.length) return;
+          out.appendChild(el('h3', 'cat', c + ' roles'));
+          BANDS.forEach(function(b){
+            var g = inCat.filter(function(j){ return j.bandLabel === b; }).sort(byClose);
+            if(!g.length) return;
+            var h = el('h4', 'band', b); out.appendChild(h);
+            var ul = el('ul', 'list');
+            g.forEach(function(j){ ul.appendChild(card(j, 'h5')); });
+            out.appendChild(ul);
+          });
+        });
+      });
+    } else {
+      if(sort === 'salaryup' || sort === 'salarydown'){
+        var dir = sort === 'salaryup' ? 1 : -1;
+        list.sort(function(a, b){
+          var x = yearly(a), y = yearly(b);
+          if(x === null && y === null) return byClose(a, b);
+          if(x === null) return 1; if(y === null) return -1;
+          return (x - y) * dir || byClose(a, b);
+        });
+      } else list.sort(sort === 'newest' ? function(a, b){ return (b.posted || '').localeCompare(a.posted || '') || byClose(a, b); } : byClose);
+      var pages = Math.max(1, Math.ceil(list.length / PAGE)); if(page > pages) page = pages;
+      var ul = el('ul', 'list');
+      list.slice((page - 1) * PAGE, page * PAGE).forEach(function(j){ ul.appendChild(card(j, 'h3')); });
+      out.appendChild(ul);
+      if(pages > 1){
+        var nav = el('nav', 'pager'); nav.setAttribute('aria-label', 'Pages of jobs');
+        function pb(label, n, cur, dis){
+          var b = el('button', 'pg' + (cur ? ' cur' : ''), label); b.type = 'button'; b.disabled = !!dis;
+          if(cur) b.setAttribute('aria-current', 'page');
+          b.addEventListener('click', function(){ page = n; render(true); var t = $('results').getBoundingClientRect().top + window.pageYOffset - 80; window.scrollTo({top: Math.max(0, t), behavior: 'smooth'}); });
+          nav.appendChild(b);
+        }
+        pb('Previous', page - 1, false, page === 1);
+        for(var n = 1; n <= pages; n++) pb(String(n), n, n === page, false);
+        pb('Next', page + 1, false, page === pages);
+        out.appendChild(nav);
+        out.appendChild(el('p', 'note', 'Page ' + page + ' of ' + pages + ', ' + list.length + ' jobs'));
+      }
+    }
+  }
+
+  // Work experience cards
+  var xp = $('xp');
+  DATA.exp.forEach(function(x){
+    var c = el('article', 'xp');
+    c.appendChild(el('h3', null, x.prog));
+    c.appendChild(el('p', 'org', x.org));
+    var p1 = el('p'); p1.appendChild(el('strong', null, 'Who can apply: ')); p1.appendChild(document.createTextNode(x.who || '')); c.appendChild(p1);
+    var p2 = el('p'); p2.appendChild(el('strong', null, 'What it involves: ')); p2.appendChild(document.createTextNode(x.what || '')); c.appendChild(p2);
+    var p3 = el('p'); p3.appendChild(el('strong', null, 'How to apply: ')); p3.appendChild(document.createTextNode(x.how || '')); c.appendChild(p3);
+    var a = el('a', null, 'More information'); a.href = x.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+    a.appendChild(el('span', 'sr', ' about ' + x.prog + ' (opens in a new tab)'));
+    var p4 = el('p'); p4.appendChild(a); c.appendChild(p4);
+    xp.appendChild(c);
+  });
+
+  ['q','dept','area','cat','kind','band','sort','closed'].forEach(function(id){
+    $(id).addEventListener(id === 'q' ? 'input' : 'change', render);
+  });
+  $('newchip').addEventListener('click', function(){ newOnly = false; render(); });
+  $('reset').addEventListener('click', function(){ newOnly = false;
+    $('q').value = ''; $('dept').value = ''; $('area').value = ''; $('cat').value = ''; $('kind').value = ''; $('band').value = '';
+    $('sort').value = 'newest'; $('closed').checked = false; render();
+  });
+  document.querySelectorAll('a[href="#steps"]').forEach(function(a){ a.addEventListener('click', function(){ var d = document.querySelector('details.stepsbox'); if(d) d.open = true; }); });
+  var SUG = [], seen = {};
+  function sug(t, k){ if(!t || seen[t.toLowerCase()]) return; seen[t.toLowerCase()] = 1; SUG.push({t: t, k: k}); }
+  AREAS.forEach(function(x){ sug(x, 'Area'); }); DATA.depts.forEach(function(x){ sug(x, 'Department'); });
+  DATA.jobs.forEach(function(j){ sug(j.t.replace(/^Band \d\s+/i, ''), 'Job'); });
+  DATA.jobs.forEach(function(j){ sug(j.emp, 'Employer'); });
+  var qi = $('q'), box = $('sug'), cur = -1, shown = [];
+  function closeSug(){ box.hidden = true; qi.setAttribute('aria-expanded', 'false'); qi.removeAttribute('aria-activedescendant'); cur = -1; }
+  function pick(t){ qi.value = t; closeSug(); render(); qi.focus(); }
+  function showSug(){
+    var q = qi.value.trim().toLowerCase();
+    if(!q){ closeSug(); return; }
+    var last = q.split(/\s+/).pop();
+    shown = SUG.filter(function(x){ var l = x.t.toLowerCase(); return l.indexOf(q) >= 0 || l.split(/[\s,\/()-]+/).some(function(w){ return w.indexOf(last) === 0; }); }).slice(0, 8);
+    box.textContent = '';
+    if(!shown.length || (shown.length === 1 && shown[0].t.toLowerCase() === q)){ closeSug(); return; }
+    shown.forEach(function(x, i){
+      var li = el('li'); li.id = 'sug' + i; li.setAttribute('role', 'option'); li.setAttribute('aria-selected', 'false');
+      var span = el('span'); var l = x.t, at = l.toLowerCase().indexOf(q);
+      if(at >= 0){ span.appendChild(document.createTextNode(l.slice(0, at))); span.appendChild(el('mark', null, l.slice(at, at + q.length))); span.appendChild(document.createTextNode(l.slice(at + q.length))); } else span.textContent = l;
+      li.appendChild(span); li.appendChild(el('span', 'k', x.k));
+      li.addEventListener('mousedown', function(ev){ ev.preventDefault(); pick(x.t); });
+      box.appendChild(li);
+    });
+    box.hidden = false; qi.setAttribute('aria-expanded', 'true'); cur = -1;
+  }
+  function mark(){ Array.prototype.forEach.call(box.children, function(li, i){ li.setAttribute('aria-selected', i === cur ? 'true' : 'false'); }); if(cur >= 0){ qi.setAttribute('aria-activedescendant', 'sug' + cur); box.children[cur].scrollIntoView({block:'nearest'}); } }
+  qi.addEventListener('input', showSug);
+  qi.addEventListener('blur', closeSug);
+  qi.addEventListener('keydown', function(ev){
+    if(box.hidden) return;
+    if(ev.key === 'ArrowDown'){ ev.preventDefault(); cur = (cur + 1) % shown.length; mark(); }
+    else if(ev.key === 'ArrowUp'){ ev.preventDefault(); cur = (cur - 1 + shown.length) % shown.length; mark(); }
+    else if(ev.key === 'Enter' && cur >= 0){ ev.preventDefault(); pick(shown[cur].t); }
+    else if(ev.key === 'Escape'){ closeSug(); }
+  });
+  var fresh = DATA.jobs.filter(isFresh).length;
+  if(fresh){
+    $('fresh-t').textContent = fresh + (fresh === 1 ? ' new role' : ' new roles') + ' this week. See what\u2019s new';
+    $('fresh').hidden = false; $('topbar').hidden = false;
+    var dlg = $('newdlg');
+    function openNew(){
+      var list = DATA.jobs.filter(isFresh).sort(function(a, b){ return (b.posted || '').localeCompare(a.posted || '') || byClose(a, b); });
+      $('newdlg-h').textContent = list.length + (list.length === 1 ? ' new role' : ' new roles') + ' this week';
+      var ul = $('dlist'); ul.textContent = '';
+      list.forEach(function(j){
+        var li = el('li'); li.appendChild(el('h3', null, j.t));
+        li.appendChild(el('p', 'sub', j.emp + ' \u00B7 ' + j.area));
+        var r2 = el('div', 'row2');
+        r2.appendChild(el('span', 'pill ' + j.status, statusText[j.status]));
+        r2.appendChild(el('span', null, j.sal || ''));
+        li.appendChild(r2);
+        var a = el('a', 'apply', applyLabel(j.url)); a.href = j.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+        a.appendChild(el('span', 'sr', ' for ' + j.t + ' at ' + j.emp + ' (opens in a new tab)'));
+        var r3 = el('div', 'row2'); r3.style.marginTop = '8px'; r3.appendChild(a); li.appendChild(r3);
+        ul.appendChild(li);
+      });
+      if(dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+      ul.scrollTop = 0;
+    }
+    function closeNew(){ if(dlg.close) dlg.close(); else dlg.removeAttribute('open'); }
+    $('fresh').addEventListener('click', function(ev){ ev.preventDefault(); openNew(); });
+    $('dclose').addEventListener('click', closeNew);
+    dlg.addEventListener('click', function(ev){ if(ev.target === dlg) closeNew(); });
+    $('dshow').addEventListener('click', function(){
+      closeNew(); show('jobs', false); newOnly = true; $('sort').value = 'newest'; render();
+      var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var y = $('count').getBoundingClientRect().top + window.pageYOffset - 70;
+      window.scrollTo({top: Math.max(0, y), behavior: calm ? 'auto' : 'smooth'});
+    });
+  }
+  var side = $('side'), ft = $('ftoggle');
+  function drawer(open){
+    side.classList.toggle('open', open); $('scrim').classList.toggle('show', open); ft.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if(open) $('sclose').focus(); else if(document.activeElement && side.contains(document.activeElement)) ft.focus();
+  }
+  ft.addEventListener('click', function(){ drawer(!side.classList.contains('open')); });
+  $('sclose').addEventListener('click', function(){ drawer(false); });
+  $('scrim').addEventListener('click', function(){ drawer(false); });
+  document.addEventListener('keydown', function(ev){ if(ev.key === 'Escape' && side.classList.contains('open')) drawer(false); });
+  Array.prototype.forEach.call(document.querySelectorAll('.sidenav a'), function(a){ a.addEventListener('click', function(){ drawer(false); }); });
+  // Sections act as separate pages: only one is shown at a time.
+  var views = Array.prototype.slice.call(document.querySelectorAll('[data-view]'));
+  var links = Array.prototype.slice.call(document.querySelectorAll('[data-go]'));
+  function setFv(){
+    var a = $('area').value, d = $('dept').value, n = 0;
+    ['cat','kind','band'].forEach(function(i){ if($(i).value) n++; }); if($('closed').checked) n++;
+    function put(id, t, on){ var e = $(id); e.textContent = t; e.classList.toggle('on', on); }
+    put('fv-area', a || 'All areas', !!a); put('fv-dept', d || 'All', !!d); put('fv-more', n ? n + ' on' : 'None', n > 0);
+  }
+  function show(v, scroll){
+    $('filters').hidden = v !== 'jobs'; $('ftoggle').setAttribute('aria-label', v === 'jobs' ? 'Menu and filters' : 'Menu');
+    views.forEach(function(x){ x.hidden = x.id !== v; });
+    links.forEach(function(a){ if(a.dataset.go === v) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    if(scroll !== false) window.scrollTo({top: 0, behavior: 'auto'});
+  }
+  links.forEach(function(a){ a.addEventListener('click', function(ev){ ev.preventDefault(); show(a.dataset.go); }); });
+  show('jobs', false);
+  var tt = el('button', 'totop'); tt.type = 'button'; tt.setAttribute('aria-label', 'Back to top');
+  tt.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M12 20V5M5 12l7-7 7 7"/></svg>';
+  tt.appendChild(document.createTextNode(' Top'));
+  tt.addEventListener('click', function(){ var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches; window.scrollTo({top: 0, behavior: calm ? 'auto' : 'smooth'}); });
+  document.body.appendChild(tt);
+  window.addEventListener('scroll', function(){ tt.classList.toggle('show', window.pageYOffset > 500); }, {passive: true});
+  render();
+})();
+</script>
+</body></html>
