@@ -50,10 +50,74 @@ th{background:#E8EEF7}
 #toast.err{background:var(--danger)}
 .center{max-width:440px;margin:60px auto;padding:0 16px}
 .note{background:#E8EEF7;border-radius:10px;padding:10px 14px;font-size:.92rem;margin-bottom:12px}
+
+/* ---- dashboard layout ---- */
+body{background:#EEF2F7}
+.shell{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+aside.side{background:linear-gradient(180deg,#00205B,#003087);color:#fff;padding:18px 14px;display:flex;flex-direction:column;gap:18px;position:sticky;top:0;height:100vh}
+.brand{display:flex;gap:10px;align-items:center}.brand strong{display:block;font-size:1rem;line-height:1.2}.brand small{opacity:.75}
+.logo{width:36px;height:36px;border-radius:10px;background:#fff;color:#005EB8;display:grid;place-items:center;font-weight:800;font-size:1.4rem}
+aside nav.tabs{flex-direction:column;gap:4px;margin:0}
+aside nav.tabs button{background:transparent;border:0;color:#DCE6F5;text-align:left;display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:10px}
+aside nav.tabs button:hover{background:rgba(255,255,255,.1)}
+aside nav.tabs button[aria-selected=true]{background:#fff;color:#003087}
+aside nav.tabs .n{font-size:.8rem;background:rgba(255,255,255,.18);border-radius:99px;padding:1px 9px;font-weight:700}
+aside nav.tabs button[aria-selected=true] .n{background:#E8EEF7}
+.online{font-size:.84rem}#online{margin-top:auto}.ol{display:flex;gap:8px;align-items:center;margin:4px 0;overflow-wrap:anywhere}.av{position:relative;flex:none;width:26px;height:26px;border-radius:50%;background:#fff;color:#003087;display:grid;place-items:center;font-weight:800;font-size:.8rem}.av i{position:absolute;right:-1px;bottom:-1px;width:9px;height:9px;border-radius:50%;background:#3DD68C;border:2px solid #003087}
+.me{margin-top:14px;font-size:.86rem;display:flex;flex-direction:column;gap:8px;overflow-wrap:anywhere;border-top:1px solid rgba(255,255,255,.2);padding-top:12px}
+.me .btn.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+.shell main{max-width:1180px;width:100%;margin:0;padding:22px 26px}
+.pagehead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.pagehead h1{margin:0;font-size:1.5rem}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;text-align:left;cursor:pointer;border-left:5px solid var(--brand);box-shadow:0 1px 2px rgba(11,31,58,.05)}
+.stat:hover{box-shadow:0 4px 14px rgba(11,31,58,.12)}
+.stat .num{font-size:2rem;font-weight:800;line-height:1.1;display:block}
+.stat .lbl{font-weight:600;display:block}.stat .sub{color:var(--muted);font-size:.84rem}
+.stat.warn{border-left-color:#ED8B00}.stat.ok{border-left-color:var(--ok)}.stat.grey{border-left-color:#768692}
+.stat[aria-pressed=true]{outline:2px solid var(--brand)}
+.tablewrap{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 1px 2px rgba(11,31,58,.05)}
+.tablewrap table{border:0;border-radius:0}
+.tablewrap th{background:#F5F8FC;font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.tablewrap tr:hover td{background:#FAFCFF}
+.tablewrap td .t{font-weight:700}.tablewrap td .s{color:var(--muted);font-size:.86rem}
+td.act{white-space:nowrap}td.act .btn{margin:0 4px 4px 0}
+.toolbar select{width:auto}
+.center.card{box-shadow:0 10px 30px rgba(11,31,58,.12);border-radius:16px;padding:24px}
+@media(max-width:900px){
+ .shell{grid-template-columns:1fr}aside.side{position:static;height:auto;padding:12px}
+ aside nav.tabs{flex-direction:row;flex-wrap:wrap}.me{flex-direction:row;align-items:center;flex-wrap:wrap;margin-top:0}
+ .shell main{padding:14px}.stats{grid-template-columns:1fr 1fr}
+ .tablewrap thead{display:none}.tablewrap tr{display:block;padding:10px 12px;border-bottom:1px solid var(--line)}
+ .tablewrap td{display:block;border:0;padding:2px 0}.tablewrap td[data-l]::before{content:attr(data-l)": ";color:var(--muted);font-size:.82rem}
+}
+
+/* ---- feedback animations ---- */
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pop{0%{transform:scale(.97)}100%{transform:scale(1)}}
+@keyframes bar{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.spin{display:inline-block;width:18px;height:18px;border:3px solid var(--line);border-top-color:var(--brand);border-radius:50%;animation:spin .7s linear infinite;vertical-align:-3px;margin-right:8px}
+.loading{padding:40px;text-align:center;color:var(--muted)}
+.btn{transition:transform .08s,box-shadow .15s,background .15s}.btn:active{transform:scale(.96)}
+.btn.busy{position:relative;color:transparent!important;pointer-events:none}
+.btn.busy::after{content:"";position:absolute;left:50%;top:50%;width:16px;height:16px;margin:-8px 0 0 -8px;border:2.5px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin .6s linear infinite}
+.btn.ghost.busy::after{border-color:var(--brand);border-top-color:transparent}
+.btn.danger.busy::after{border-color:var(--danger);border-top-color:transparent}
+.stat{transition:transform .12s,box-shadow .15s}.stat:active{transform:scale(.97)}
+.tablewrap tbody tr{animation:fadein .25s both}
+#panel{animation:fadein .2s both}
+body.loading-data::before{content:"";position:fixed;left:0;top:0;height:3px;width:100%;background:linear-gradient(90deg,transparent,var(--brand),transparent);animation:bar 1s linear infinite;z-index:60}
+#toast{animation:pop .15s both}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.filters label{margin:0;font-size:.8rem;color:var(--muted);font-weight:600;display:flex;flex-direction:column;gap:2px}
+.filters select,.filters input{width:auto;min-width:130px;padding:6px 8px}
+.filters input[type=search]{min-width:220px;flex:1}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}.spin,.btn.busy::after{animation:spin 1.5s linear infinite!important}}
 </style>
 </head>
 <body>
-<div id="app"><p style="padding:24px">Loading…</p></div>
+<div id="app"><div class="loading"><span class="spin"></span>Loading…</div></div>
 <div id="toast" role="status" aria-live="polite"></div>
 
 <dialog id="jobDlg" aria-labelledby="jobDlgTitle">
@@ -64,31 +128,31 @@ th{background:#E8EEF7}
     <div class="step" data-step="0"><h3>1. The basics</h3>
       <label for="f_title">Job title *</label><input id="f_title" required>
       <label for="f_url">Advert link (https) *</label><input id="f_url" type="url" placeholder="https://www.jobs.nhs.uk/candidate/jobadvert/…" required>
-      <div class="grid"><div><label for="f_employer">Employer</label><input id="f_employer"></div>
+      <div class="grid"><div><label for="f_employer">Employer</label><select id="f_employer"></select></div>
       <div><label for="f_kind">Type *</label><select id="f_kind"></select></div></div></div>
     <div class="step" data-step="1"><h3>2. Pay and place</h3><div class="grid">
       <div><label for="f_category">Clinical or non-clinical</label><select id="f_category"></select></div>
       <div><label for="f_dept">Department</label><select id="f_dept"></select></div>
-      <div><label for="f_band">Band</label><input id="f_band" placeholder="Band 2"></div>
+      <div><label for="f_band">Band</label><select id="f_band"></select></div>
       <div><label for="f_salary">Salary</label><input id="f_salary" placeholder="£25,272 or £25,760 – £27,476"></div>
       <div><label for="f_area">Area</label><select id="f_area"></select></div>
       <div><label for="f_location">Where</label><input id="f_location" placeholder="Birmingham B24 9SA"></div>
-      <div><label for="f_hours">Hours</label><input id="f_hours" placeholder="Full-time, permanent"></div></div></div>
+      <div><label for="f_hours">Hours</label><select id="f_hours"></select></div></div></div>
     <div class="step" data-step="2"><h3>3. Dates and apprenticeship</h3><div class="grid">
       <div><label for="f_posted">Date posted</label><input id="f_posted" type="date"></div>
       <div><label for="f_closes">Closing date</label><input id="f_closes" type="date"></div>
-      <div><label for="f_app">Apprenticeship?</label><input id="f_app" placeholder="No, or Yes – Level 3, 1 year"></div></div></div>
+      <div><label for="f_app">Apprenticeship?</label><select id="f_app"></select></div></div></div>
     <div class="step" data-step="3"><h3>4. The details</h3>
       <label for="f_req">What you need <span class="hint">(one point per line)</span></label><textarea id="f_req" rows="4"></textarea>
       <label for="f_duties">What you'll do <span class="hint">(one point per line)</span></label><textarea id="f_duties" rows="4"></textarea>
       <label for="f_notes">Internal notes <span class="hint">(not shown on the site)</span></label><textarea id="f_notes" rows="2"></textarea></div>
     <div class="step" data-step="4"><h3>5. Check and confirm</h3><div id="reviewBox"></div>
-      <label id="publishRow" style="font-weight:400"><input type="checkbox" id="f_publish" style="width:auto"> Publish on the site straight away (otherwise it waits in the review queue)</label></div>
+      <p class="note" id="publishRow" style="margin:10px 0 0"><strong>This is the final check.</strong> When you confirm, the job goes live on the public site straight away.</p></div>
     <p id="formErr" role="alert" style="color:var(--danger);margin:8px 0 0"></p>
-    <div class="actions" style="justify-content:flex-end">
-      <button type="button" class="btn ghost" id="jobCancel">Cancel</button>
-      <button type="button" class="btn ghost" id="jobBack">Back</button>
-      <button type="submit" class="btn" id="jobSave">Next</button>
+    <div class="actions" style="justify-content:space-between">
+      <button type="button" class="btn danger" id="jobCancel">Cancel</button>
+      <span style="display:flex;gap:8px"><button type="button" class="btn ghost" id="jobBack">Back</button>
+      <button type="submit" class="btn" id="jobSave">Next</button></span>
     </div>
   </form>
 </dialog>
@@ -106,10 +170,13 @@ const KIND_LABEL = {"NHS":"NHS","Care homes and others":"Care homes and others",
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let me = {email:null, role:null}, jobs = [], team = [], logs = [], tab = 'pending', q = '', startedFor = null, importRows = null;
+let me = {email:null, role:null}, jobs = [], team = [], logs = [], tab = 'live', q = '', startedFor = null;
 const canEdit = () => me.role === 'admin' || me.role === 'editor';
 const isAdmin = () => me.role === 'admin';
 
+document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('.btn'); if(!b || b.disabled || b.classList.contains('busy')) return;
+  if(['jobCancel','jobBack','codeBack'].includes(b.id)) return; b.classList.add('busy'); setTimeout(()=>b.classList.remove('busy'), 700); });
+async function busy(btn, fn){ btn.classList.add('busy'); btn.disabled = true; try{ return await fn(); } finally { btn.classList.remove('busy'); btn.disabled = false; } }
 function toast(msg, err){ const t=$('#toast'); t.textContent=msg; t.className=err?'err':''; t.style.display='block'; clearTimeout(toast.t); toast.t=setTimeout(()=>t.style.display='none', err?7000:3500); }
 function friendly(e){
   if(!e) return 'Something went wrong.';
@@ -127,7 +194,7 @@ const lines = s => (s||'').split('\n').map(x=>x.replace(/^[•\-\s]+/,'').trim()
 /* ---------- auth ---------- */
 async function boot(){
   const { data:{ session } } = await sb.auth.getSession();
-  sb.auth.onAuthStateChange((ev, s) => { if(ev==='SIGNED_OUT') start(null); else if(ev==='SIGNED_IN') start(s); });
+  sb.auth.onAuthStateChange((ev, s) => { if(ev==='SIGNED_OUT'){ stopPresence(); start(null); } else if(ev==='SIGNED_IN') start(s); });
   start(session);
 }
 async function start(session){
@@ -136,27 +203,38 @@ async function start(session){
   startedFor = uid;
   if(!session){ me = {email:null, role:null}; return showLogin(); }
   me.email = session.user.email;
-  $('#app').innerHTML = '<p style="padding:24px">Checking your access…</p>';
+  $('#app').innerHTML = '<div class="loading"><span class="spin"></span>Checking your access…</div>';
   const { data, error } = await sb.rpc('current_app_role');
   if(error){ toast(friendly(error), true); }
   me.role = data || null;
   if(!me.role) return showNoAccess();
   await Promise.all([loadJobs(), isAdmin()?loadTeam():0, isAdmin()?loadLogs():0]);
-  tab = 'pending'; render();
+  tab = jobs.some(j=>j.status==='pending') ? 'pending' : 'live'; render();
 }
 function showLogin(){
-  $('#app').innerHTML = `<div class="center card"><h1 style="margin-top:0;font-size:1.3rem">Health Career Pathway – Admin</h1>
-  <p>Sign in with your work email. We'll email you a link – no password needed.</p>
-  <form id="loginForm"><label for="em">Email address</label><input id="em" type="email" autocomplete="email" required>
-  <div class="actions"><button class="btn" id="loginBtn" type="submit">Email me a sign-in link</button></div></form>
+  $('#app').innerHTML = `<div class="center card"><div class="brand" style="color:var(--brand-dark);margin-bottom:8px"><span class="logo" style="background:var(--brand);color:#fff">+</span><strong>Health Career Pathway<br><small style="font-weight:400">Admin sign-in</small></strong></div>
+  <form id="loginForm"><p>Sign in with your work email. We'll email you a code – no password needed.</p>
+  <label for="em">Email address</label><input id="em" type="email" autocomplete="email" required>
+  <div class="actions"><button class="btn" id="loginBtn" type="submit">Email me a code</button></div></form>
+  <form id="codeForm" style="display:none"><p id="codeInfo"></p>
+  <label for="code">Code from the email</label><input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="10" required>
+  <div class="actions"><button class="btn" id="codeBtn" type="submit">Sign in</button><button class="btn ghost" id="codeBack" type="button">Use a different email</button></div></form>
   <p id="loginMsg" role="status" style="margin-bottom:0"></p></div>`;
+  const msg = (t, bad) => { $('#loginMsg').textContent = t; $('#loginMsg').style.color = bad ? 'var(--danger)' : 'var(--ok)'; };
+  let em = '';
   $('#loginForm').onsubmit = async e => {
-    e.preventDefault(); const em = $('#em').value.trim(); const b=$('#loginBtn'); b.disabled=true;
-    const redirect = location.href.split('#')[0].split('?')[0];
-    const { error } = await sb.auth.signInWithOtp({ email: em, options: { emailRedirectTo: redirect } });
-    b.disabled=false;
-    $('#loginMsg').textContent = error ? friendly(error) : 'Check your inbox for the sign-in link (it can take a minute – also check junk mail).';
-    $('#loginMsg').style.color = error ? 'var(--danger)' : 'var(--ok)';
+    e.preventDefault(); em = $('#em').value.trim().toLowerCase(); const b=$('#loginBtn'); msg('');
+    const { error } = await busy(b, () => sb.auth.signInWithOtp({ email: em, options: { shouldCreateUser: true } }));
+    if(error) return msg(friendly(error), true);
+    $('#loginForm').style.display='none'; $('#codeForm').style.display='block';
+    $('#codeInfo').textContent = 'We sent a code to '+em+'. It can take a minute – also check junk mail.';
+    $('#code').focus();
+  };
+  $('#codeBack').onclick = () => { $('#codeForm').style.display='none'; $('#loginForm').style.display='block'; msg(''); };
+  $('#codeForm').onsubmit = async e => {
+    e.preventDefault(); const b=$('#codeBtn'); msg('');
+    const { error } = await busy(b, () => sb.auth.verifyOtp({ email: em, token: $('#code').value.replace(/\s/g,''), type: 'email' }));
+    if(error) msg('That code did not work. Check it, or go back and ask for a new one.', true);
   };
 }
 function showNoAccess(){
@@ -167,63 +245,104 @@ function showNoAccess(){
 }
 
 /* ---------- data ---------- */
-async function loadJobs(){ const { data, error } = await sb.from('jobs').select('*').order('updated_at',{ascending:false}).limit(1000); if(error) toast(friendly(error),true); jobs = data || []; }
+async function loadJobs(){ document.body.classList.add('loading-data'); const { data, error } = await sb.from('jobs').select('*').order('updated_at',{ascending:false}).limit(1000); if(error) toast(friendly(error),true); jobs = data || []; document.body.classList.remove('loading-data'); }
 async function loadTeam(){ const { data, error } = await sb.from('team_members').select('*').order('created_at'); if(error) toast(friendly(error),true); team = data || []; }
 async function loadLogs(){ const { data, error } = await sb.from('activity_log').select('*').order('at',{ascending:false}).limit(150); if(error) toast(friendly(error),true); logs = data || []; }
 
 /* ---------- render ---------- */
+let presence = null, online = [];
+function onlineHtml(){ const seen = new Set(); const list = online.filter(p=>p&&p.email&&!seen.has(p.email.toLowerCase())&&seen.add(p.email.toLowerCase()));
+  if(!list.length) return '';
+  return `<div class="online"><div class="hint" style="color:#B9CBE8;margin-bottom:6px">Online now (${list.length})</div>${list.map(p=>`<div class="ol"><span class="av">${esc((p.email||'?')[0].toUpperCase())}<i></i></span><span>${esc(p.email)}${p.email.toLowerCase()===(me.email||'').toLowerCase()?' (you)':''}</span></div>`).join('')}</div>`; }
+function startPresence(){
+  if(presence || !sb.channel) return;
+  try{
+    presence = sb.channel('admin-online', { config: { private: true, presence: { key: me.email } } });
+    presence.on('presence', { event: 'sync' }, () => { online = Object.values(presence.presenceState()).map(a=>a[0]).filter(Boolean); const el=document.getElementById('online'); if(el) el.innerHTML = onlineHtml(); });
+    presence.subscribe(async st => { if(st === 'SUBSCRIBED') await presence.track({ email: me.email, role: me.role }); });
+  }catch(e){ presence = null; }
+}
+function stopPresence(){ try{ if(presence) sb.removeChannel(presence); }catch(e){} presence = null; online = []; }
+const TITLES = { pending:['Review queue','New roles wait here. Check each against its advert (Band 2 or 3, no health qualification or licence needed, local area) before you approve it.'], live:['Live on site','These are the roles the public site shows. Roles past their closing date are hidden automatically.'], archive:['Archive','Closed, removed and rejected roles. Restore sends a role back to the review queue.'], team:['Team','Who can use this admin page.'], activity:['Activity','A record of who changed what.'] };
+let soon7 = false, kindF = '', areaF = '', bandF = '', winF = '', sortF = 'default';
 function render(){
-  const counts = {
-    pending: jobs.filter(j=>j.status==='pending').length,
-    live: jobs.filter(j=>j.status==='live').length,
-    archive: jobs.filter(j=>['closed','removed','rejected'].includes(j.status)).length
-  };
-  const tabs = [['pending',`Review queue (${counts.pending})`],['live',`Live on site (${counts.live})`],['archive',`Archive (${counts.archive})`]];
-  if(isAdmin()) tabs.push(['team','Team'],['activity','Activity']);
-  if(canEdit()) tabs.push(['tools','Import / export']);
-  $('#app').innerHTML = `<header class="top"><h1>Health Career Pathway – Admin</h1>
-    <div class="who"><span>${esc(me.email)}</span><span class="badge role">${esc(me.role)}</span><button class="btn ghost small" id="so">Sign out</button></div></header>
-    <main><nav class="tabs" role="tablist">${tabs.map(([k,l])=>`<button role="tab" aria-selected="${k===tab}" data-tab="${k}">${l}</button>`).join('')}</nav>
-    <div id="panel"></div></main>`;
-  $('#so').onclick = () => sb.auth.signOut();
-  document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { tab=b.dataset.tab; render(); });
-  if(['pending','live','archive'].includes(tab)) renderJobs(); else if(tab==='team') renderTeam(); else if(tab==='activity') renderActivity(); else renderTools();
+  const closing = jobs.filter(j=>{ const d=daysLeft(j.closes); return j.status==='live' && d!==null && d>=0 && d<=7; }).length;
+  const counts = { pending: jobs.filter(j=>j.status==='pending').length, live: jobs.filter(j=>j.status==='live').length, archive: jobs.filter(j=>['closed','removed','rejected'].includes(j.status)).length };
+  const showQueue = counts.pending > 0 || tab === 'pending';
+  const items = [...(showQueue?[['pending','Review queue',counts.pending]]:[]),['live','Live on site',counts.live],['archive','Archive',counts.archive]];
+  if(isAdmin()) items.push(['team','Team',team.length],['activity','Activity','']);
+  const isJobTab = ['pending','live','archive'].includes(tab);
+  const stats = `<div class="stats">
+   ${showQueue?`<button class="stat warn" data-go="pending" aria-pressed="${tab==='pending'}"><span class="num">${counts.pending}</span><span class="lbl">Waiting for review</span><span class="sub">Need a decision</span></button>`:`<button class="stat" data-go="live" aria-pressed="false"><span class="num">${jobs.length}</span><span class="lbl">All roles</span><span class="sub">Ever added</span></button>`}
+   <button class="stat ok" data-go="live" aria-pressed="${tab==='live'&&!soon7}"><span class="num">${counts.live}</span><span class="lbl">Live on the site</span><span class="sub">Visible to the public</span></button>
+   <button class="stat warn" data-go="closing" aria-pressed="${tab==='live'&&soon7}"><span class="num">${closing}</span><span class="lbl">Closing in 7 days</span><span class="sub">Live roles ending soon</span></button>
+   <button class="stat grey" data-go="archive" aria-pressed="${tab==='archive'}"><span class="num">${counts.archive}</span><span class="lbl">Archived</span><span class="sub">Closed, removed, rejected</span></button></div>`;
+  $('#app').innerHTML = `<div class="shell"><aside class="side"><div class="brand"><span class="logo">+</span><div><strong>Health Career Pathway</strong><small>Admin</small></div></div>
+    <nav class="tabs" role="tablist" aria-label="Sections">${items.map(([k,l,n])=>`<button role="tab" aria-selected="${k===tab}" data-tab="${k}"><span>${l}</span>${n!==''?`<span class="n">${n}</span>`:''}</button>`).join('')}</nav>
+    <div id="online">${onlineHtml()}</div>
+    <div class="me"><span>${esc(me.email)}</span><span><span class="badge role">${esc(me.role)}</span></span><button class="btn ghost small" id="so">Sign out</button></div></aside>
+    <main><div class="pagehead"><div><h1>${TITLES[tab][0]}</h1><p class="hint" style="margin:2px 0 0">${TITLES[tab][1]}</p></div>${canEdit()&&isJobTab?'<button class="btn" id="addJob">+ Add a job</button>':''}</div>
+    ${isJobTab?stats:''}<div id="panel"></div></main></div>`;
+  $('#so').onclick = () => { stopPresence(); sb.auth.signOut(); };
+  startPresence();
+  if($('#addJob')) $('#addJob').onclick = () => openJob(null);
+  document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { tab=b.dataset.tab; soon7=false; render(); });
+  document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { const g=b.dataset.go; soon7 = g==='closing'; tab = g==='closing'?'live':g; render(); });
+  if(isJobTab) renderJobs(); else if(tab==='team') renderTeam(); else renderActivity();
 }
 
+const normUrl = u => (u||'').trim().toLowerCase().replace(/#.*$/,'').replace(/\/+$/,'');
+function bandOf(j){ const m=/Band (\d)/.exec(j.band||''); return m && (m[1]==='2'||m[1]==='3') ? 'Band '+m[1] : 'Other'; }
 function matches(j){ if(!q) return true; const s=(j.title+' '+(j.employer||'')+' '+(j.area||'')+' '+j.url+' '+(j.notes||'')).toLowerCase(); return s.includes(q.toLowerCase()); }
 function renderJobs(){
   let list;
   if(tab==='pending') list = jobs.filter(j=>j.status==='pending').sort((a,b)=>b.created_at.localeCompare(a.created_at));
   else if(tab==='live') list = jobs.filter(j=>j.status==='live').sort((a,b)=>(a.closes||'9999').localeCompare(b.closes||'9999'));
   else list = jobs.filter(j=>['closed','removed','rejected'].includes(j.status));
+  if(soon7 && tab==='live') list = list.filter(j=>{ const d=daysLeft(j.closes); return d!==null && d>=0 && d<=7; });
+  if(winF){ list = list.filter(j=>{ const d=daysLeft(j.closes); return d!==null && d>=0 && d<=+winF; }); }
+  if(kindF) list = list.filter(j=>j.kind===kindF);
+  if(areaF) list = list.filter(j=>j.area===areaF);
+  if(bandF) list = list.filter(j=>bandOf(j)===bandF);
   list = list.filter(matches);
-  const intro = { pending:"New roles wait here. Check each one against its advert (Band 2 or 3, no health qualification or licence needed, local area) before you approve it.", live:"These roles are the ones the public site can show. Roles past their closing date are hidden automatically.", archive:"Closed, removed and rejected roles. Restore sends a role back to the review queue." }[tab];
-  $('#panel').innerHTML = `<div class="note">${intro}</div>
-  <div class="toolbar"><input type="search" id="q" placeholder="Search title, employer, area…" aria-label="Search jobs" value="${esc(q)}">
-  ${canEdit()?'<button class="btn" id="addJob">+ Add a job</button>':''}</div>
-  ${list.length ? list.map(jobCard).join('') : '<div class="empty card">Nothing here.</div>'}`;
+  if(sortF==='closing') list.sort((a,b)=>(a.closes||'9999').localeCompare(b.closes||'9999'));
+  else if(sortF==='newest') list.sort((a,b)=>(b.created_at||'').localeCompare(a.created_at||''));
+  else if(sortF==='az') list.sort((a,b)=>a.title.localeCompare(b.title));
+  const areaOpts = [...new Set([...AREAS, ...jobs.map(j=>j.area).filter(Boolean)])];
+  const active = !!(kindF||areaF||bandF||winF||sortF!=='default'||q||soon7);
+  const sel = (id, label, opts, cur) => `<label>${label}<select id="${id}">${opts.map(([v,t])=>`<option value="${esc(v)}"${cur===v?' selected':''}>${esc(t)}</option>`).join('')}</select></label>`;
+  $('#panel').innerHTML = `<div class="filters"><label style="flex:1">Search<input type="search" id="q" placeholder="Title, employer, area…" aria-label="Search jobs" value="${esc(q)}"></label>
+   ${sel('kindF','Type',[['','All types'],...KINDS.map(k=>[k,KIND_LABEL[k]])],kindF)}
+   ${sel('areaF','Area',[['','All areas'],...areaOpts.map(a=>[a,a])],areaF)}
+   ${sel('bandF','Band',[['','All bands'],['Band 2','Band 2'],['Band 3','Band 3'],['Other','Other / not stated']],bandF)}
+   ${sel('winF','Closing',[['','Any time'],['3','Within 3 days'],['7','Within 7 days'],['14','Within 14 days']],winF)}
+   ${sel('sortF','Sort by',[['default','Default'],['closing','Closing soonest'],['newest','Newest added'],['az','Title A–Z']],sortF)}
+   ${active?'<button class="btn ghost small" id="clr" style="align-self:flex-end">Clear filters</button>':''}
+   <span class="hint" style="align-self:flex-end">${list.length} role${list.length===1?'':'s'}</span></div>
+  ${list.length ? `<div class="tablewrap"><table><thead><tr><th>Role</th><th>Type</th><th>Pay</th><th>Area</th><th>Closes</th><th>Status</th><th></th></tr></thead><tbody>${list.map(jobRow).join('')}</tbody></table></div>` : '<div class="empty card">Nothing here.</div>'}`;
   $('#q').oninput = e => { q = e.target.value; const pos=e.target.selectionStart; renderJobs(); const el=$('#q'); el.focus(); el.setSelectionRange(pos,pos); };
-  if($('#addJob')) $('#addJob').onclick = () => openJob(null);
+  [['kindF','kindF'],['areaF','areaF'],['bandF','bandF'],['winF','winF'],['sortF','sortF']].forEach(([id]) => { $('#'+id).onchange = e => { ({kindF:v=>kindF=v,areaF:v=>areaF=v,bandF:v=>bandF=v,winF:v=>winF=v,sortF:v=>sortF=v})[id](e.target.value); soon7 = false; render(); }; });
+  if($('#clr')) $('#clr').onclick = () => { soon7=false; kindF=areaF=bandF=winF=''; sortF='default'; q=''; render(); };
   document.querySelectorAll('[data-act]').forEach(b => b.onclick = () => jobAction(b.dataset.act, b.dataset.id, b));
 }
-function jobCard(j){
+function jobRow(j){
   const dl = daysLeft(j.closes);
   const expired = j.status==='live' && dl!==null && dl<0;
   const soon = j.status==='live' && dl!==null && dl>=0 && dl<=3;
   const acts = [];
   if(canEdit()){
-    if(j.status==='pending') acts.push(['approve','Approve and publish','btn'],['edit','Edit','btn ghost'],['reject','Reject','btn danger']);
-    else if(j.status==='live') acts.push(['edit','Edit','btn ghost'],['close','Mark as closed','btn ghost'],['remove','Remove from site','btn danger']);
-    else acts.push(['restore','Restore to review queue','btn ghost']);
+    if(j.status==='pending') acts.push(['approve','Approve','btn'],['edit','Edit','btn ghost'],['reject','Reject','btn danger']);
+    else if(j.status==='live') acts.push(['edit','Edit','btn ghost'],['close','Mark closed','btn ghost'],['remove','Remove','btn danger']);
+    else acts.push(['restore','Restore','btn ghost']);
   }
-  if(isAdmin() && ['closed','removed','rejected'].includes(j.status)) acts.push(['delete','Delete permanently','btn danger']);
-  return `<article class="card"><h3>${esc(j.title)}</h3>
-  <div class="meta"><span class="badge ${j.status}">${esc(j.status)}</span>
-   ${expired?'<span class="badge warn">Past closing date – hidden from site</span>':''}${soon?`<span class="badge warn">Closes ${dl===0?'today':'in '+dl+' day'+(dl>1?'s':'')}</span>`:''}
-   <span class="badge">${esc(KIND_LABEL[j.kind]||j.kind)}</span><span class="badge">${esc(j.source)}</span></div>
-  <div class="meta"><span>${esc(j.employer||'')}</span><span>${esc(j.band||'')}</span><span>${esc(j.salary||'')}</span><span>${esc(j.area||'')}</span><span>Closes: ${j.closes?esc(fmtDate(j.closes)):'no date'}</span></div>
-  <div class="meta"><a href="${esc(j.url)}" target="_blank" rel="noopener noreferrer">Open the advert</a>${j.notes?`<span>Note: ${esc(j.notes)}</span>`:''}${j.reviewed_by?`<span>Reviewed by ${esc(j.reviewed_by)}</span>`:''}</div>
-  ${acts.length?`<div class="actions">${acts.map(([a,l,c])=>`<button class="${c} small" data-act="${a}" data-id="${j.id}">${l}</button>`).join('')}</div>`:''}</article>`;
+  if(isAdmin() && ['closed','removed','rejected'].includes(j.status)) acts.push(['delete','Delete','btn danger']);
+  return `<tr><td><span class="t">${esc(j.title)}</span><br><span class="s">${esc(j.employer||'')}</span><br><a class="s" href="${esc(j.url)}" target="_blank" rel="noopener noreferrer">Open the advert</a>${j.notes?`<br><span class="s">Note: ${esc(j.notes)}</span>`:''}</td>
+   <td data-l="Type">${esc(KIND_LABEL[j.kind]||j.kind)}<br><span class="s">${esc(j.source)}</span></td>
+   <td data-l="Pay">${esc(j.band||'')}<br><span class="s">${esc(j.salary||'')}</span></td>
+   <td data-l="Area">${esc(j.area||'')}</td>
+   <td data-l="Closes">${j.closes?esc(fmtDate(j.closes)):'<span class="s">no date</span>'}${soon?`<br><span class="badge warn">${dl===0?'today':dl+' day'+(dl>1?'s':'')+' left'}</span>`:''}</td>
+   <td data-l="Status"><span class="badge ${j.status}">${esc(j.status)}</span>${expired?'<br><span class="badge warn">Past closing date</span>':''}${j.reviewed_by?`<br><span class="s">by ${esc(j.reviewed_by)}</span>`:''}</td>
+   <td class="act">${acts.map(([a,l,c])=>`<button class="${c} small" data-act="${a}" data-id="${j.id}">${l}</button>`).join('')}</td></tr>`;
 }
 async function setStatus(id, status){
   const patch = { status };
@@ -263,13 +382,19 @@ function openJob(j){
   $('#f_area').innerHTML = opt(AREAS, j?.area);
   $('#f_dept').innerHTML = opt(DEPTS, j?.dept);
   $('#f_category').innerHTML = opt(['Clinical','Non-clinical'], j?.category || 'Non-clinical');
-  ['area','dept','category'].forEach(otherBox);
+  const BANDS=['Band 2','Band 2 (bank, hourly)','Band 3','Band 3 (bank, hourly)','Pay as advertised'];
+  const HOURS=['Full-time, permanent','Part-time, permanent','Full-time, fixed term','Part-time, fixed term','Bank (flexible hours)'];
+  const APPS=['No','Yes – Level 2','Yes – Level 3','Yes – Level 4'];
+  const EMPS=[...new Set(jobs.map(x=>x.employer).filter(Boolean))].sort();
+  $('#f_band').innerHTML = opt(BANDS, j?.band||''); $('#f_hours').innerHTML = opt(HOURS, j?.hours||'');
+  $('#f_app').innerHTML = opt(APPS, j?.apprenticeship||'No'); $('#f_employer').innerHTML = opt(EMPS, j?.employer||'');
+  ['area','dept','category','band','hours','app','employer'].forEach(otherBox);
   const set = (id,v) => $('#f_'+id).value = v ?? '';
-  set('id', j?.id); set('title', j?.title); set('employer', j?.employer); set('url', j?.url);
-  set('band', j?.band); set('salary', j?.salary); set('location', j?.location); set('hours', j?.hours);
-  set('posted', j?.posted); set('closes', j?.closes); set('app', j?.apprenticeship ?? 'No');
+  set('id', j?.id); set('title', j?.title); set('url', j?.url);
+  set('salary', j?.salary); set('location', j?.location);
+  set('posted', j?.posted); set('closes', j?.closes);
   set('req', (j?.requirements||[]).join('\n')); set('duties', (j?.duties||[]).join('\n')); set('notes', j?.notes);
-  $('#publishRow').style.display = j ? 'none' : 'block'; $('#f_publish').checked = false;
+  $('#publishRow').style.display = j ? 'none' : 'block';
   $('#formErr').textContent = '';
   goStep(0);
   $('#jobDlg').showModal();
@@ -285,13 +410,14 @@ function goStep(n){ step=n; document.querySelectorAll('#jobForm .step').forEach(
   if(n===LAST) renderReview(); $('#formErr').textContent='';
   const f=document.querySelector(`#jobForm .step[data-step="${n}"] input,#jobForm .step[data-step="${n}"] select,#jobForm .step[data-step="${n}"] textarea`); if(f) f.focus(); }
 function checkStep(n){
-  if(n===0){ if(!val('title')) return 'Add a job title.'; if(!/^https:\/\//i.test(val('url'))) return 'The advert link must start with https://'; }
-  if(n===1){ for(const k of ['category','dept','area']) if($('#f_'+k).value===OTHER && !$('#o_'+k).value.trim()) return 'Type your own value, or pick one from the list.'; }
+  if(n===0){ if($('#f_employer').value===OTHER && !$('#o_employer').value.trim()) return 'Type the employer, or pick one from the list.'; if(!val('title')) return 'Add a job title.'; if(!/^https:\/\//i.test(val('url'))) return 'The advert link must start with https://'; }
+  if(n===1){ for(const k of ['category','dept','area','band','hours','employer']) if($('#f_'+k).value===OTHER && !$('#o_'+k).value.trim()) return 'Type your own value, or pick one from the list.'; }
+  if(n===2 && $('#f_app').value===OTHER && !$('#o_app').value.trim()) return 'Type your own value, or pick one from the list.';
   if(n===2 && val('posted') && val('closes') && val('closes') < val('posted')) return 'The closing date is before the posting date.';
   return '';
 }
 function renderReview(){
-  const rows=[['Job title',val('title')],['Advert link',val('url')],['Employer',val('employer')],['Type',$('#f_kind').selectedOptions[0]?.textContent],['Clinical / non-clinical',pick('category')],['Department',pick('dept')],['Band',val('band')],['Salary',val('salary')],['Area',pick('area')],['Where',val('location')],['Hours',val('hours')],['Posted',val('posted')],['Closes',val('closes')],['Apprenticeship',val('app')],['What you need',val('req')],['What you\'ll do',val('duties')],['Internal notes',val('notes')]];
+  const rows=[['Job title',val('title')],['Advert link',val('url')],['Employer',pick('employer')],['Type',$('#f_kind').selectedOptions[0]?.textContent],['Clinical / non-clinical',pick('category')],['Department',pick('dept')],['Band',pick('band')],['Salary',val('salary')],['Area',pick('area')],['Where',val('location')],['Hours',pick('hours')],['Posted',val('posted')],['Closes',val('closes')],['Apprenticeship',pick('app')],['What you need',val('req')],['What you\'ll do',val('duties')],['Internal notes',val('notes')]];
   $('#reviewBox').innerHTML='<p class="hint">Check everything below. Use Back to change anything.</p><dl class="rev">'+rows.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${v?esc(v).replace(/\n/g,'<br>'):'<span class="hint">—</span>'}</dd>`).join('')+'</dl>'; }
 $('#jobBack').onclick = () => goStep(step-1);
 $('#jobForm').onsubmit = async e => {
@@ -301,20 +427,30 @@ $('#jobForm').onsubmit = async e => {
   if(step<LAST) return goStep(step+1);
   for(let i=0;i<LAST;i++){ const m2=checkStep(i); if(m2){ goStep(i); return err(m2); } }
   const v = val;
-  const rec = { title:v('title'), employer:v('employer')||null, url:v('url'), kind:$('#f_kind').value, category:pick('category')||null,
-    band:v('band')||null, salary:v('salary')||null, area:pick('area')||null, dept:pick('dept')||null, location:v('location')||null,
-    hours:v('hours')||null, posted:v('posted')||null, closes:v('closes')||null, apprenticeship:v('app')||null,
+  const rec = { title:v('title'), employer:pick('employer')||null, url:v('url'), kind:$('#f_kind').value, category:pick('category')||null,
+    band:pick('band')||null, salary:v('salary')||null, area:pick('area')||null, dept:pick('dept')||null, location:v('location')||null,
+    hours:pick('hours')||null, posted:v('posted')||null, closes:v('closes')||null, apprenticeship:pick('app')||null,
     requirements:lines($('#f_req').value), duties:lines($('#f_duties').value), notes:v('notes')||null };
-  const id = $('#f_id').value; const b = $('#jobSave'); b.disabled = true;
-  let res;
-  if(id) res = await sb.from('jobs').update(rec).eq('id', id);
-  else {
-    const live = $('#f_publish').checked;
-    res = await sb.from('jobs').insert({ ...rec, status: live?'live':'pending', source:'manual', created_by: me.email, reviewed_by: live?me.email:null, reviewed_at: live?new Date().toISOString():null });
+  const id = $('#f_id').value;
+  const dup = jobs.find(x => x.id !== id && normUrl(x.url) === normUrl(rec.url));
+  let restoreId = null;
+  if(dup){
+    if(['closed','removed','rejected'].includes(dup.status) && !id){
+      if(!confirm('This advert is already in the Archive as “'+dup.title+'” ('+dup.status+').\n\nRestore it and replace it with the details you just entered? It will go live on the site.')) return;
+      restoreId = dup.id;
+    } else {
+      return err('That advert is already '+(dup.status==='live'?'live on the site':dup.status==='pending'?'in the review queue':'in the Archive')+' as “'+dup.title+'”. Search for it in the list instead of adding it again.');
+    }
   }
-  b.disabled = false;
+  const b = $('#jobSave'); b.disabled = true; b.classList.add('busy');
+  const now = new Date().toISOString();
+  let res;
+  if(restoreId) res = await sb.from('jobs').update({ ...rec, status:'live', reviewed_by:me.email, reviewed_at:now }).eq('id', restoreId);
+  else if(id) res = await sb.from('jobs').update(rec).eq('id', id);
+  else res = await sb.from('jobs').insert({ ...rec, status:'live', source:'manual', created_by: me.email, reviewed_by: me.email, reviewed_at: now });
+  b.disabled = false; b.classList.remove('busy');
   if(res.error) return err(friendly(res.error));
-  $('#jobDlg').close(); toast('Saved.'); await loadJobs(); if(isAdmin()) await loadLogs(); render();
+  $('#jobDlg').close(); toast(id?'Saved.':'Job added and live on the site.'); await loadJobs(); if(isAdmin()) await loadLogs(); render();
 };
 
 /* ---------- team (admins) ---------- */
@@ -373,35 +509,6 @@ function renderActivity(){
   <table><thead><tr><th>When</th><th>Who</th><th>What</th><th>Details</th></tr></thead><tbody>
   ${logs.map(l=>`<tr><td>${esc(fmtTime(l.at))}</td><td>${esc(l.actor_email||'')}</td><td>${esc(l.action)} ${esc(l.entity==='jobs'?'job':'team member')}</td><td>${esc(summarise(l))}</td></tr>`).join('') || '<tr><td colspan="4">No activity yet.</td></tr>'}
   </tbody></table>`;
-}
-
-/* ---------- import / export ---------- */
-function renderTools(){
-  $('#panel').innerHTML = `<div class="card"><h3>Import the current guide jobs</h3>
-  <p>One-off: loads the jobs from the original guide file (<code>jobs_import.json</code>) as live roles. Roles already in the list (same advert link) are skipped, so it's safe to click twice.</p>
-  <div class="actions"><button class="btn" id="doImport">Import current jobs</button></div><p id="importMsg" role="status"></p></div>
-  <div class="card"><h3>See what the public site will show</h3>
-  <p>Downloads exactly what the public page receives: live roles that haven't passed their closing date.</p>
-  <div class="actions"><button class="btn ghost" id="doExport">Download live jobs (JSON)</button></div></div>`;
-  $('#doImport').onclick = async () => {
-    const msg = $('#importMsg'); msg.style.color=''; msg.textContent='Reading file…';
-    let rows; try{ const r = await fetch('jobs_import.json', {cache:'no-store'}); if(!r.ok) throw new Error('File not found ('+r.status+')'); rows = await r.json(); }catch(e){ msg.textContent = 'Could not read jobs_import.json: '+e.message; msg.style.color='var(--danger)'; return; }
-    if(!confirm('Import '+rows.length+' jobs as live roles?')) { msg.textContent=''; return; }
-    let added = 0;
-    for(let i=0;i<rows.length;i+=25){
-      const chunk = rows.slice(i,i+25).map(r=>({...r, created_by: me.email, reviewed_by: me.email, reviewed_at: new Date().toISOString()}));
-      const { data, error } = await sb.from('jobs').upsert(chunk, { onConflict:'url', ignoreDuplicates:true }).select('id');
-      if(error){ msg.textContent = 'Stopped: '+friendly(error); msg.style.color='var(--danger)'; return; }
-      added += (data||[]).length;
-    }
-    msg.textContent = `Done: ${added} added, ${rows.length-added} already there.`; msg.style.color='var(--ok)';
-    await loadJobs(); if(isAdmin()) await loadLogs();
-  };
-  $('#doExport').onclick = async () => {
-    const { data, error } = await sb.rpc('public_jobs'); if(error) return toast(friendly(error), true);
-    const blob = new Blob([JSON.stringify(data,null,1)], {type:'application/json'});
-    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'live-jobs-'+todayStr()+'.json'; a.click();
-  };
 }
 
 boot();
