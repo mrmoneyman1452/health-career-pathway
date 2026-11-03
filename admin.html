@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Health Career Pathway – Admin</title>
+<style>
+:root{--bg:#F2F5F9;--surface:#fff;--ink:#0B1F3A;--muted:#475972;--line:#C9D3E0;--brand:#005EB8;--brand-dark:#003087;--ok:#00703C;--warn:#8A4B00;--warn-bg:#FFF3D6;--danger:#B3261E;--focus:#FFB81C}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+header.top{background:var(--brand-dark);color:#fff;padding:14px 16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+header.top h1{font-size:1.15rem;margin:0}
+header.top .who{font-size:.9rem;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.badge{display:inline-block;padding:2px 9px;border-radius:99px;font-size:.78rem;font-weight:700;background:#E8EEF7;color:var(--brand-dark)}
+.badge.role{background:#fff;color:var(--brand-dark)}
+.badge.live{background:#D9F2E3;color:var(--ok)}.badge.pending{background:var(--warn-bg);color:var(--warn)}
+.badge.closed,.badge.removed,.badge.rejected{background:#EBEBEB;color:#333}
+.badge.warn{background:var(--warn-bg);color:var(--warn)}
+main{max-width:1000px;margin:0 auto;padding:16px}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+nav.tabs button{border:1px solid var(--line);background:#fff;padding:8px 14px;border-radius:8px;font:inherit;cursor:pointer}
+nav.tabs button[aria-selected=true]{background:var(--brand);color:#fff;border-color:var(--brand);font-weight:700}
+button,.btn{font:inherit}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.btn{border:1px solid var(--brand);background:var(--brand);color:#fff;padding:7px 13px;border-radius:8px;cursor:pointer;font-weight:600}
+.btn.ghost{background:#fff;color:var(--brand)}
+.btn.danger{background:#fff;color:var(--danger);border-color:var(--danger)}
+.btn.small{padding:4px 10px;font-size:.9rem}
+.btn[disabled]{opacity:.55;cursor:not-allowed}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+.card h3{margin:0 0 4px;font-size:1.05rem}
+.meta{color:var(--muted);font-size:.92rem;display:flex;flex-wrap:wrap;gap:4px 14px;margin:4px 0 8px}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+input,select,textarea{font:inherit;padding:8px 10px;border:1px solid #6b7c93;border-radius:8px;background:#fff;color:var(--ink);width:100%}
+.toolbar input[type=search]{flex:1;min-width:200px;width:auto}
+label{display:block;font-weight:600;margin:10px 0 3px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+dialog{border:none;border-radius:14px;padding:18px;max-width:720px;width:calc(100% - 24px);box-shadow:0 10px 40px rgba(0,0,0,.3)}
+dialog::backdrop{background:rgba(11,31,58,.55)}
+.hint{color:var(--muted);font-size:.88rem;font-weight:400}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:.93rem}
+th{background:#E8EEF7}
+#toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;max-width:92%;display:none;z-index:50}
+#toast.err{background:var(--danger)}
+.center{max-width:440px;margin:60px auto;padding:0 16px}
+.note{background:#E8EEF7;border-radius:10px;padding:10px 14px;font-size:.92rem;margin-bottom:12px}
+</style>
+</head>
+<body>
+<div id="app"><p style="padding:24px">Loading…</p></div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<dialog id="jobDlg" aria-labelledby="jobDlgTitle">
+  <form id="jobForm" novalidate>
+    <h2 id="jobDlgTitle" style="margin-top:0">Job</h2>
+    <input type="hidden" id="f_id">
+    <label for="f_title">Job title *</label><input id="f_title" required>
+    <div class="grid">
+      <div><label for="f_employer">Employer</label><input id="f_employer"></div>
+      <div><label for="f_url">Advert link (https) *</label><input id="f_url" type="url" placeholder="https://www.jobs.nhs.uk/candidate/jobadvert/…" required></div>
+      <div><label for="f_kind">Type *</label><select id="f_kind"></select></div>
+      <div><label for="f_category">Clinical or non-clinical</label><select id="f_category"><option>Clinical</option><option>Non-clinical</option></select></div>
+      <div><label for="f_band">Band</label><input id="f_band" placeholder="Band 2"></div>
+      <div><label for="f_salary">Salary</label><input id="f_salary" placeholder="£25,272 or £25,760 – £27,476"></div>
+      <div><label for="f_area">Area</label><select id="f_area"></select></div>
+      <div><label for="f_dept">Department</label><select id="f_dept"></select></div>
+      <div><label for="f_location">Where</label><input id="f_location" placeholder="Birmingham B24 9SA"></div>
+      <div><label for="f_hours">Hours</label><input id="f_hours" placeholder="Full-time, permanent"></div>
+      <div><label for="f_posted">Date posted</label><input id="f_posted" type="date"></div>
+      <div><label for="f_closes">Closing date</label><input id="f_closes" type="date"></div>
+      <div><label for="f_app">Apprenticeship?</label><input id="f_app" placeholder="No, or Yes – Level 3, 1 year"></div>
+    </div>
+    <label for="f_req">What you need <span class="hint">(one point per line)</span></label><textarea id="f_req" rows="4"></textarea>
+    <label for="f_duties">What you'll do <span class="hint">(one point per line)</span></label><textarea id="f_duties" rows="4"></textarea>
+    <label for="f_notes">Internal notes <span class="hint">(not shown on the site)</span></label><textarea id="f_notes" rows="2"></textarea>
+    <label id="publishRow" style="font-weight:400"><input type="checkbox" id="f_publish" style="width:auto"> Publish on the site straight away (otherwise it waits in the review queue)</label>
+    <p id="formErr" role="alert" style="color:var(--danger);margin:8px 0 0"></p>
+    <div class="actions" style="justify-content:flex-end">
+      <button type="button" class="btn ghost" id="jobCancel">Cancel</button>
+      <button type="submit" class="btn" id="jobSave">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+const SB_URL = 'https://fqcdlzwkfeswlexsatpx.supabase.co';
+const SB_KEY = 'sb_publishable_ulBLm9a9fR24_HO9-ez4oA_tKhXJ9Sh';
+const sb = supabase.createClient(SB_URL, SB_KEY);
+
+const DEPTS = ["Admin, reception and secretaries","Wards and patient care","Imaging, tests and labs","Clinics, therapies and family support","Mental health and community teams","Theatres and decontamination","Catering, housekeeping and porters","Pharmacy and dental","Care homes and home care","Other"];
+const AREAS = ["Sandwell","Birmingham","Dudley","Walsall","Wolverhampton","Check area"];
+const KINDS = ["NHS","Care homes and others","Apprenticeships"];
+const KIND_LABEL = {"NHS":"NHS","Care homes and others":"Care homes and others","Apprenticeships":"Apprenticeship"};
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let me = {email:null, role:null}, jobs = [], team = [], logs = [], tab = 'pending', q = '', startedFor = null, importRows = null;
+const canEdit = () => me.role === 'admin' || me.role === 'editor';
+const isAdmin = () => me.role === 'admin';
+
+function toast(msg, err){ const t=$('#toast'); t.textContent=msg; t.className=err?'err':''; t.style.display='block'; clearTimeout(toast.t); toast.t=setTimeout(()=>t.style.display='none', err?7000:3500); }
+function friendly(e){
+  if(!e) return 'Something went wrong.';
+  if(e.code==='42501') return "You don't have permission to do that.";
+  if(e.code==='23505') return 'That already exists (the advert link or email is already in the list).';
+  if(e.code==='P0001' || /last active admin/i.test(e.message||'')) return e.message.replace(/^.*?:\s*/,'');
+  return e.message || 'Something went wrong.';
+}
+const fmtDate = s => { if(!s) return ''; const d=new Date(s+'T00:00:00'); return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}); };
+const fmtTime = s => new Date(s).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+const todayStr = () => { const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
+const daysLeft = s => s ? Math.round((new Date(s+'T00:00:00') - new Date(todayStr()+'T00:00:00'))/86400000) : null;
+const lines = s => (s||'').split('\n').map(x=>x.replace(/^[•\-\s]+/,'').trim()).filter(Boolean);
+
+/* ---------- auth ---------- */
+async function boot(){
+  const { data:{ session } } = await sb.auth.getSession();
+  sb.auth.onAuthStateChange((ev, s) => { if(ev==='SIGNED_OUT') start(null); else if(ev==='SIGNED_IN') start(s); });
+  start(session);
+}
+async function start(session){
+  const uid = session?.user?.id || null;
+  if(uid && uid === startedFor) return;
+  startedFor = uid;
+  if(!session){ me = {email:null, role:null}; return showLogin(); }
+  me.email = session.user.email;
+  $('#app').innerHTML = '<p style="padding:24px">Checking your access…</p>';
+  const { data, error } = await sb.rpc('current_app_role');
+  if(error){ toast(friendly(error), true); }
+  me.role = data || null;
+  if(!me.role) return showNoAccess();
+  await Promise.all([loadJobs(), isAdmin()?loadTeam():0, isAdmin()?loadLogs():0]);
+  tab = 'pending'; render();
+}
+function showLogin(){
+  $('#app').innerHTML = `<div class="center card"><h1 style="margin-top:0;font-size:1.3rem">Health Career Pathway – Admin</h1>
+  <p>Sign in with your work email. We'll email you a link – no password needed.</p>
+  <form id="loginForm"><label for="em">Email address</label><input id="em" type="email" autocomplete="email" required>
+  <div class="actions"><button class="btn" id="loginBtn" type="submit">Email me a sign-in link</button></div></form>
+  <p id="loginMsg" role="status" style="margin-bottom:0"></p></div>`;
+  $('#loginForm').onsubmit = async e => {
+    e.preventDefault(); const em = $('#em').value.trim(); const b=$('#loginBtn'); b.disabled=true;
+    const redirect = location.href.split('#')[0].split('?')[0];
+    const { error } = await sb.auth.signInWithOtp({ email: em, options: { emailRedirectTo: redirect } });
+    b.disabled=false;
+    $('#loginMsg').textContent = error ? friendly(error) : 'Check your inbox for the sign-in link (it can take a minute – also check junk mail).';
+    $('#loginMsg').style.color = error ? 'var(--danger)' : 'var(--ok)';
+  };
+}
+function showNoAccess(){
+  $('#app').innerHTML = `<div class="center card"><h1 style="margin-top:0;font-size:1.3rem">No access yet</h1>
+  <p>You're signed in as <strong>${esc(me.email)}</strong>, but that address isn't on the team. Ask an Admin to add you on the Team page, then sign in again.</p>
+  <div class="actions"><button class="btn ghost" id="so">Sign out</button></div></div>`;
+  $('#so').onclick = () => sb.auth.signOut();
+}
+
+/* ---------- data ---------- */
+async function loadJobs(){ const { data, error } = await sb.from('jobs').select('*').order('updated_at',{ascending:false}).limit(1000); if(error) toast(friendly(error),true); jobs = data || []; }
+async function loadTeam(){ const { data, error } = await sb.from('team_members').select('*').order('created_at'); if(error) toast(friendly(error),true); team = data || []; }
+async function loadLogs(){ const { data, error } = await sb.from('activity_log').select('*').order('at',{ascending:false}).limit(150); if(error) toast(friendly(error),true); logs = data || []; }
+
+/* ---------- render ---------- */
+function render(){
+  const counts = {
+    pending: jobs.filter(j=>j.status==='pending').length,
+    live: jobs.filter(j=>j.status==='live').length,
+    archive: jobs.filter(j=>['closed','removed','rejected'].includes(j.status)).length
+  };
+  const tabs = [['pending',`Review queue (${counts.pending})`],['live',`Live on site (${counts.live})`],['archive',`Archive (${counts.archive})`]];
+  if(isAdmin()) tabs.push(['team','Team'],['activity','Activity']);
+  if(canEdit()) tabs.push(['tools','Import / export']);
+  $('#app').innerHTML = `<header class="top"><h1>Health Career Pathway – Admin</h1>
+    <div class="who"><span>${esc(me.email)}</span><span class="badge role">${esc(me.role)}</span><button class="btn ghost small" id="so">Sign out</button></div></header>
+    <main><nav class="tabs" role="tablist">${tabs.map(([k,l])=>`<button role="tab" aria-selected="${k===tab}" data-tab="${k}">${l}</button>`).join('')}</nav>
+    <div id="panel"></div></main>`;
+  $('#so').onclick = () => sb.auth.signOut();
+  document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { tab=b.dataset.tab; render(); });
+  if(['pending','live','archive'].includes(tab)) renderJobs(); else if(tab==='team') renderTeam(); else if(tab==='activity') renderActivity(); else renderTools();
+}
+
+function matches(j){ if(!q) return true; const s=(j.title+' '+(j.employer||'')+' '+(j.area||'')+' '+j.url+' '+(j.notes||'')).toLowerCase(); return s.includes(q.toLowerCase()); }
+function renderJobs(){
+  let list;
+  if(tab==='pending') list = jobs.filter(j=>j.status==='pending').sort((a,b)=>b.created_at.localeCompare(a.created_at));
+  else if(tab==='live') list = jobs.filter(j=>j.status==='live').sort((a,b)=>(a.closes||'9999').localeCompare(b.closes||'9999'));
+  else list = jobs.filter(j=>['closed','removed','rejected'].includes(j.status));
+  list = list.filter(matches);
+  const intro = { pending:"New roles wait here. Check each one against its advert (Band 2 or 3, no health qualification or licence needed, local area) before you approve it.", live:"These roles are the ones the public site can show. Roles past their closing date are hidden automatically.", archive:"Closed, removed and rejected roles. Restore sends a role back to the review queue." }[tab];
+  $('#panel').innerHTML = `<div class="note">${intro}</div>
+  <div class="toolbar"><input type="search" id="q" placeholder="Search title, employer, area…" aria-label="Search jobs" value="${esc(q)}">
+  ${canEdit()?'<button class="btn" id="addJob">+ Add a job</button>':''}</div>
+  ${list.length ? list.map(jobCard).join('') : '<div class="empty card">Nothing here.</div>'}`;
+  $('#q').oninput = e => { q = e.target.value; const pos=e.target.selectionStart; renderJobs(); const el=$('#q'); el.focus(); el.setSelectionRange(pos,pos); };
+  if($('#addJob')) $('#addJob').onclick = () => openJob(null);
+  document.querySelectorAll('[data-act]').forEach(b => b.onclick = () => jobAction(b.dataset.act, b.dataset.id, b));
+}
+function jobCard(j){
+  const dl = daysLeft(j.closes);
+  const expired = j.status==='live' && dl!==null && dl<0;
+  const soon = j.status==='live' && dl!==null && dl>=0 && dl<=3;
+  const acts = [];
+  if(canEdit()){
+    if(j.status==='pending') acts.push(['approve','Approve and publish','btn'],['edit','Edit','btn ghost'],['reject','Reject','btn danger']);
+    else if(j.status==='live') acts.push(['edit','Edit','btn ghost'],['close','Mark as closed','btn ghost'],['remove','Remove from site','btn danger']);
+    else acts.push(['restore','Restore to review queue','btn ghost']);
+  }
+  if(isAdmin() && ['closed','removed','rejected'].includes(j.status)) acts.push(['delete','Delete permanently','btn danger']);
+  return `<article class="card"><h3>${esc(j.title)}</h3>
+  <div class="meta"><span class="badge ${j.status}">${esc(j.status)}</span>
+   ${expired?'<span class="badge warn">Past closing date – hidden from site</span>':''}${soon?`<span class="badge warn">Closes ${dl===0?'today':'in '+dl+' day'+(dl>1?'s':'')}</span>`:''}
+   <span class="badge">${esc(KIND_LABEL[j.kind]||j.kind)}</span><span class="badge">${esc(j.source)}</span></div>
+  <div class="meta"><span>${esc(j.employer||'')}</span><span>${esc(j.band||'')}</span><span>${esc(j.salary||'')}</span><span>${esc(j.area||'')}</span><span>Closes: ${j.closes?esc(fmtDate(j.closes)):'no date'}</span></div>
+  <div class="meta"><a href="${esc(j.url)}" target="_blank" rel="noopener noreferrer">Open the advert</a>${j.notes?`<span>Note: ${esc(j.notes)}</span>`:''}${j.reviewed_by?`<span>Reviewed by ${esc(j.reviewed_by)}</span>`:''}</div>
+  ${acts.length?`<div class="actions">${acts.map(([a,l,c])=>`<button class="${c} small" data-act="${a}" data-id="${j.id}">${l}</button>`).join('')}</div>`:''}</article>`;
+}
+async function setStatus(id, status){
+  const patch = { status };
+  if(status==='live' || status==='rejected' || status==='closed' || status==='removed'){ patch.reviewed_by = me.email; patch.reviewed_at = new Date().toISOString(); }
+  const { error } = await sb.from('jobs').update(patch).eq('id', id);
+  if(error) return toast(friendly(error), true);
+  await loadJobs(); if(isAdmin()) await loadLogs(); render();
+}
+async function jobAction(act, id, btn){
+  const j = jobs.find(x=>x.id===id); if(!j) return;
+  btn.disabled = true;
+  try{
+    if(act==='edit') return openJob(j);
+    if(act==='approve'){ const dl=daysLeft(j.closes); if(dl!==null && dl<0 && !confirm('This role is past its closing date and will not show on the site. Approve anyway?')) return; return await setStatus(id,'live'); }
+    if(act==='reject') return await setStatus(id,'rejected');
+    if(act==='close') return await setStatus(id,'closed');
+    if(act==='remove'){ if(!confirm('Remove “'+j.title+'” from the site?')) return; return await setStatus(id,'removed'); }
+    if(act==='restore') return await setStatus(id,'pending');
+    if(act==='delete'){ if(!confirm('Permanently delete “'+j.title+'”? This cannot be undone (it stays in the activity log).')) return;
+      const { error } = await sb.from('jobs').delete().eq('id', id); if(error) return toast(friendly(error),true);
+      await loadJobs(); if(isAdmin()) await loadLogs(); render(); }
+  } finally { btn.disabled = false; }
+}
+
+/* ---------- add / edit dialog ---------- */
+const opt = (arr, cur) => arr.map(v=>`<option${v===cur?' selected':''}>${esc(v)}</option>`).join('');
+function openJob(j){
+  $('#jobDlgTitle').textContent = j ? 'Edit job' : 'Add a job';
+  $('#f_kind').innerHTML = KINDS.map(k=>`<option value="${esc(k)}"${j&&j.kind===k?' selected':''}>${esc(KIND_LABEL[k])}</option>`).join('');
+  $('#f_area').innerHTML = opt(AREAS, j?.area);
+  $('#f_dept').innerHTML = opt(DEPTS, j?.dept);
+  const set = (id,v) => $('#f_'+id).value = v ?? '';
+  set('id', j?.id); set('title', j?.title); set('employer', j?.employer); set('url', j?.url);
+  $('#f_category').value = j?.category || 'Non-clinical';
+  set('band', j?.band); set('salary', j?.salary); set('location', j?.location); set('hours', j?.hours);
+  set('posted', j?.posted); set('closes', j?.closes); set('app', j?.apprenticeship ?? 'No');
+  set('req', (j?.requirements||[]).join('\n')); set('duties', (j?.duties||[]).join('\n')); set('notes', j?.notes);
+  $('#publishRow').style.display = j ? 'none' : 'block'; $('#f_publish').checked = false;
+  $('#formErr').textContent = '';
+  $('#jobDlg').showModal();
+}
+$('#jobCancel').onclick = () => $('#jobDlg').close();
+$('#jobForm').onsubmit = async e => {
+  e.preventDefault();
+  const v = id => $('#f_'+id).value.trim();
+  const err = m => { $('#formErr').textContent = m; };
+  if(!v('title')) return err('Add a job title.');
+  if(!/^https:\/\//i.test(v('url'))) return err('The advert link must start with https://');
+  if(v('posted') && v('closes') && v('closes') < v('posted')) return err('The closing date is before the posting date.');
+  const rec = { title:v('title'), employer:v('employer')||null, url:v('url'), kind:$('#f_kind').value, category:$('#f_category').value,
+    band:v('band')||null, salary:v('salary')||null, area:$('#f_area').value, dept:$('#f_dept').value, location:v('location')||null,
+    hours:v('hours')||null, posted:v('posted')||null, closes:v('closes')||null, apprenticeship:v('app')||null,
+    requirements:lines($('#f_req').value), duties:lines($('#f_duties').value), notes:v('notes')||null };
+  const id = $('#f_id').value; const b = $('#jobSave'); b.disabled = true;
+  let res;
+  if(id) res = await sb.from('jobs').update(rec).eq('id', id);
+  else {
+    const live = $('#f_publish').checked;
+    res = await sb.from('jobs').insert({ ...rec, status: live?'live':'pending', source:'manual', created_by: me.email, reviewed_by: live?me.email:null, reviewed_at: live?new Date().toISOString():null });
+  }
+  b.disabled = false;
+  if(res.error) return err(friendly(res.error));
+  $('#jobDlg').close(); toast('Saved.'); await loadJobs(); if(isAdmin()) await loadLogs(); render();
+};
+
+/* ---------- team (admins) ---------- */
+function renderTeam(){
+  $('#panel').innerHTML = `<div class="note"><strong>Admin</strong> can do everything, including adding people. <strong>Editor</strong> can add, edit, approve and remove jobs. <strong>Viewer</strong> can look but not change anything. Someone can only use this page if their email is listed here.</div>
+  <table><thead><tr><th>Name / email</th><th>Role</th><th>Status</th><th></th></tr></thead><tbody>
+  ${team.map(m=>`<tr><td><strong>${esc(m.display_name||'')}</strong><br>${esc(m.email)}</td>
+   <td><select data-role="${m.id}" aria-label="Role for ${esc(m.email)}">${['admin','editor','viewer'].map(r=>`<option${m.role===r?' selected':''}>${r}</option>`).join('')}</select></td>
+   <td>${m.active?'<span class="badge live">active</span>':'<span class="badge closed">switched off</span>'}<br><span class="hint">${m.user_id?'has signed in':'not signed in yet'}</span></td>
+   <td><div class="actions" style="margin:0"><button class="btn ghost small" data-toggle="${m.id}">${m.active?'Switch off':'Switch on'}</button><button class="btn danger small" data-del="${m.id}">Remove</button></div></td></tr>`).join('')}
+  </tbody></table>
+  <div class="card" style="margin-top:14px"><h3>Add someone</h3><form id="addTeam" class="grid">
+    <div><label for="t_email">Work email</label><input id="t_email" type="email" required></div>
+    <div><label for="t_name">Name</label><input id="t_name"></div>
+    <div><label for="t_role">Role</label><select id="t_role"><option>viewer</option><option selected>editor</option><option>admin</option></select></div>
+    <div style="align-self:end"><button class="btn" type="submit">Add to team</button></div></form></div>`;
+  document.querySelectorAll('[data-role]').forEach(s => s.onchange = async () => {
+    const { error } = await sb.from('team_members').update({ role: s.value }).eq('id', s.dataset.role);
+    if(error) toast(friendly(error), true); else toast('Role updated.');
+    await loadTeam(); await loadLogs(); renderTeam();
+  });
+  document.querySelectorAll('[data-toggle]').forEach(b => b.onclick = async () => {
+    const m = team.find(x=>x.id===b.dataset.toggle);
+    const { error } = await sb.from('team_members').update({ active: !m.active }).eq('id', m.id);
+    if(error) toast(friendly(error), true);
+    await loadTeam(); await loadLogs(); renderTeam();
+  });
+  document.querySelectorAll('[data-del]').forEach(b => b.onclick = async () => {
+    const m = team.find(x=>x.id===b.dataset.del);
+    if(!confirm('Remove '+m.email+' from the team?')) return;
+    const { error } = await sb.from('team_members').delete().eq('id', m.id);
+    if(error) toast(friendly(error), true); else toast('Removed.');
+    await loadTeam(); await loadLogs(); renderTeam();
+  });
+  $('#addTeam').onsubmit = async e => {
+    e.preventDefault();
+    const { error } = await sb.from('team_members').insert({ email:$('#t_email').value.trim(), display_name:$('#t_name').value.trim()||null, role:$('#t_role').value, created_by: me.email });
+    if(error) return toast(friendly(error), true);
+    toast('Added. They can now sign in with that email.'); await loadTeam(); await loadLogs(); renderTeam();
+  };
+}
+
+/* ---------- activity (admins) ---------- */
+function summarise(l){
+  const d = l.details || {}; const row = d.after || d;
+  const name = row.title || row.email || l.entity_id || '';
+  if(l.action==='update' && d.before && d.after){
+    const ch = Object.keys(d.after).filter(k=>!['updated_at','reviewed_at'].includes(k) && JSON.stringify(d.before[k])!==JSON.stringify(d.after[k]));
+    if(ch.includes('status')) return `${name}: status ${d.before.status} → ${d.after.status}`;
+    return `${name}: changed ${ch.join(', ') || 'details'}`;
+  }
+  return name;
+}
+function renderActivity(){
+  $('#panel').innerHTML = `<div class="note">The last 150 changes. Every add, edit, approval, removal and team change is recorded here.</div>
+  <table><thead><tr><th>When</th><th>Who</th><th>What</th><th>Details</th></tr></thead><tbody>
+  ${logs.map(l=>`<tr><td>${esc(fmtTime(l.at))}</td><td>${esc(l.actor_email||'')}</td><td>${esc(l.action)} ${esc(l.entity==='jobs'?'job':'team member')}</td><td>${esc(summarise(l))}</td></tr>`).join('') || '<tr><td colspan="4">No activity yet.</td></tr>'}
+  </tbody></table>`;
+}
+
+/* ---------- import / export ---------- */
+function renderTools(){
+  $('#panel').innerHTML = `<div class="card"><h3>Import the current guide jobs</h3>
+  <p>One-off: loads the jobs from the original guide file (<code>jobs_import.json</code>) as live roles. Roles already in the list (same advert link) are skipped, so it's safe to click twice.</p>
+  <div class="actions"><button class="btn" id="doImport">Import current jobs</button></div><p id="importMsg" role="status"></p></div>
+  <div class="card"><h3>See what the public site will show</h3>
+  <p>Downloads exactly what the public page receives: live roles that haven't passed their closing date.</p>
+  <div class="actions"><button class="btn ghost" id="doExport">Download live jobs (JSON)</button></div></div>`;
+  $('#doImport').onclick = async () => {
+    const msg = $('#importMsg'); msg.style.color=''; msg.textContent='Reading file…';
+    let rows; try{ const r = await fetch('jobs_import.json', {cache:'no-store'}); if(!r.ok) throw new Error('File not found ('+r.status+')'); rows = await r.json(); }catch(e){ msg.textContent = 'Could not read jobs_import.json: '+e.message; msg.style.color='var(--danger)'; return; }
+    if(!confirm('Import '+rows.length+' jobs as live roles?')) { msg.textContent=''; return; }
+    let added = 0;
+    for(let i=0;i<rows.length;i+=25){
+      const chunk = rows.slice(i,i+25).map(r=>({...r, created_by: me.email, reviewed_by: me.email, reviewed_at: new Date().toISOString()}));
+      const { data, error } = await sb.from('jobs').upsert(chunk, { onConflict:'url', ignoreDuplicates:true }).select('id');
+      if(error){ msg.textContent = 'Stopped: '+friendly(error); msg.style.color='var(--danger)'; return; }
+      added += (data||[]).length;
+    }
+    msg.textContent = `Done: ${added} added, ${rows.length-added} already there.`; msg.style.color='var(--ok)';
+    await loadJobs(); if(isAdmin()) await loadLogs();
+  };
+  $('#doExport').onclick = async () => {
+    const { data, error } = await sb.rpc('public_jobs'); if(error) return toast(friendly(error), true);
+    const blob = new Blob([JSON.stringify(data,null,1)], {type:'application/json'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'live-jobs-'+todayStr()+'.json'; a.click();
+  };
+}
+
+boot();
+</script>
+</body>
+</html>
