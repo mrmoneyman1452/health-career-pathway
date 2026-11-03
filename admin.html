@@ -39,6 +39,7 @@ label{display:block;font-weight:600;margin:10px 0 3px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
 @media(max-width:640px){.grid{grid-template-columns:1fr}}
 dialog{border:none;border-radius:14px;padding:18px;max-width:720px;width:calc(100% - 24px);box-shadow:0 10px 40px rgba(0,0,0,.3)}
+.stepbar{display:flex;gap:6px;margin:4px 0 10px}.stepbar span{flex:1;height:6px;border-radius:3px;background:var(--line)}.stepbar span.on{background:var(--brand)}.step{display:none}.step.show{display:block}.rev{display:grid;grid-template-columns:150px 1fr;gap:4px 12px;margin:8px 0}.rev dt{color:var(--muted)}.rev dd{margin:0;overflow-wrap:anywhere}
 dialog::backdrop{background:rgba(11,31,58,.55)}
 .hint{color:var(--muted);font-size:.88rem;font-weight:400}
 .empty{padding:28px;text-align:center;color:var(--muted)}
@@ -59,30 +60,35 @@ th{background:#E8EEF7}
   <form id="jobForm" novalidate>
     <h2 id="jobDlgTitle" style="margin-top:0">Job</h2>
     <input type="hidden" id="f_id">
-    <label for="f_title">Job title *</label><input id="f_title" required>
-    <div class="grid">
-      <div><label for="f_employer">Employer</label><input id="f_employer"></div>
-      <div><label for="f_url">Advert link (https) *</label><input id="f_url" type="url" placeholder="https://www.jobs.nhs.uk/candidate/jobadvert/…" required></div>
-      <div><label for="f_kind">Type *</label><select id="f_kind"></select></div>
-      <div><label for="f_category">Clinical or non-clinical</label><select id="f_category"><option>Clinical</option><option>Non-clinical</option></select></div>
+    <div class="stepbar" id="stepbar" aria-live="polite"></div>
+    <div class="step" data-step="0"><h3>1. The basics</h3>
+      <label for="f_title">Job title *</label><input id="f_title" required>
+      <label for="f_url">Advert link (https) *</label><input id="f_url" type="url" placeholder="https://www.jobs.nhs.uk/candidate/jobadvert/…" required>
+      <div class="grid"><div><label for="f_employer">Employer</label><input id="f_employer"></div>
+      <div><label for="f_kind">Type *</label><select id="f_kind"></select></div></div></div>
+    <div class="step" data-step="1"><h3>2. Pay and place</h3><div class="grid">
+      <div><label for="f_category">Clinical or non-clinical</label><select id="f_category"></select></div>
+      <div><label for="f_dept">Department</label><select id="f_dept"></select></div>
       <div><label for="f_band">Band</label><input id="f_band" placeholder="Band 2"></div>
       <div><label for="f_salary">Salary</label><input id="f_salary" placeholder="£25,272 or £25,760 – £27,476"></div>
       <div><label for="f_area">Area</label><select id="f_area"></select></div>
-      <div><label for="f_dept">Department</label><select id="f_dept"></select></div>
       <div><label for="f_location">Where</label><input id="f_location" placeholder="Birmingham B24 9SA"></div>
-      <div><label for="f_hours">Hours</label><input id="f_hours" placeholder="Full-time, permanent"></div>
+      <div><label for="f_hours">Hours</label><input id="f_hours" placeholder="Full-time, permanent"></div></div></div>
+    <div class="step" data-step="2"><h3>3. Dates and apprenticeship</h3><div class="grid">
       <div><label for="f_posted">Date posted</label><input id="f_posted" type="date"></div>
       <div><label for="f_closes">Closing date</label><input id="f_closes" type="date"></div>
-      <div><label for="f_app">Apprenticeship?</label><input id="f_app" placeholder="No, or Yes – Level 3, 1 year"></div>
-    </div>
-    <label for="f_req">What you need <span class="hint">(one point per line)</span></label><textarea id="f_req" rows="4"></textarea>
-    <label for="f_duties">What you'll do <span class="hint">(one point per line)</span></label><textarea id="f_duties" rows="4"></textarea>
-    <label for="f_notes">Internal notes <span class="hint">(not shown on the site)</span></label><textarea id="f_notes" rows="2"></textarea>
-    <label id="publishRow" style="font-weight:400"><input type="checkbox" id="f_publish" style="width:auto"> Publish on the site straight away (otherwise it waits in the review queue)</label>
+      <div><label for="f_app">Apprenticeship?</label><input id="f_app" placeholder="No, or Yes – Level 3, 1 year"></div></div></div>
+    <div class="step" data-step="3"><h3>4. The details</h3>
+      <label for="f_req">What you need <span class="hint">(one point per line)</span></label><textarea id="f_req" rows="4"></textarea>
+      <label for="f_duties">What you'll do <span class="hint">(one point per line)</span></label><textarea id="f_duties" rows="4"></textarea>
+      <label for="f_notes">Internal notes <span class="hint">(not shown on the site)</span></label><textarea id="f_notes" rows="2"></textarea></div>
+    <div class="step" data-step="4"><h3>5. Check and confirm</h3><div id="reviewBox"></div>
+      <label id="publishRow" style="font-weight:400"><input type="checkbox" id="f_publish" style="width:auto"> Publish on the site straight away (otherwise it waits in the review queue)</label></div>
     <p id="formErr" role="alert" style="color:var(--danger);margin:8px 0 0"></p>
     <div class="actions" style="justify-content:flex-end">
       <button type="button" class="btn ghost" id="jobCancel">Cancel</button>
-      <button type="submit" class="btn" id="jobSave">Save</button>
+      <button type="button" class="btn ghost" id="jobBack">Back</button>
+      <button type="submit" class="btn" id="jobSave">Next</button>
     </div>
   </form>
 </dialog>
@@ -243,32 +249,60 @@ async function jobAction(act, id, btn){
 }
 
 /* ---------- add / edit dialog ---------- */
-const opt = (arr, cur) => arr.map(v=>`<option${v===cur?' selected':''}>${esc(v)}</option>`).join('');
+const OTHER='__other__';
+const opt = (arr, cur) => { const list = (cur && !arr.includes(cur)) ? [...arr, cur] : arr;
+  return list.map(v=>`<option${v===cur?' selected':''}>${esc(v)}</option>`).join('') + `<option value="${OTHER}">Other (type your own)…</option>`; };
+function otherBox(id){ const sel=$('#f_'+id); let box=$('#o_'+id);
+  if(!box){ box=document.createElement('input'); box.id='o_'+id; box.placeholder='Type your own'; box.setAttribute('aria-label','Other '+id); box.style.display='none'; box.style.marginTop='6px'; sel.after(box); }
+  const sync=()=>{ box.style.display = sel.value===OTHER?'block':'none'; if(sel.value!==OTHER) box.value=''; };
+  sel.onchange=sync; sync(); return box; }
+const pick = id => { const sel=$('#f_'+id); return sel.value===OTHER ? $('#o_'+id).value.trim() : sel.value; };
 function openJob(j){
   $('#jobDlgTitle').textContent = j ? 'Edit job' : 'Add a job';
   $('#f_kind').innerHTML = KINDS.map(k=>`<option value="${esc(k)}"${j&&j.kind===k?' selected':''}>${esc(KIND_LABEL[k])}</option>`).join('');
   $('#f_area').innerHTML = opt(AREAS, j?.area);
   $('#f_dept').innerHTML = opt(DEPTS, j?.dept);
+  $('#f_category').innerHTML = opt(['Clinical','Non-clinical'], j?.category || 'Non-clinical');
+  ['area','dept','category'].forEach(otherBox);
   const set = (id,v) => $('#f_'+id).value = v ?? '';
   set('id', j?.id); set('title', j?.title); set('employer', j?.employer); set('url', j?.url);
-  $('#f_category').value = j?.category || 'Non-clinical';
   set('band', j?.band); set('salary', j?.salary); set('location', j?.location); set('hours', j?.hours);
   set('posted', j?.posted); set('closes', j?.closes); set('app', j?.apprenticeship ?? 'No');
   set('req', (j?.requirements||[]).join('\n')); set('duties', (j?.duties||[]).join('\n')); set('notes', j?.notes);
   $('#publishRow').style.display = j ? 'none' : 'block'; $('#f_publish').checked = false;
   $('#formErr').textContent = '';
+  goStep(0);
   $('#jobDlg').showModal();
 }
 $('#jobCancel').onclick = () => $('#jobDlg').close();
+const LAST=4; let step=0;
+const val = id => $('#f_'+id).value.trim();
+function goStep(n){ step=n; document.querySelectorAll('#jobForm .step').forEach(el=>el.classList.toggle('show', +el.dataset.step===n));
+  $('#stepbar').innerHTML=[0,1,2,3,4].map(i=>`<span class="${i<=n?'on':''}"></span>`).join('');
+  $('#jobBack').style.display = n? '' : 'none';
+  $('#jobSave').textContent = n===LAST ? ($('#f_id').value?'Confirm and save':'Confirm and add job') : 'Next';
+  $('#publishRow').style.display = $('#f_id').value ? 'none':'block';
+  if(n===LAST) renderReview(); $('#formErr').textContent='';
+  const f=document.querySelector(`#jobForm .step[data-step="${n}"] input,#jobForm .step[data-step="${n}"] select,#jobForm .step[data-step="${n}"] textarea`); if(f) f.focus(); }
+function checkStep(n){
+  if(n===0){ if(!val('title')) return 'Add a job title.'; if(!/^https:\/\//i.test(val('url'))) return 'The advert link must start with https://'; }
+  if(n===1){ for(const k of ['category','dept','area']) if($('#f_'+k).value===OTHER && !$('#o_'+k).value.trim()) return 'Type your own value, or pick one from the list.'; }
+  if(n===2 && val('posted') && val('closes') && val('closes') < val('posted')) return 'The closing date is before the posting date.';
+  return '';
+}
+function renderReview(){
+  const rows=[['Job title',val('title')],['Advert link',val('url')],['Employer',val('employer')],['Type',$('#f_kind').selectedOptions[0]?.textContent],['Clinical / non-clinical',pick('category')],['Department',pick('dept')],['Band',val('band')],['Salary',val('salary')],['Area',pick('area')],['Where',val('location')],['Hours',val('hours')],['Posted',val('posted')],['Closes',val('closes')],['Apprenticeship',val('app')],['What you need',val('req')],['What you\'ll do',val('duties')],['Internal notes',val('notes')]];
+  $('#reviewBox').innerHTML='<p class="hint">Check everything below. Use Back to change anything.</p><dl class="rev">'+rows.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${v?esc(v).replace(/\n/g,'<br>'):'<span class="hint">—</span>'}</dd>`).join('')+'</dl>'; }
+$('#jobBack').onclick = () => goStep(step-1);
 $('#jobForm').onsubmit = async e => {
   e.preventDefault();
-  const v = id => $('#f_'+id).value.trim();
   const err = m => { $('#formErr').textContent = m; };
-  if(!v('title')) return err('Add a job title.');
-  if(!/^https:\/\//i.test(v('url'))) return err('The advert link must start with https://');
-  if(v('posted') && v('closes') && v('closes') < v('posted')) return err('The closing date is before the posting date.');
-  const rec = { title:v('title'), employer:v('employer')||null, url:v('url'), kind:$('#f_kind').value, category:$('#f_category').value,
-    band:v('band')||null, salary:v('salary')||null, area:$('#f_area').value, dept:$('#f_dept').value, location:v('location')||null,
+  const m = checkStep(step); if(m) return err(m);
+  if(step<LAST) return goStep(step+1);
+  for(let i=0;i<LAST;i++){ const m2=checkStep(i); if(m2){ goStep(i); return err(m2); } }
+  const v = val;
+  const rec = { title:v('title'), employer:v('employer')||null, url:v('url'), kind:$('#f_kind').value, category:pick('category')||null,
+    band:v('band')||null, salary:v('salary')||null, area:pick('area')||null, dept:pick('dept')||null, location:v('location')||null,
     hours:v('hours')||null, posted:v('posted')||null, closes:v('closes')||null, apprenticeship:v('app')||null,
     requirements:lines($('#f_req').value), duties:lines($('#f_duties').value), notes:v('notes')||null };
   const id = $('#f_id').value; const b = $('#jobSave'); b.disabled = true;
