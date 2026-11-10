@@ -1,0 +1,37 @@
+name: Daily jobs refresh
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 6 * * *"
+permissions:
+  contents: read
+concurrency: daily-refresh
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: 1. Prepare (Apify + Supabase read, no AI key here)
+        run: python refresh.py prepare
+        env:
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+      - name: 2. Install OpenCode (optional)
+        continue-on-error: true
+        run: npm install -g opencode-ai
+      - name: 3. AI summaries (ONLY the OpenCode key; fails safe)
+        continue-on-error: true
+        run: python refresh.py ai
+        env:
+          OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
+      - name: 4. Apply + email admins (no AI key here)
+        run: python refresh.py apply
+        env:
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
