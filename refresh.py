@@ -21,6 +21,7 @@ MAX_CLOSE_CHECK = int(os.environ.get("MAX_CLOSE_CHECK", "40"))
 AI_BATCH, AI_TEXT_CHARS, AI_MAX_OUT_CHARS = 5, 3500, 6000
 AI_TIMEOUT, AI_MAX_MODEL_TRIES = 150, 6
 TODAY = dt.date.today()
+KEYWORDS = ["healthcare assistant", "support worker", "administrator", "receptionist", "domestic", "porter", "catering assistant", "apprentice"]
 
 def log(*a): print(*a, flush=True)
 def wpath(n): os.makedirs(WORK, exist_ok=True); return os.path.join(WORK, n)
@@ -85,8 +86,8 @@ def prepare():
     cands, seen = [], set()
     for area in AREAS:
         try:
-            items = apify_run({"keywords": [], "location": area, "distanceMiles": 5, "payBands": ["BAND_2", "BAND_3"],
-                               "maxItems": 40, "enrichDetails": True})
+            items = apify_run({"keywords": KEYWORDS, "location": area, "distanceMiles": 5, "payBands": ["BAND_2", "BAND_3"],
+                               "maxItems": 30, "enrichDetails": True})
         except Exception as e:
             stats["notes"].append(f"Search failed for {area}: {e}"); continue
         stats["apify_cost_est"] += 0.0003 + 0.00012067 * len(items)
