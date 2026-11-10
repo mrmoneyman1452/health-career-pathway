@@ -21,6 +21,7 @@ MAX_CLOSE_CHECK = int(os.environ.get("MAX_CLOSE_CHECK", "40"))
 AI_BATCH, AI_TEXT_CHARS, AI_MAX_OUT_CHARS = 5, 3500, 6000
 AI_TIMEOUT, AI_MAX_MODEL_TRIES = 150, 6
 TODAY = dt.date.today()
+MIN_DAYS_LEFT = 3
 KEYWORDS = ["healthcare assistant", "support worker", "administrator", "receptionist", "domestic", "porter", "catering assistant", "apprentice"]
 
 def log(*a): print(*a, flush=True)
@@ -73,6 +74,23 @@ def norm_band(b):
     m = re.search(r"([23])", str(b or ""))
     return f"Band {m.group(1)}" if m else None
 
+AREA_WORDS = {
+    "Sandwell": ["sandwell", "west bromwich", "oldbury", "smethwick", "wednesbury", "tipton", "rowley regis", "cradley heath", "b70", "b71", "b66", "b67", "b68", "b69", "dy4"],
+    "Dudley": ["dudley", "stourbridge", "halesowen", "brierley hill", "netherton", "kingswinford", "dy1", "dy2", "dy3", "dy5", "dy6", "dy8", "dy9"],
+    "Walsall": ["walsall", "aldridge", "brownhills", "bloxwich", "darlaston", "ws1", "ws2", "ws3", "ws4", "ws5", "ws8", "ws9"],
+    "Wolverhampton": ["wolverhampton", "bilston", "wednesfield", "tettenhall", "wv1", "wv2", "wv3", "wv4", "wv10", "wv11", "wv13", "wv14"],
+    "Birmingham": ["birmingham", "solihull", "sutton coldfield", "erdington", "selly oak", "harborne", "edgbaston"],
+}
+
+def infer_area(it, search_area):
+    """Area from the advert's own location text; fall back to the search area and say so."""
+    text = " " + " ".join(str(it.get(k) or "") for k in ("location", "postcode")).lower() + " "
+    for area, words in AREA_WORDS.items():
+        for w in words:
+            if re.search(r"(?<![a-z0-9])" + re.escape(w) + r"(?![a-z])", text) if len(w) > 3 or w[0].isalpha() and any(c.isdigit() for c in w) else False:
+                return area, False
+    return search_area, True
+
 def prepare():
     stats = {"apify_cost_est": 0.0, "notes": []}
     cap, used = apify_limits()
@@ -85,17 +103,21 @@ def prepare():
     # 1) new roles
     cands, seen = [], set()
     for area in AREAS:
-        try:
-            items = apify_run({"keywords": KEYWORDS, "location": area, "distanceMiles": 5, "payBands": ["BAND_2", "BAND_3"],
-                               "maxItems": 30, "enrichDetails": True})
-        except Exception as e:
-            stats["notes"].append(f"Search failed for {area}: {e}"); continue
-        stats["apify_cost_est"] += 0.0003 + 0.00012067 * len(items)
-        for it in items:
-            url = (it.get("url") or "").strip()
-            if not url.startswith("http") or url in seen or url in existing: continue
-            if is_closed(it) or not norm_band(it.get("payBand")): continue
-            seen.add(url); it["_area"] = area; cands.append(it)
+        for kws in (KEYWORDS[:4], KEYWORDS[4:]):          # two smaller calls per area: fewer timeouts, one failure loses less
+            try:
+                items = apify_run({"keywords": kws, "location": area, "distanceMiles": 5, "payBands": ["BAND_2", "BAND_3"],
+                                   "maxItems": 20, "enrichDetails": True})
+            except Exception as e:
+                stats["notes"].append(f"Search failed for {area} ({', '.join(kws[:2])}...): {str(e)[-160:]}"); continue
+            stats["apify_cost_est"] += 0.0003 + 0.00012067 * len(items)
+            for it in items:
+                url = (it.get("url") or "").strip()
+                if not url.startswith("http") or url in seen or url in existing: continue
+                if is_closed(it) or not norm_band(it.get("payBand")): continue
+                d = to_date(it.get("closingDateIso"))
+                if d and d < TODAY + dt.timedelta(days=MIN_DAYS_LEFT): continue   # too late for anyone to apply
+                it["_area"], it["_area_guess"] = infer_area(it, area)
+                seen.add(url); cands.append(it)
     cands.sort(key=lambda x: str(x.get("datePostedIso") or ""), reverse=True)
     if len(cands) > MAX_NEW:
         stats["notes"].append(f"{len(cands)-MAX_NEW} more new roles found; capped at {MAX_NEW} today (they will appear tomorrow).")
@@ -218,6 +240,7 @@ def build_row(it, ai_e):
     if ai_e.get("qualification_flag") is True:
         note.append("AI FLAG: may need a qualification. " + str(ai_e.get("flag_reason") or "")[:150])
     if not ai_e: note.append("No AI summary (rules only): please add requirements/duties.")
+    if it.get("_area_guess"): note.append("CHECK AREA: location not recognised, placed under the search area.")
     note.append("Auto-added from NHS Jobs; check the advert before approving.")
     hours = ", ".join(x for x in (it.get("contractType"), it.get("workingPattern")) if x) or None
     return {"title": str(it.get("title"))[:200], "category": cat, "employer": it.get("employer"),
