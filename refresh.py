@@ -86,7 +86,7 @@ def prepare():
     for area in AREAS:
         try:
             items = apify_run({"keywords": [], "location": area, "distanceMiles": 5, "payBands": ["BAND_2", "BAND_3"],
-                               "maxItems": 40, "enrichDetails": True, "useApifyProxy": True})
+                               "maxItems": 40, "enrichDetails": True})
         except Exception as e:
             stats["notes"].append(f"Search failed for {area}: {e}"); continue
         stats["apify_cost_est"] += 0.0003 + 0.00012067 * len(items)
@@ -236,6 +236,8 @@ def send_mail(subject, body, to):
         s.login(user, pw); s.send_message(m)
 
 def admins():
+    only = os.environ.get("RECIPIENTS", "").strip()   # testing: send only to these (comma-separated)
+    if only: return [x.strip() for x in only.split(",") if x.strip()]
     rows = sb("GET", "team_members?select=email&role=eq.admin&active=eq.true")
     return [r["email"] for r in rows if r.get("email")]
 
