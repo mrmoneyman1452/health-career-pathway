@@ -2,7 +2,7 @@ name: Daily jobs refresh
 on:
   workflow_dispatch:
   schedule:
-    - cron: "30 6 * * *"
+    - cron: "30 6 * * *"   # 06:30 UTC daily
 permissions:
   contents: read
 concurrency: daily-refresh
@@ -17,6 +17,7 @@ jobs:
       - name: 1. Prepare (Apify + Supabase read, no AI key here)
         run: python refresh.py prepare
         env:
+          RECIPIENTS: mamadou.sow@nhs.net   # testing only: delete this line to email all admins
           APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           SMTP_USER: ${{ secrets.SMTP_USER }}
@@ -32,6 +33,7 @@ jobs:
       - name: 4. Apply + email admins (no AI key here)
         run: python refresh.py apply
         env:
+          RECIPIENTS: mamadou.sow@nhs.net   # testing only: delete this line to email all admins
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
