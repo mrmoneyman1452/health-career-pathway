@@ -552,13 +552,38 @@ function updateBulk(){
   const n = selIds.size;
   if(!n || !canEdit()){ el.hidden = true; return; }
   const acts = tab==='pending' ? [['approve','Approve and publish','btn'],['reject','Reject','btn danger']] : tab==='live' ? [['close','Mark closed','btn ghost'],['remove','Remove from site','btn danger']] : [['restore','Restore to review queue','btn ghost']];
+  if(tab==='archive' && isAdmin()) acts.push(['delete','Delete permanently','btn danger']);
   el.hidden = false;
   el.innerHTML = `<strong>${n} selected</strong>${acts.map(([a,l,c])=>`<button class="${c} small" data-bulk="${a}">${l}</button>`).join('')}<button class="btn ghost small" id="selClear">Clear selection</button>`;
   el.querySelectorAll('[data-bulk]').forEach(b => b.onclick = () => bulkAction(b.dataset.bulk, b));
   $('#selClear').onclick = () => { selIds.clear(); renderJobs(); };
 }
 async function bulkAction(act, btn){
-  const ids = [...selIds]; if(!ids.length) return;
+  const ids = [...selIds]; if(!ids.length || !canEdit()) return;
+  if(btn.disabled) return;
+  if(act==='delete'){
+    if(!isAdmin() || tab!=='archive') return;
+    if(!confirm('Permanently delete '+ids.length+' selected role'+(ids.length===1?'':'s')+'? This cannot be undone.')) return;
+    btn.disabled = true; btn.classList.add('busy');
+    try{
+      const { data, error } = await sb.from('jobs').delete().in('id', ids)
+        .in('status', ['closed','removed','rejected']).select('id');
+      if(error) return toast(friendly(error), true);
+      const deleted = data || [];
+      deleted.forEach(j => selIds.delete(j.id));
+      if(deleted.length === ids.length){
+        toast(deleted.length+' role'+(deleted.length===1?'':'s')+' permanently deleted.');
+      } else {
+        toast(deleted.length+' of '+ids.length+' roles permanently deleted. Remaining roles may have changed status or you may not have permission to delete them.', true);
+      }
+      await loadJobs(); await loadLogs(); render();
+    } catch(error){
+      toast(friendly(error), true);
+    } finally {
+      btn.classList.remove('busy'); btn.disabled = false;
+    }
+    return;
+  }
   const status = { close:'closed', remove:'removed', approve:'live', reject:'rejected', restore:'pending' }[act];
   const verb = { close:'Mark as closed', remove:'Remove from the site', approve:'Approve and publish', reject:'Reject', restore:'Restore to the review queue' }[act];
   if(!confirm(verb+': '+ids.length+' role'+(ids.length===1?'':'s')+'?')) return;
